@@ -1,3 +1,8 @@
+-- Autor: Pedro Arrate 
+-- Fecha: 01-10-2025
+-- Descripción: Scripts Inicial de Creación de BD proyecto RCS-TecMed
+
+
 USE [master]
 GO
 
