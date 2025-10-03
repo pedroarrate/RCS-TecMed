@@ -19,6 +19,7 @@ namespace RCSTecMed_Model
         {
             this.ESTABLECIMIENTO_ACTUAL = new HashSet<ESTABLECIMIENTO_ACTUAL>();
             this.HISTORICO_PAGO = new HashSet<HISTORICO_PAGO>();
+            this.ACADEMICO = new HashSet<ACADEMICO>();
         }
     
         public int Rut { get; set; }
@@ -47,6 +48,7 @@ namespace RCSTecMed_Model
         public virtual ICollection<HISTORICO_PAGO> HISTORICO_PAGO { get; set; }
         public virtual NACIONALIDAD NACIONALIDAD { get; set; }
         public virtual ESTADO_SOCIO ESTADO_SOCIO { get; set; }
-        public virtual ACADEMICO ACADEMICO { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ACADEMICO> ACADEMICO { get; set; }
     }
 }

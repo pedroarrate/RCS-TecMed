@@ -14,6 +14,7 @@ namespace RCSTecMed_Model
     
     public partial class ACADEMICO
     {
+        public int IdAcademcico { get; set; }
         public int Rut { get; set; }
         public int IdCertificacion { get; set; }
         public System.DateTime Fecha { get; set; }

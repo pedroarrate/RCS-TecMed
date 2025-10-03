@@ -7,8 +7,9 @@
     <Schema Namespace="RCSTecMed_Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="ACADEMICO">
           <Key>
-            <PropertyRef Name="Rut" />
+            <PropertyRef Name="IdAcademcico" />
           </Key>
+          <Property Name="IdAcademcico" Type="int" Nullable="false" />
           <Property Name="Rut" Type="int" Nullable="false" />
           <Property Name="IdCertificacion" Type="int" Nullable="false" />
           <Property Name="Fecha" Type="date" Nullable="false" />
@@ -230,7 +231,7 @@
         </Association>
         <Association Name="FK_ACADEMICO_SOCIO">
           <End Role="SOCIO" Type="Self.SOCIO" Multiplicity="1" />
-          <End Role="ACADEMICO" Type="Self.ACADEMICO" Multiplicity="0..1" />
+          <End Role="ACADEMICO" Type="Self.ACADEMICO" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="SOCIO">
               <PropertyRef Name="Rut" />
@@ -967,7 +968,7 @@
             <End Role="SOCIO" EntitySet="SOCIO" />
             <End Role="ACADEMICO" EntitySet="ACADEMICO" />
           </AssociationSet>
-        </EntityContainer>
+          </EntityContainer>
         <EntityType Name="ESTADO_SOCIO">
           <Key>
             <PropertyRef Name="IdEstadoSocio" />
@@ -990,8 +991,9 @@
         </Association>
         <EntityType Name="ACADEMICO">
           <Key>
-            <PropertyRef Name="Rut" />
+            <PropertyRef Name="IdAcademcico" />
           </Key>
+          <Property Name="IdAcademcico" Type="Int32" Nullable="false" />
           <Property Name="Rut" Type="Int32" Nullable="false" />
           <Property Name="IdCertificacion" Type="Int32" Nullable="false" />
           <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
@@ -1049,7 +1051,7 @@
         </Association>
         <Association Name="FK_ACADEMICO_SOCIO">
           <End Type="RCSTecMed_Model.SOCIO" Role="SOCIO" Multiplicity="1" />
-          <End Type="RCSTecMed_Model.ACADEMICO" Role="ACADEMICO" Multiplicity="0..1" />
+          <End Type="RCSTecMed_Model.ACADEMICO" Role="ACADEMICO" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="SOCIO">
               <PropertyRef Name="Rut" />
@@ -1059,7 +1061,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -1259,6 +1261,7 @@
                 <ScalarProperty Name="Fecha" ColumnName="Fecha" />
                 <ScalarProperty Name="IdCertificacion" ColumnName="IdCertificacion" />
                 <ScalarProperty Name="Rut" ColumnName="Rut" />
+                <ScalarProperty Name="IdAcademcico" ColumnName="IdAcademcico" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
