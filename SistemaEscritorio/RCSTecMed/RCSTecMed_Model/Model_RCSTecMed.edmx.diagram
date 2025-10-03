@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="ee624b2e2a8f4db6b1c5000b8ac7586a" Name="Diagram1">
+        <EntityTypeShape EntityType="RCSTecMed_Model.CENTRO_ACADEMICO" Width="1.5" PointX="9" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="RCSTecMed_Model.CERTIFICACION" Width="1.5" PointX="9" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RCSTecMed_Model.COMUNA" Width="1.5" PointX="3.75" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RCSTecMed_Model.ESTABLECIMIENTO" Width="1.5" PointX="6" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RCSTecMed_Model.ESTABLECIMIENTO_ACTUAL" Width="1.5" PointX="8.25" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="RCSTecMed_Model.ESTADO_USUARIO" Width="1.5" PointX="0.75" PointY="14.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="RCSTecMed_Model.FORMAPAGO" Width="1.5" PointX="0.75" PointY="6.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="RCSTecMed_Model.HISTORICO_PAGO" Width="1.5" PointX="3" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RCSTecMed_Model.NACIONALIDAD" Width="1.5" PointX="3.75" PointY="9.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="RCSTecMed_Model.REGION" Width="1.5" PointX="1.5" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="RCSTecMed_Model.REGISTRO_TECMED" Width="1.5" PointX="11.75" PointY="9.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="RCSTecMed_Model.ROL_USUARIO" Width="1.5" PointX="3" PointY="18.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RCSTecMed_Model.SOCIO" Width="1.5" PointX="6" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="RCSTecMed_Model.USUARIO" Width="1.5" PointX="3" PointY="14.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="RCSTecMed_Model.USUARIO_DESK" Width="1.5" PointX="5.25" PointY="14.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="RCSTecMed_Model.USUARIO_WEB" Width="1.5" PointX="8.25" PointY="14.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="RCSTecMed_Model.ACADEMICO" Width="1.5" PointX="11.25" PointY="5.625" IsExpanded="true" />
+        <AssociationConnector Association="RCSTecMed_Model.FK_ACADEMICO_CENTRO_ACADEMICO" ManuallyRouted="false" />
+        <AssociationConnector Association="RCSTecMed_Model.FK_ACADEMICO_CERTIDICACION" ManuallyRouted="false" />
+        <AssociationConnector Association="RCSTecMed_Model.FK_COMUNA_REGION" ManuallyRouted="false" />
+        <AssociationConnector Association="RCSTecMed_Model.FK_ESTABLECIMIENTO_COMUNA" ManuallyRouted="false" />
+        <AssociationConnector Association="RCSTecMed_Model.FK_SOCIO_COMUNA" ManuallyRouted="false" />
+        <AssociationConnector Association="RCSTecMed_Model.FK_ESTABLECIMIENTO_ACTUAL_ESTABLECIMIENTO" ManuallyRouted="false" />
+        <AssociationConnector Association="RCSTecMed_Model.FK_ESTABLECIMIENTO_ACTUAL_SOCIO" ManuallyRouted="false" />
+        <AssociationConnector Association="RCSTecMed_Model.FK_USUARIO_ESTADO_USUARIO" ManuallyRouted="false" />
+        <AssociationConnector Association="RCSTecMed_Model.FK_HISTORICO_PAGO_FORMAPAGO" ManuallyRouted="false" />
+        <AssociationConnector Association="RCSTecMed_Model.FK_SOCIO_FORMAPAGO" ManuallyRouted="false" />
+        <AssociationConnector Association="RCSTecMed_Model.FK_HISTORICO_PAGO_SOCIO" ManuallyRouted="false" />
+        <AssociationConnector Association="RCSTecMed_Model.FK_SOCIO_NACIONALIDAD" ManuallyRouted="false" />
+        <AssociationConnector Association="RCSTecMed_Model.FK_USUARIO_DESK_ROL_USUARIO" ManuallyRouted="false" />
+        <AssociationConnector Association="RCSTecMed_Model.FK_USUARIO_WEB_ROL_USUARIO" ManuallyRouted="false" />
+        <AssociationConnector Association="RCSTecMed_Model.FK_ACADEMICO_SOCIO" ManuallyRouted="false" />
+        <AssociationConnector Association="RCSTecMed_Model.FK_USUARIO_DESK_USUARIO" ManuallyRouted="false" />
+        <AssociationConnector Association="RCSTecMed_Model.FK_USUARIO_WEB_USUARIO" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
