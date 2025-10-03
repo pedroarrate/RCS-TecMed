@@ -29,6 +29,8 @@ namespace RCSTecMed_Model
         public string Email { get; set; }
         public System.DateTime FechaCreacion { get; set; }
         public int IdEstado { get; set; }
+        public string UserName { get; set; }
+        public string Password { get; set; }
     
         public virtual ESTADO_USUARIO ESTADO_USUARIO { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

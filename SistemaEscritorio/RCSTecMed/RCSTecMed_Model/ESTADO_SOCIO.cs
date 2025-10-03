@@ -12,13 +12,18 @@ namespace RCSTecMed_Model
     using System;
     using System.Collections.Generic;
     
-    public partial class USUARIO_DESK
+    public partial class ESTADO_SOCIO
     {
-        public int IdUsuarioDesk { get; set; }
-        public int IdUsuario { get; set; }
-        public int IdRol { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public ESTADO_SOCIO()
+        {
+            this.SOCIO = new HashSet<SOCIO>();
+        }
     
-        public virtual ROL_USUARIO ROL_USUARIO { get; set; }
-        public virtual USUARIO USUARIO { get; set; }
+        public int IdEstadoSocio { get; set; }
+        public string DescripcionEstadoSocio { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SOCIO> SOCIO { get; set; }
     }
 }

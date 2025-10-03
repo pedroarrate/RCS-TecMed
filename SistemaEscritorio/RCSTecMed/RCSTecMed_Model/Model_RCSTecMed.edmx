@@ -7,9 +7,8 @@
     <Schema Namespace="RCSTecMed_Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="ACADEMICO">
           <Key>
-            <PropertyRef Name="IdAcademico" />
+            <PropertyRef Name="Rut" />
           </Key>
-          <Property Name="IdAcademico" Type="int" Nullable="false" />
           <Property Name="Rut" Type="int" Nullable="false" />
           <Property Name="IdCertificacion" Type="int" Nullable="false" />
           <Property Name="Fecha" Type="date" Nullable="false" />
@@ -68,6 +67,13 @@
           <Property Name="FechaDesde" Type="date" Nullable="false" />
           <Property Name="FechaHasta" Type="date" />
           <Property Name="IdUsuario" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ESTADO_SOCIO">
+          <Key>
+            <PropertyRef Name="IdEstadoSocio" />
+          </Key>
+          <Property Name="IdEstadoSocio" Type="int" Nullable="false" />
+          <Property Name="DescripcionEstadoSocio" Type="nchar" MaxLength="20" Nullable="false" />
         </EntityType>
         <EntityType Name="ESTADO_USUARIO">
           <Key>
@@ -164,6 +170,7 @@
           <Property Name="Email" Type="nvarchar" MaxLength="150" Nullable="false" />
           <Property Name="IdFormaPagoCuota" Type="int" Nullable="false" />
           <Property Name="ObservacionPagocuota" Type="nvarchar" MaxLength="100" />
+          <Property Name="IdEstadoSocio" Type="int" Nullable="false" />
           <Property Name="IdUsuario" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="USUARIO">
@@ -178,6 +185,8 @@
           <Property Name="Email" Type="nvarchar" MaxLength="150" Nullable="false" />
           <Property Name="FechaCreacion" Type="date" Nullable="false" />
           <Property Name="IdEstado" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="20" Nullable="false" />
         </EntityType>
         <EntityType Name="USUARIO_DESK">
           <Key>
@@ -186,8 +195,6 @@
           <Property Name="IdUsuarioDesk" Type="int" Nullable="false" />
           <Property Name="IdUsuario" Type="int" Nullable="false" />
           <Property Name="IdRol" Type="int" Nullable="false" />
-          <Property Name="UserName" Type="nvarchar" MaxLength="20" Nullable="false" />
-          <Property Name="Password" Type="nvarchar" MaxLength="20" Nullable="false" />
         </EntityType>
         <EntityType Name="USUARIO_WEB">
           <Key>
@@ -196,8 +203,6 @@
           <Property Name="IdUsuarioWeb" Type="int" Nullable="false" />
           <Property Name="IdUsuario" Type="int" Nullable="false" />
           <Property Name="IdRol" Type="int" Nullable="false" />
-          <Property Name="UserName" Type="nvarchar" MaxLength="20" Nullable="false" />
-          <Property Name="Password" Type="nvarchar" MaxLength="20" Nullable="false" />
         </EntityType>
         <Association Name="FK_ACADEMICO_CENTRO_ACADEMICO">
           <End Role="CENTRO_ACADEMICO" Type="Self.CENTRO_ACADEMICO" Multiplicity="1" />
@@ -225,7 +230,7 @@
         </Association>
         <Association Name="FK_ACADEMICO_SOCIO">
           <End Role="SOCIO" Type="Self.SOCIO" Multiplicity="1" />
-          <End Role="ACADEMICO" Type="Self.ACADEMICO" Multiplicity="*" />
+          <End Role="ACADEMICO" Type="Self.ACADEMICO" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="SOCIO">
               <PropertyRef Name="Rut" />
@@ -316,6 +321,18 @@
             </Principal>
             <Dependent Role="SOCIO">
               <PropertyRef Name="IdComuna" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SOCIO_ESTADO_SOCIO">
+          <End Role="ESTADO_SOCIO" Type="Self.ESTADO_SOCIO" Multiplicity="1" />
+          <End Role="SOCIO" Type="Self.SOCIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ESTADO_SOCIO">
+              <PropertyRef Name="IdEstadoSocio" />
+            </Principal>
+            <Dependent Role="SOCIO">
+              <PropertyRef Name="IdEstadoSocio" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -410,6 +427,7 @@
           <EntitySet Name="COMUNA" EntityType="Self.COMUNA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ESTABLECIMIENTO" EntityType="Self.ESTABLECIMIENTO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ESTABLECIMIENTO_ACTUAL" EntityType="Self.ESTABLECIMIENTO_ACTUAL" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ESTADO_SOCIO" EntityType="Self.ESTADO_SOCIO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ESTADO_USUARIO" EntityType="Self.ESTADO_USUARIO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FORMAPAGO" EntityType="Self.FORMAPAGO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HISTORICO_PAGO" EntityType="Self.HISTORICO_PAGO" Schema="dbo" store:Type="Tables" />
@@ -461,6 +479,10 @@
             <End Role="COMUNA" EntitySet="COMUNA" />
             <End Role="SOCIO" EntitySet="SOCIO" />
           </AssociationSet>
+          <AssociationSet Name="FK_SOCIO_ESTADO_SOCIO" Association="Self.FK_SOCIO_ESTADO_SOCIO">
+            <End Role="ESTADO_SOCIO" EntitySet="ESTADO_SOCIO" />
+            <End Role="SOCIO" EntitySet="SOCIO" />
+          </AssociationSet>
           <AssociationSet Name="FK_SOCIO_FORMAPAGO" Association="Self.FK_SOCIO_FORMAPAGO">
             <End Role="FORMAPAGO" EntitySet="FORMAPAGO" />
             <End Role="SOCIO" EntitySet="SOCIO" />
@@ -494,26 +516,6 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="RCSTecMed_Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="CENTRO_ACADEMICO">
-          <Key>
-            <PropertyRef Name="IdCentroAcademico" />
-          </Key>
-          <Property Name="IdCentroAcademico" Type="Int32" Nullable="false" />
-          <Property Name="NombreCentroAcademico" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="EmailCentroAcademico" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="TelefonoCentroAcademico" Type="Int32" Nullable="false" />
-          <Property Name="IdUsuario" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="ACADEMICO" Relationship="Self.FK_ACADEMICO_CENTRO_ACADEMICO" FromRole="CENTRO_ACADEMICO" ToRole="ACADEMICO" />
-        </EntityType>
-        <EntityType Name="CERTIFICACION">
-          <Key>
-            <PropertyRef Name="IdCertificacion" />
-          </Key>
-          <Property Name="IdCertificacion" Type="Int32" Nullable="false" />
-          <Property Name="DescripcionCertificacion" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="IdUsuario" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="ACADEMICO" Relationship="Self.FK_ACADEMICO_CERTIDICACION" FromRole="CERTIFICACION" ToRole="ACADEMICO" />
-        </EntityType>
         <EntityType Name="COMUNA">
           <Key>
             <PropertyRef Name="IdComuna" />
@@ -664,7 +666,9 @@
           <NavigationProperty Name="FORMAPAGO" Relationship="Self.FK_SOCIO_FORMAPAGO" FromRole="SOCIO" ToRole="FORMAPAGO" />
           <NavigationProperty Name="HISTORICO_PAGO" Relationship="Self.FK_HISTORICO_PAGO_SOCIO" FromRole="SOCIO" ToRole="HISTORICO_PAGO" />
           <NavigationProperty Name="NACIONALIDAD" Relationship="Self.FK_SOCIO_NACIONALIDAD" FromRole="SOCIO" ToRole="NACIONALIDAD" />
-          <NavigationProperty Name="ACADEMICO" Relationship="Self.FK_ACADEMICO_SOCIO" FromRole="SOCIO" ToRole="ACADEMICO" />
+          <Property Name="IdEstadoSocio" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ESTADO_SOCIO" Relationship="RCSTecMed_Model.FK_SOCIO_ESTADO_SOCIO" FromRole="SOCIO" ToRole="ESTADO_SOCIO" />
+          <NavigationProperty Name="ACADEMICO" Relationship="RCSTecMed_Model.FK_ACADEMICO_SOCIO" FromRole="SOCIO" ToRole="ACADEMICO" />
         </EntityType>
         <EntityType Name="USUARIO">
           <Key>
@@ -681,6 +685,8 @@
           <NavigationProperty Name="ESTADO_USUARIO" Relationship="Self.FK_USUARIO_ESTADO_USUARIO" FromRole="USUARIO" ToRole="ESTADO_USUARIO" />
           <NavigationProperty Name="USUARIO_DESK" Relationship="Self.FK_USUARIO_DESK_USUARIO" FromRole="USUARIO" ToRole="USUARIO_DESK" />
           <NavigationProperty Name="USUARIO_WEB" Relationship="Self.FK_USUARIO_WEB_USUARIO" FromRole="USUARIO" ToRole="USUARIO_WEB" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="USUARIO_DESK">
           <Key>
@@ -689,8 +695,6 @@
           <Property Name="IdUsuarioDesk" Type="Int32" Nullable="false" />
           <Property Name="IdUsuario" Type="Int32" Nullable="false" />
           <Property Name="IdRol" Type="Int32" Nullable="false" />
-          <Property Name="UserName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Password" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="ROL_USUARIO" Relationship="Self.FK_USUARIO_DESK_ROL_USUARIO" FromRole="USUARIO_DESK" ToRole="ROL_USUARIO" />
           <NavigationProperty Name="USUARIO" Relationship="Self.FK_USUARIO_DESK_USUARIO" FromRole="USUARIO_DESK" ToRole="USUARIO" />
         </EntityType>
@@ -701,57 +705,9 @@
           <Property Name="IdUsuarioWeb" Type="Int32" Nullable="false" />
           <Property Name="IdUsuario" Type="Int32" Nullable="false" />
           <Property Name="IdRol" Type="Int32" Nullable="false" />
-          <Property Name="UserName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Password" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="ROL_USUARIO" Relationship="Self.FK_USUARIO_WEB_ROL_USUARIO" FromRole="USUARIO_WEB" ToRole="ROL_USUARIO" />
           <NavigationProperty Name="USUARIO" Relationship="Self.FK_USUARIO_WEB_USUARIO" FromRole="USUARIO_WEB" ToRole="USUARIO" />
         </EntityType>
-        <EntityType Name="ACADEMICO">
-          <Key>
-            <PropertyRef Name="IdAcademico" />
-            <PropertyRef Name="Rut" />
-            <PropertyRef Name="IdCertificacion" />
-            <PropertyRef Name="Fecha" />
-            <PropertyRef Name="IdCentroAcademico" />
-            <PropertyRef Name="DescripcionAcademico" />
-            <PropertyRef Name="IdUsuario" />
-          </Key>
-          <Property Name="IdAcademico" Type="Int32" Nullable="false" />
-          <Property Name="Rut" Type="Int32" Nullable="false" />
-          <Property Name="IdCertificacion" Type="Int32" Nullable="false" />
-          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="IdCentroAcademico" Type="Int32" Nullable="false" />
-          <Property Name="DescripcionAcademico" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="FolioRegistroAcademico" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="IdUsuario" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="CENTRO_ACADEMICO" Relationship="Self.FK_ACADEMICO_CENTRO_ACADEMICO" FromRole="ACADEMICO" ToRole="CENTRO_ACADEMICO" />
-          <NavigationProperty Name="CERTIFICACION" Relationship="Self.FK_ACADEMICO_CERTIDICACION" FromRole="ACADEMICO" ToRole="CERTIFICACION" />
-          <NavigationProperty Name="SOCIO" Relationship="Self.FK_ACADEMICO_SOCIO" FromRole="ACADEMICO" ToRole="SOCIO" />
-        </EntityType>
-        <Association Name="FK_ACADEMICO_CENTRO_ACADEMICO">
-          <End Role="CENTRO_ACADEMICO" Type="Self.CENTRO_ACADEMICO" Multiplicity="1" />
-          <End Role="ACADEMICO" Type="Self.ACADEMICO" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CENTRO_ACADEMICO">
-              <PropertyRef Name="IdCentroAcademico" />
-            </Principal>
-            <Dependent Role="ACADEMICO">
-              <PropertyRef Name="IdCentroAcademico" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ACADEMICO_CERTIDICACION">
-          <End Role="CERTIFICACION" Type="Self.CERTIFICACION" Multiplicity="1" />
-          <End Role="ACADEMICO" Type="Self.ACADEMICO" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CERTIFICACION">
-              <PropertyRef Name="IdCertificacion" />
-            </Principal>
-            <Dependent Role="ACADEMICO">
-              <PropertyRef Name="IdCertificacion" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_COMUNA_REGION">
           <End Role="REGION" Type="Self.REGION" Multiplicity="1" />
           <End Role="COMUNA" Type="Self.COMUNA" Multiplicity="*" />
@@ -896,18 +852,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ACADEMICO_SOCIO">
-          <End Role="SOCIO" Type="Self.SOCIO" Multiplicity="1" />
-          <End Role="ACADEMICO" Type="Self.ACADEMICO" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SOCIO">
-              <PropertyRef Name="Rut" />
-            </Principal>
-            <Dependent Role="ACADEMICO">
-              <PropertyRef Name="Rut" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_USUARIO_DESK_USUARIO">
           <End Role="USUARIO" Type="Self.USUARIO" Multiplicity="1" />
           <End Role="USUARIO_DESK" Type="Self.USUARIO_DESK" Multiplicity="*" />
@@ -933,8 +877,6 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="RCSTecMed_Entities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="CENTRO_ACADEMICO" EntityType="Self.CENTRO_ACADEMICO" />
-          <EntitySet Name="CERTIFICACION" EntityType="Self.CERTIFICACION" />
           <EntitySet Name="COMUNA" EntityType="Self.COMUNA" />
           <EntitySet Name="ESTABLECIMIENTO" EntityType="Self.ESTABLECIMIENTO" />
           <EntitySet Name="ESTABLECIMIENTO_ACTUAL" EntityType="Self.ESTABLECIMIENTO_ACTUAL" />
@@ -949,15 +891,6 @@
           <EntitySet Name="USUARIO" EntityType="Self.USUARIO" />
           <EntitySet Name="USUARIO_DESK" EntityType="Self.USUARIO_DESK" />
           <EntitySet Name="USUARIO_WEB" EntityType="Self.USUARIO_WEB" />
-          <EntitySet Name="ACADEMICO" EntityType="Self.ACADEMICO" />
-          <AssociationSet Name="FK_ACADEMICO_CENTRO_ACADEMICO" Association="Self.FK_ACADEMICO_CENTRO_ACADEMICO">
-            <End Role="CENTRO_ACADEMICO" EntitySet="CENTRO_ACADEMICO" />
-            <End Role="ACADEMICO" EntitySet="ACADEMICO" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ACADEMICO_CERTIDICACION" Association="Self.FK_ACADEMICO_CERTIDICACION">
-            <End Role="CERTIFICACION" EntitySet="CERTIFICACION" />
-            <End Role="ACADEMICO" EntitySet="ACADEMICO" />
-          </AssociationSet>
           <AssociationSet Name="FK_COMUNA_REGION" Association="Self.FK_COMUNA_REGION">
             <End Role="REGION" EntitySet="REGION" />
             <End Role="COMUNA" EntitySet="COMUNA" />
@@ -1006,10 +939,6 @@
             <End Role="ROL_USUARIO" EntitySet="ROL_USUARIO" />
             <End Role="USUARIO_WEB" EntitySet="USUARIO_WEB" />
           </AssociationSet>
-          <AssociationSet Name="FK_ACADEMICO_SOCIO" Association="Self.FK_ACADEMICO_SOCIO">
-            <End Role="SOCIO" EntitySet="SOCIO" />
-            <End Role="ACADEMICO" EntitySet="ACADEMICO" />
-          </AssociationSet>
           <AssociationSet Name="FK_USUARIO_DESK_USUARIO" Association="Self.FK_USUARIO_DESK_USUARIO">
             <End Role="USUARIO" EntitySet="USUARIO" />
             <End Role="USUARIO_DESK" EntitySet="USUARIO_DESK" />
@@ -1018,33 +947,124 @@
             <End Role="USUARIO" EntitySet="USUARIO" />
             <End Role="USUARIO_WEB" EntitySet="USUARIO_WEB" />
           </AssociationSet>
+          <EntitySet Name="ESTADO_SOCIO" EntityType="RCSTecMed_Model.ESTADO_SOCIO" />
+          <AssociationSet Name="FK_SOCIO_ESTADO_SOCIO" Association="RCSTecMed_Model.FK_SOCIO_ESTADO_SOCIO">
+            <End Role="ESTADO_SOCIO" EntitySet="ESTADO_SOCIO" />
+            <End Role="SOCIO" EntitySet="SOCIO" />
+          </AssociationSet>
+          <EntitySet Name="ACADEMICO" EntityType="RCSTecMed_Model.ACADEMICO" />
+          <EntitySet Name="CENTRO_ACADEMICO" EntityType="RCSTecMed_Model.CENTRO_ACADEMICO" />
+          <EntitySet Name="CERTIFICACION" EntityType="RCSTecMed_Model.CERTIFICACION" />
+          <AssociationSet Name="FK_ACADEMICO_CENTRO_ACADEMICO" Association="RCSTecMed_Model.FK_ACADEMICO_CENTRO_ACADEMICO">
+            <End Role="CENTRO_ACADEMICO" EntitySet="CENTRO_ACADEMICO" />
+            <End Role="ACADEMICO" EntitySet="ACADEMICO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ACADEMICO_CERTIDICACION" Association="RCSTecMed_Model.FK_ACADEMICO_CERTIDICACION">
+            <End Role="CERTIFICACION" EntitySet="CERTIFICACION" />
+            <End Role="ACADEMICO" EntitySet="ACADEMICO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ACADEMICO_SOCIO" Association="RCSTecMed_Model.FK_ACADEMICO_SOCIO">
+            <End Role="SOCIO" EntitySet="SOCIO" />
+            <End Role="ACADEMICO" EntitySet="ACADEMICO" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="ESTADO_SOCIO">
+          <Key>
+            <PropertyRef Name="IdEstadoSocio" />
+          </Key>
+          <Property Name="IdEstadoSocio" Type="Int32" Nullable="false" />
+          <Property Name="DescripcionEstadoSocio" Type="String" Nullable="false" MaxLength="20" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="SOCIO" Relationship="RCSTecMed_Model.FK_SOCIO_ESTADO_SOCIO" FromRole="ESTADO_SOCIO" ToRole="SOCIO" />
+        </EntityType>
+        <Association Name="FK_SOCIO_ESTADO_SOCIO">
+          <End Type="RCSTecMed_Model.ESTADO_SOCIO" Role="ESTADO_SOCIO" Multiplicity="1" />
+          <End Type="RCSTecMed_Model.SOCIO" Role="SOCIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ESTADO_SOCIO">
+              <PropertyRef Name="IdEstadoSocio" />
+            </Principal>
+            <Dependent Role="SOCIO">
+              <PropertyRef Name="IdEstadoSocio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ACADEMICO">
+          <Key>
+            <PropertyRef Name="Rut" />
+          </Key>
+          <Property Name="Rut" Type="Int32" Nullable="false" />
+          <Property Name="IdCertificacion" Type="Int32" Nullable="false" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="IdCentroAcademico" Type="Int32" Nullable="false" />
+          <Property Name="DescripcionAcademico" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="FolioRegistroAcademico" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="IdUsuario" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="CENTRO_ACADEMICO" Relationship="RCSTecMed_Model.FK_ACADEMICO_CENTRO_ACADEMICO" FromRole="ACADEMICO" ToRole="CENTRO_ACADEMICO" />
+          <NavigationProperty Name="CERTIFICACION" Relationship="RCSTecMed_Model.FK_ACADEMICO_CERTIDICACION" FromRole="ACADEMICO" ToRole="CERTIFICACION" />
+          <NavigationProperty Name="SOCIO" Relationship="RCSTecMed_Model.FK_ACADEMICO_SOCIO" FromRole="ACADEMICO" ToRole="SOCIO" />
+        </EntityType>
+        <EntityType Name="CENTRO_ACADEMICO">
+          <Key>
+            <PropertyRef Name="IdCentroAcademico" />
+          </Key>
+          <Property Name="IdCentroAcademico" Type="Int32" Nullable="false" />
+          <Property Name="NombreCentroAcademico" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="EmailCentroAcademico" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="TelefonoCentroAcademico" Type="Int32" Nullable="false" />
+          <Property Name="IdUsuario" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ACADEMICO" Relationship="RCSTecMed_Model.FK_ACADEMICO_CENTRO_ACADEMICO" FromRole="CENTRO_ACADEMICO" ToRole="ACADEMICO" />
+        </EntityType>
+        <EntityType Name="CERTIFICACION">
+          <Key>
+            <PropertyRef Name="IdCertificacion" />
+          </Key>
+          <Property Name="IdCertificacion" Type="Int32" Nullable="false" />
+          <Property Name="DescripcionCertificacion" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="IdUsuario" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ACADEMICO" Relationship="RCSTecMed_Model.FK_ACADEMICO_CERTIDICACION" FromRole="CERTIFICACION" ToRole="ACADEMICO" />
+        </EntityType>
+        <Association Name="FK_ACADEMICO_CENTRO_ACADEMICO">
+          <End Type="RCSTecMed_Model.CENTRO_ACADEMICO" Role="CENTRO_ACADEMICO" Multiplicity="1" />
+          <End Type="RCSTecMed_Model.ACADEMICO" Role="ACADEMICO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CENTRO_ACADEMICO">
+              <PropertyRef Name="IdCentroAcademico" />
+            </Principal>
+            <Dependent Role="ACADEMICO">
+              <PropertyRef Name="IdCentroAcademico" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ACADEMICO_CERTIDICACION">
+          <End Type="RCSTecMed_Model.CERTIFICACION" Role="CERTIFICACION" Multiplicity="1" />
+          <End Type="RCSTecMed_Model.ACADEMICO" Role="ACADEMICO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CERTIFICACION">
+              <PropertyRef Name="IdCertificacion" />
+            </Principal>
+            <Dependent Role="ACADEMICO">
+              <PropertyRef Name="IdCertificacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ACADEMICO_SOCIO">
+          <End Type="RCSTecMed_Model.SOCIO" Role="SOCIO" Multiplicity="1" />
+          <End Type="RCSTecMed_Model.ACADEMICO" Role="ACADEMICO" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="SOCIO">
+              <PropertyRef Name="Rut" />
+            </Principal>
+            <Dependent Role="ACADEMICO">
+              <PropertyRef Name="Rut" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="RCSTecMed_ModelStoreContainer" CdmEntityContainer="RCSTecMed_Entities">
-          <EntitySetMapping Name="CENTRO_ACADEMICO">
-            <EntityTypeMapping TypeName="RCSTecMed_Model.CENTRO_ACADEMICO">
-              <MappingFragment StoreEntitySet="CENTRO_ACADEMICO">
-                <ScalarProperty Name="IdCentroAcademico" ColumnName="IdCentroAcademico" />
-                <ScalarProperty Name="NombreCentroAcademico" ColumnName="NombreCentroAcademico" />
-                <ScalarProperty Name="EmailCentroAcademico" ColumnName="EmailCentroAcademico" />
-                <ScalarProperty Name="TelefonoCentroAcademico" ColumnName="TelefonoCentroAcademico" />
-                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="CERTIFICACION">
-            <EntityTypeMapping TypeName="RCSTecMed_Model.CERTIFICACION">
-              <MappingFragment StoreEntitySet="CERTIFICACION">
-                <ScalarProperty Name="IdCertificacion" ColumnName="IdCertificacion" />
-                <ScalarProperty Name="DescripcionCertificacion" ColumnName="DescripcionCertificacion" />
-                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="COMUNA">
             <EntityTypeMapping TypeName="RCSTecMed_Model.COMUNA">
               <MappingFragment StoreEntitySet="COMUNA">
@@ -1167,6 +1187,7 @@
           <EntitySetMapping Name="SOCIO">
             <EntityTypeMapping TypeName="RCSTecMed_Model.SOCIO">
               <MappingFragment StoreEntitySet="SOCIO">
+                <ScalarProperty Name="IdEstadoSocio" ColumnName="IdEstadoSocio" />
                 <ScalarProperty Name="Rut" ColumnName="Rut" />
                 <ScalarProperty Name="Dv" ColumnName="Dv" />
                 <ScalarProperty Name="FolioRegistro" ColumnName="FolioRegistro" />
@@ -1189,6 +1210,8 @@
           <EntitySetMapping Name="USUARIO">
             <EntityTypeMapping TypeName="RCSTecMed_Model.USUARIO">
               <MappingFragment StoreEntitySet="USUARIO">
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
                 <ScalarProperty Name="Rut" ColumnName="Rut" />
                 <ScalarProperty Name="Dv" ColumnName="Dv" />
@@ -1206,9 +1229,7 @@
                 <ScalarProperty Name="IdUsuarioDesk" ColumnName="IdUsuarioDesk" />
                 <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
                 <ScalarProperty Name="IdRol" ColumnName="IdRol" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-              </MappingFragment>
+                </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="USUARIO_WEB">
@@ -1217,22 +1238,47 @@
                 <ScalarProperty Name="IdUsuarioWeb" ColumnName="IdUsuarioWeb" />
                 <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
                 <ScalarProperty Name="IdRol" ColumnName="IdRol" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
+                </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ESTADO_SOCIO">
+            <EntityTypeMapping TypeName="RCSTecMed_Model.ESTADO_SOCIO">
+              <MappingFragment StoreEntitySet="ESTADO_SOCIO">
+                <ScalarProperty Name="DescripcionEstadoSocio" ColumnName="DescripcionEstadoSocio" />
+                <ScalarProperty Name="IdEstadoSocio" ColumnName="IdEstadoSocio" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ACADEMICO">
             <EntityTypeMapping TypeName="RCSTecMed_Model.ACADEMICO">
               <MappingFragment StoreEntitySet="ACADEMICO">
-                <ScalarProperty Name="IdAcademico" ColumnName="IdAcademico" />
-                <ScalarProperty Name="Rut" ColumnName="Rut" />
-                <ScalarProperty Name="IdCertificacion" ColumnName="IdCertificacion" />
-                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
-                <ScalarProperty Name="IdCentroAcademico" ColumnName="IdCentroAcademico" />
-                <ScalarProperty Name="DescripcionAcademico" ColumnName="DescripcionAcademico" />
-                <ScalarProperty Name="FolioRegistroAcademico" ColumnName="FolioRegistroAcademico" />
                 <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="FolioRegistroAcademico" ColumnName="FolioRegistroAcademico" />
+                <ScalarProperty Name="DescripcionAcademico" ColumnName="DescripcionAcademico" />
+                <ScalarProperty Name="IdCentroAcademico" ColumnName="IdCentroAcademico" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="IdCertificacion" ColumnName="IdCertificacion" />
+                <ScalarProperty Name="Rut" ColumnName="Rut" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CENTRO_ACADEMICO">
+            <EntityTypeMapping TypeName="RCSTecMed_Model.CENTRO_ACADEMICO">
+              <MappingFragment StoreEntitySet="CENTRO_ACADEMICO">
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="TelefonoCentroAcademico" ColumnName="TelefonoCentroAcademico" />
+                <ScalarProperty Name="EmailCentroAcademico" ColumnName="EmailCentroAcademico" />
+                <ScalarProperty Name="NombreCentroAcademico" ColumnName="NombreCentroAcademico" />
+                <ScalarProperty Name="IdCentroAcademico" ColumnName="IdCentroAcademico" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CERTIFICACION">
+            <EntityTypeMapping TypeName="RCSTecMed_Model.CERTIFICACION">
+              <MappingFragment StoreEntitySet="CERTIFICACION">
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="DescripcionCertificacion" ColumnName="DescripcionCertificacion" />
+                <ScalarProperty Name="IdCertificacion" ColumnName="IdCertificacion" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

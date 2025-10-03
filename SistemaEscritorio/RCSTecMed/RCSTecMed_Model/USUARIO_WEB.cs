@@ -17,8 +17,6 @@ namespace RCSTecMed_Model
         public int IdUsuarioWeb { get; set; }
         public int IdUsuario { get; set; }
         public int IdRol { get; set; }
-        public string UserName { get; set; }
-        public string Password { get; set; }
     
         public virtual ROL_USUARIO ROL_USUARIO { get; set; }
         public virtual USUARIO USUARIO { get; set; }

@@ -25,8 +25,6 @@ namespace RCSTecMed_Model
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<CENTRO_ACADEMICO> CENTRO_ACADEMICO { get; set; }
-        public virtual DbSet<CERTIFICACION> CERTIFICACION { get; set; }
         public virtual DbSet<COMUNA> COMUNA { get; set; }
         public virtual DbSet<ESTABLECIMIENTO> ESTABLECIMIENTO { get; set; }
         public virtual DbSet<ESTABLECIMIENTO_ACTUAL> ESTABLECIMIENTO_ACTUAL { get; set; }
@@ -41,6 +39,9 @@ namespace RCSTecMed_Model
         public virtual DbSet<USUARIO> USUARIO { get; set; }
         public virtual DbSet<USUARIO_DESK> USUARIO_DESK { get; set; }
         public virtual DbSet<USUARIO_WEB> USUARIO_WEB { get; set; }
+        public virtual DbSet<ESTADO_SOCIO> ESTADO_SOCIO { get; set; }
         public virtual DbSet<ACADEMICO> ACADEMICO { get; set; }
+        public virtual DbSet<CENTRO_ACADEMICO> CENTRO_ACADEMICO { get; set; }
+        public virtual DbSet<CERTIFICACION> CERTIFICACION { get; set; }
     }
 }

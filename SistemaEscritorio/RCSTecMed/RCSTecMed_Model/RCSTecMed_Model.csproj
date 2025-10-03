@@ -71,6 +71,9 @@
     <Compile Include="ESTABLECIMIENTO_ACTUAL.cs">
       <DependentUpon>Model_RCSTecMed.tt</DependentUpon>
     </Compile>
+    <Compile Include="ESTADO_SOCIO.cs">
+      <DependentUpon>Model_RCSTecMed.tt</DependentUpon>
+    </Compile>
     <Compile Include="ESTADO_USUARIO.cs">
       <DependentUpon>Model_RCSTecMed.tt</DependentUpon>
     </Compile>
