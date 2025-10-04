@@ -7,6 +7,12 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        
+        <TextBox x:Name="TXT_Codigo" HorizontalAlignment="Left" Margin="258,102,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
+        <Label Content="Codigo" HorizontalAlignment="Left" Margin="111,102,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="TXT_Descripcion" HorizontalAlignment="Left" Margin="258,200,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
+        <Label Content="Descripcion" HorizontalAlignment="Left" Margin="111,200,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="BTN_Grabar" Content="Grabar" HorizontalAlignment="Left" Margin="428,330,0,0" VerticalAlignment="Top" Click="BTN_Grabar_Click"/>
+        <Button x:Name="BTN_Buscar" Content="Buscar" HorizontalAlignment="Left" Margin="487,330,0,0" VerticalAlignment="Top" Click="BTN_Buscar_Click"/>
+
     </Grid>
 </Window>

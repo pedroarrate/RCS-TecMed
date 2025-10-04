@@ -51,7 +51,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommonDB.cs" />
     <Compile Include="Controll_ACADEMICO.cs" />
+    <Compile Include="Controll_CERTIFICACION.cs" />
+    <Compile Include="Controll_ESTADOSOCIO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
