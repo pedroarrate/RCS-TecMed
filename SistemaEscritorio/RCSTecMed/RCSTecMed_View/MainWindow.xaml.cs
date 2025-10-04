@@ -32,6 +32,13 @@ namespace RCSTecMed_View
             TXT_Codigo.Text = string.Empty;
             TXT_Descripcion.Text = string.Empty;
             TXT_Codigo.Focus();
+
+            Grilla();
+        }
+
+        private void Grilla()
+        {
+            DG_Estado.ItemsSource = new Controll_ESTADOSOCIO().ReadAllOrdenado();
         }
 
         private void BTN_Grabar_Click(object sender, RoutedEventArgs e)
@@ -55,18 +62,68 @@ namespace RCSTecMed_View
         private void BTN_Buscar_Click(object sender, RoutedEventArgs e)
         {
             Controll_ESTADOSOCIO es = new Controll_ESTADOSOCIO();
-            //es.IdEstadoSocio = int.Parse(TXT_Codigo.Text);
-            es.DescripcionEstadoSocio = TXT_Descripcion.Text;
+            es.IdEstadoSocio = int.Parse(TXT_Codigo.Text);
+            //es.DescripcionEstadoSocio = TXT_Descripcion.Text;
 
-            if (es.ReadDesc())
+            if (es.ReadId())
             {
                 MessageBox.Show("Registro Encontrado!!!", "xxx", MessageBoxButton.OK, MessageBoxImage.Information);
-                TXT_Codigo.Text = es.IdEstadoSocio.ToString();
+                TXT_Descripcion.Text = es.DescripcionEstadoSocio;
+                //TXT_Codigo.Text = es.IdEstadoSocio.ToString();
             }
             else
             {
                 MessageBox.Show("Registro No encontrado!!!", "xxx", MessageBoxButton.OK, MessageBoxImage.Error);
                 Limpiar();
+            }
+        }
+
+        private void BTN_Actualizar_Click(object sender, RoutedEventArgs e)
+        {
+            Controll_ESTADOSOCIO es = new Controll_ESTADOSOCIO();
+            es.IdEstadoSocio = int.Parse(TXT_Codigo.Text);
+            es.DescripcionEstadoSocio = TXT_Descripcion.Text;
+
+            if (es.Update())
+            {
+                MessageBox.Show("Registro Actualizado!!!", "xxx", MessageBoxButton.OK, MessageBoxImage.Information);
+                Limpiar();
+            }
+            else
+            {
+                MessageBox.Show("Registro No Actualizado!!!", "xxx", MessageBoxButton.OK, MessageBoxImage.Error);
+                Limpiar();
+            }
+        }
+
+        private void BTN_Borrar_Click(object sender, RoutedEventArgs e)
+        {
+            Controll_ESTADOSOCIO es = new Controll_ESTADOSOCIO();
+            es.IdEstadoSocio = int.Parse(TXT_Codigo.Text);
+
+            if (es.Delete())
+            {
+                MessageBox.Show("Registro Eliminado!!!", "xxx", MessageBoxButton.OK, MessageBoxImage.Information);
+                Limpiar();
+            }
+            else
+            {
+                MessageBox.Show("Registro No Eliminado!!!", "xxx", MessageBoxButton.OK, MessageBoxImage.Error);
+                Limpiar();
+            }
+        }
+
+        private void DG_Estado_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                Controll_ESTADOSOCIO es = (Controll_ESTADOSOCIO)DG_Estado.SelectedItems[0];
+                TXT_Codigo.Text = es.IdEstadoSocio.ToString();
+                TXT_Descripcion.Text = es.DescripcionEstadoSocio;
+            }
+            catch (Exception)
+            {
+
             }
         }
     }

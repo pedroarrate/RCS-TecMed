@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,35 +7,35 @@ using RCSTecMed_Model;
 
 namespace RCSTecMed_Controll
 {
-    public class Controll_ESTADOSOCIO
+    public class Controll_ESTADOUSUARIO
     {
-        /*ATRIBUSTOS DE LA TABLA*/
-        public int IdEstadoSocio { get; set; }
-        public string DescripcionEstadoSocio { get; set; }
+        /*ATRIBUTOS DE LA TABLA*/
+        public int IdEstado { get; set; }
+        public string EstadoUsuario { get; set; }
 
         private void Init() //INICIALIZACION DE LOS ATRIBUTOS
         {
-            IdEstadoSocio = 0;
-            DescripcionEstadoSocio = string.Empty;
+            IdEstado = 0;
+            EstadoUsuario = string.Empty;
         }
 
-        public Controll_ESTADOSOCIO() { Init(); } //CONSTRUCTOR DE LA CLASE
+        public Controll_ESTADOUSUARIO() { Init(); } //CONSTRUCTOR DE LA CLASE
 
         /*METODOS DE CRUD*/
         public bool Create() //CREA REGISTRO QUE SE GRABA EN LA BASE DE DATOS
         {
             using (RCSTecMed_Entities db = new RCSTecMed_Entities())
             {
-                ESTADO_SOCIO es = new ESTADO_SOCIO();
+                ESTADO_USUARIO eu = new ESTADO_USUARIO();
                 try
                 {
-                    CommonDB.Synchronize(this, es);
-                    db.ESTADO_SOCIO.Add(es);
+                    CommonDB.Synchronize(this, eu);
+                    db.ESTADO_USUARIO.Add(eu);
                     db.SaveChanges();
                     return true;
                 }
                 catch (Exception)
-                {                    
+                {
                     return false;
                 }
             }
@@ -48,18 +47,18 @@ namespace RCSTecMed_Controll
             {
                 try
                 {
-                    ESTADO_SOCIO es = db.ESTADO_SOCIO.FirstOrDefault(x => x.IdEstadoSocio == IdEstadoSocio);
-                    if (es == null)
+                    ESTADO_USUARIO eu = db.ESTADO_USUARIO.FirstOrDefault(x => x.IdEstado == IdEstado);
+                    if (eu == null)
                         return false;
 
-                    CommonDB.Synchronize(es, this);
+                    CommonDB.Synchronize(eu, this);
                     return true;
                 }
                 catch (Exception)
                 {
                     return false;
                 }
-            }   
+            }
         }
 
         public bool ReadDesc() //BUSCA UN REGISTRO GRABADO EN LA BASE DE DATOS A TRAVEZ DE LA DESCRIPCION O NOMBRE DE ESTE
@@ -68,11 +67,11 @@ namespace RCSTecMed_Controll
             {
                 try
                 {
-                    ESTADO_SOCIO es = db.ESTADO_SOCIO.First(x => x.DescripcionEstadoSocio == DescripcionEstadoSocio);
-                    if (es == null)
+                    ESTADO_USUARIO eu = db.ESTADO_USUARIO.First(x => x.EstadoUsuario == EstadoUsuario);
+                    if (eu == null)
                         return false;
 
-                    CommonDB.Synchronize(es, this);
+                    CommonDB.Synchronize(eu, this);
                     return true;
                 }
                 catch (Exception)
@@ -88,11 +87,11 @@ namespace RCSTecMed_Controll
             {
                 try
                 {
-                    ESTADO_SOCIO es = db.ESTADO_SOCIO.FirstOrDefault(x => x.IdEstadoSocio == IdEstadoSocio);
-                    if (es == null)
+                    ESTADO_USUARIO eu = db.ESTADO_USUARIO.FirstOrDefault(x => x.IdEstado == IdEstado);
+                    if (eu == null)
                         return false;
 
-                    CommonDB.Synchronize(this, es);
+                    CommonDB.Synchronize(this, eu);
                     db.SaveChanges();
                     return true;
                 }
@@ -109,11 +108,11 @@ namespace RCSTecMed_Controll
             {
                 try
                 {
-                    ESTADO_SOCIO es = db.ESTADO_SOCIO.FirstOrDefault(x => x.IdEstadoSocio == IdEstadoSocio);
-                    if (es == null)
+                    ESTADO_USUARIO eu = db.ESTADO_USUARIO.FirstOrDefault(x => x.IdEstado == IdEstado);
+                    if (eu == null)
                         return false;
 
-                    db.ESTADO_SOCIO.Remove(es);
+                    db.ESTADO_USUARIO.Remove(eu);
                     db.SaveChanges();
                     return true;
                 }
@@ -124,48 +123,48 @@ namespace RCSTecMed_Controll
             }
         }
 
-        /*METODOS DE LISTADOS*/        
-        public List<Controll_ESTADOSOCIO> ReadAll() //MUESTRA LISTA DE REGISTROS DE LA BASE DE DATOS
+        /*METODOS DE LISTADOS*/
+        public List<Controll_ESTADOUSUARIO> ReadAll() //MUESTRA LISTA DE REGISTROS DE LA BASE DE DATOS
         {
             RCSTecMed_Entities db = new RCSTecMed_Entities();
             try
             {
-                List<ESTADO_SOCIO> listaDatos = db.ESTADO_SOCIO.ToList<ESTADO_SOCIO>();
-                List<Controll_ESTADOSOCIO> listaEstadoSocio = GenerarLista(listaDatos);
-                return listaEstadoSocio;
+                List<ESTADO_USUARIO> listaDatos = db.ESTADO_USUARIO.ToList<ESTADO_USUARIO>();
+                List<Controll_ESTADOUSUARIO> listaEstadoUsuario = GenerarLista(listaDatos);
+                return listaEstadoUsuario;
             }
             catch (Exception)
             {
-                return new List<Controll_ESTADOSOCIO>();
+                return new List<Controll_ESTADOUSUARIO>();
             }
         }
 
-        public List<Controll_ESTADOSOCIO> ReadAllOrdenado() //MUESTRA LISTA DE REGISTROS DE LA BASE DE DATOS ORDENADA POR DESCRIPCION
+        public List<Controll_ESTADOUSUARIO> ReadAllOrdenado() //MUESTRA LISTA DE REGISTROS DE LA BASE DE DATOS ORDENADA POR DESCRIPCION
         {
             RCSTecMed_Entities db = new RCSTecMed_Entities();
             try
             {
-                List<ESTADO_SOCIO> listaDatos = db.ESTADO_SOCIO.ToList<ESTADO_SOCIO>();
-                List<Controll_ESTADOSOCIO> listaEstadoSocio = GenerarLista(listaDatos);
-                listaEstadoSocio = listaEstadoSocio.OrderBy(x => x.DescripcionEstadoSocio).ToList();
-                return listaEstadoSocio;
+                List<ESTADO_USUARIO> listaDatos = db.ESTADO_USUARIO.ToList<ESTADO_USUARIO>();
+                List<Controll_ESTADOUSUARIO> listaEstadoUsuario = GenerarLista(listaDatos);
+                listaEstadoUsuario = listaEstadoUsuario.OrderBy(x => x.EstadoUsuario).ToList();
+                return listaEstadoUsuario;
             }
             catch (Exception)
             {
-                return new List<Controll_ESTADOSOCIO>();
+                return new List<Controll_ESTADOUSUARIO>();
             }
         }
 
-        private List<Controll_ESTADOSOCIO> GenerarLista(List<ESTADO_SOCIO> dataList) //GENERA LISTA DE REGISTROS DE LA BASE DE DATOS A MOSTRAR
+        private List<Controll_ESTADOUSUARIO> GenerarLista(List<ESTADO_USUARIO> dataList) //GENERA LISTA DE REGISTROS DE LA BASE DE DATOS A MOSTRAR
         {
-            List<Controll_ESTADOSOCIO> listaEstadoSocio = new List<Controll_ESTADOSOCIO>();
-            foreach (ESTADO_SOCIO data in dataList)
+            List<Controll_ESTADOUSUARIO> listaEstadoUsuario = new List<Controll_ESTADOUSUARIO>();
+            foreach (ESTADO_USUARIO data in dataList)
             {
-                Controll_ESTADOSOCIO es = new Controll_ESTADOSOCIO();
-                CommonDB.Synchronize(data, es);
-                listaEstadoSocio.Add(es);
+                Controll_ESTADOUSUARIO eu = new Controll_ESTADOUSUARIO();
+                CommonDB.Synchronize(data, eu);
+                listaEstadoUsuario.Add(eu);
             }
-            return listaEstadoSocio;
+            return listaEstadoUsuario;
         }
 
         // OTROS METODOS
@@ -173,14 +172,15 @@ namespace RCSTecMed_Controll
         {
             using (RCSTecMed_Entities db = new RCSTecMed_Entities())
             {
-                int ultimoId = db.ESTADO_SOCIO
-                    .OrderByDescending(x => x.IdEstadoSocio)
-                    .Select(x => x.IdEstadoSocio)
+                int ultimoId = db.ESTADO_USUARIO
+                    .OrderByDescending(x => x.IdEstado)
+                    .Select(x => x.IdEstado)
                     .FirstOrDefault();
 
                 return ultimoId + 1;
             }
         }
+
 
     }
 }

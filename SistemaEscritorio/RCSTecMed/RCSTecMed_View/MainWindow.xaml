@@ -13,6 +13,14 @@
         <Label Content="Descripcion" HorizontalAlignment="Left" Margin="111,200,0,0" VerticalAlignment="Top"/>
         <Button x:Name="BTN_Grabar" Content="Grabar" HorizontalAlignment="Left" Margin="428,330,0,0" VerticalAlignment="Top" Click="BTN_Grabar_Click"/>
         <Button x:Name="BTN_Buscar" Content="Buscar" HorizontalAlignment="Left" Margin="487,330,0,0" VerticalAlignment="Top" Click="BTN_Buscar_Click"/>
-
+        <Button x:Name="BTN_Actualizar" Content="Actualizar" HorizontalAlignment="Left" Margin="546,330,0,0" VerticalAlignment="Top" Click="BTN_Actualizar_Click"/>
+        <Button x:Name="BTN_Borrar" Content="Borrar" HorizontalAlignment="Left" Margin="620,330,0,0" VerticalAlignment="Top" Click="BTN_Borrar_Click"/>
+        
+        <DataGrid x:Name="DG_Estado" AutoGenerateColumns="False" Margin="409,102,44,196" IsReadOnly="True" SelectionChanged="DG_Estado_SelectionChanged">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="CODIGO ESTADO" Binding="{Binding IdEstadoSocio}"/>
+                <DataGridTextColumn Header="DESCRIPCION ESTADO SOCIO" Binding="{Binding DescripcionEstadoSocio}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </Window>
