@@ -7,11 +7,13 @@ using RCSTecMed_Model;
 
 namespace RCSTecMed_Controll
 {
-    public class Controll_CERTIFICACION
+    public class Controll_CENTROACADEMICO
     {
-        /*ATRIBUTOS DE LA TABLA*/
-        public int IdCertificacion { get; set; }
-        public string DescripcionCertificacion { get; set; }
+        /*ATRIBUTOS DE LA CLASE*/
+        public int IdCentroAcademico { get; set; }
+        public string NombreCentroAcademico { get; set; }
+        public string EmailCentroAcademico { get; set; }
+        public int TelefonoCentroAcademico { get; set; }
         public int IdUsuario { get; set; }
 
         /*VARIABLES COMPLEMENTARIAS*/
@@ -21,17 +23,19 @@ namespace RCSTecMed_Controll
         private void Init() //INICIALIZADOR DE LA CLASE
         {
             /*ATRIBUTOS DE LA TABLA*/
-            IdCertificacion = 0;
-            DescripcionCertificacion = string.Empty;
+            IdCentroAcademico = 0;
+            NombreCentroAcademico = string.Empty;
+            EmailCentroAcademico = string.Empty;
+            TelefonoCentroAcademico = 0;
             IdUsuario = 0;
 
-            /*VARIBLAES COMPLEMENTARIAS*/
+            /*VARIABLES COMPLEMENTARIAS*/
             NombreUsuario = string.Empty;
         }
 
-        public Controll_CERTIFICACION() { Init(); } //CONSTRUCTOR DE LA CLASE
+        public Controll_CENTROACADEMICO() { Init(); } //CONSTRUCTOR DE LA CLASE
 
-        /*METODOS DE LLAMADA COMPLEMENTARIA*/
+        /*METODOS DE LLAMADA COMPLEMENTARIOS*/
         private void ObtenerUsuario()
         {
             var us = new Controll_USUARIO { IdUsuario = IdUsuario };
@@ -43,11 +47,11 @@ namespace RCSTecMed_Controll
         {
             using (RCSTecMed_Entities db = new RCSTecMed_Entities())
             {
-                CERTIFICACION cer = new CERTIFICACION();
+                USUARIO us = new USUARIO();
                 try
                 {
-                    CommonDB.Synchronize(this, cer);
-                    db.CERTIFICACION.Add(cer);
+                    CommonDB.Synchronize(this, us);
+                    db.USUARIO.Add(us);
                     db.SaveChanges();
                     return true;
                 }
@@ -64,11 +68,11 @@ namespace RCSTecMed_Controll
             {
                 try
                 {
-                    CERTIFICACION cer = db.CERTIFICACION.FirstOrDefault(x => x.IdCertificacion == IdCertificacion);
-                    if (cer == null)
+                    CENTRO_ACADEMICO ca = db.CENTRO_ACADEMICO.FirstOrDefault(x => x.IdCentroAcademico == IdCentroAcademico);
+                    if (ca == null)
                         return false;
 
-                    CommonDB.Synchronize(cer, this);
+                    CommonDB.Synchronize(ca, this);
                     ObtenerUsuario();
                     return true;
                 }
@@ -79,17 +83,17 @@ namespace RCSTecMed_Controll
             }
         }
 
-        public bool ReadDesc() //BUSCA UN REGISTRO GRABADO EN LA BASE DE DATOS A TRAVEZ DE LA DESCRIPCION O NOMBRE DE ESTE
+        public bool ReadCentroAcademico() //BUSCA UN REGISTRO GRABADO EN LA BASE DE DATOS A TRAVEZ DE LA DESCRIPCION O NOMBRE DE ESTE
         {
             using (RCSTecMed_Entities db = new RCSTecMed_Entities())
             {
                 try
                 {
-                    CERTIFICACION cer = db.CERTIFICACION.First(x => x.DescripcionCertificacion == DescripcionCertificacion);
-                    if (cer == null)
+                    CENTRO_ACADEMICO ca = db.CENTRO_ACADEMICO.First(x => x.NombreCentroAcademico == NombreCentroAcademico);
+                    if (ca == null)
                         return false;
 
-                    CommonDB.Synchronize(cer, this);
+                    CommonDB.Synchronize(ca, this);
                     ObtenerUsuario();
                     return true;
                 }
@@ -98,20 +102,19 @@ namespace RCSTecMed_Controll
                     return false;
                 }
             }
-        }
+        }        
 
-        
         public bool Update() //ACTUALIZA UN REGISTRO EN LA BASE DE DATOS
         {
             using (RCSTecMed_Entities db = new RCSTecMed_Entities())
             {
                 try
                 {
-                    CERTIFICACION cer = db.CERTIFICACION.FirstOrDefault(x => x.IdCertificacion == IdCertificacion);
-                    if (cer == null)
+                    CENTRO_ACADEMICO ca = db.CENTRO_ACADEMICO.FirstOrDefault(x => x.IdCentroAcademico == IdCentroAcademico);
+                    if (ca == null)
                         return false;
 
-                    CommonDB.Synchronize(this, cer);
+                    CommonDB.Synchronize(this, ca);
                     db.SaveChanges();
                     return true;
                 }
@@ -128,11 +131,11 @@ namespace RCSTecMed_Controll
             {
                 try
                 {
-                    CERTIFICACION cer = db.CERTIFICACION.FirstOrDefault(x => x.IdCertificacion == IdCertificacion);
-                    if (cer == null)
+                    CENTRO_ACADEMICO ca = db.CENTRO_ACADEMICO.FirstOrDefault(x => x.IdCentroAcademico == IdCentroAcademico);
+                    if (ca == null)
                         return false;
 
-                    db.CERTIFICACION.Remove(cer);
+                    db.CENTRO_ACADEMICO.Remove(ca);
                     db.SaveChanges();
                     return true;
                 }
@@ -144,48 +147,48 @@ namespace RCSTecMed_Controll
         }
 
         /*METODOS DE LISTADOS*/
-        public List<Controll_CERTIFICACION> ReadAll() //MUESTRA LISTA DE REGISTROS DE LA BASE DE DATOS
+        public List<Controll_CENTROACADEMICO> ReadAll() //MUESTRA LISTA DE REGISTROS DE LA BASE DE DATOS
         {
             RCSTecMed_Entities db = new RCSTecMed_Entities();
             try
             {
-                List<CERTIFICACION> listaDatos = db.CERTIFICACION.ToList<CERTIFICACION>();
-                List<Controll_CERTIFICACION> listaCertificacion = GenerarLista(listaDatos);
-                return listaCertificacion;
+                List<CENTRO_ACADEMICO> listaDatos = db.CENTRO_ACADEMICO.ToList<CENTRO_ACADEMICO>();
+                List<Controll_CENTROACADEMICO> listaCentroAcademico = GenerarLista(listaDatos);
+                return listaCentroAcademico;
             }
             catch (Exception)
             {
-                return new List<Controll_CERTIFICACION>();
+                return new List<Controll_CENTROACADEMICO>();
             }
         }
 
-        public List<Controll_CERTIFICACION> ReadAllOrdenadoDescrpcion() //MUESTRA LISTA DE REGISTROS DE LA BASE DE DATOS ORDENADA 
+        public List<Controll_CENTROACADEMICO> ReadAllOrdenadoCentroAcademico() //MUESTRA LISTA DE REGISTROS DE LA BASE DE DATOS ORDENADA 
         {
             RCSTecMed_Entities db = new RCSTecMed_Entities();
             try
             {
-                List<CERTIFICACION> listaDatos = db.CERTIFICACION.ToList<CERTIFICACION>();
-                List<Controll_CERTIFICACION> listaCertificacion = GenerarLista(listaDatos);
-                listaCertificacion = listaCertificacion.OrderBy(x => x.DescripcionCertificacion).ToList();
-                return listaCertificacion;
+                List<CENTRO_ACADEMICO> listaDatos = db.CENTRO_ACADEMICO.ToList<CENTRO_ACADEMICO>();
+                List<Controll_CENTROACADEMICO> listaCentroAcademico = GenerarLista(listaDatos);
+                listaCentroAcademico = listaCentroAcademico.OrderBy(x => x.NombreCentroAcademico).ToList();
+                return listaCentroAcademico;
             }
             catch (Exception)
             {
-                return new List<Controll_CERTIFICACION>();
+                return new List<Controll_CENTROACADEMICO>();
             }
         }
 
-        private List<Controll_CERTIFICACION> GenerarLista(List<CERTIFICACION> dataList) //GENERA LISTA DE REGISTROS DE LA BASE DE DATOS A MOSTRAR
+        private List<Controll_CENTROACADEMICO> GenerarLista(List<CENTRO_ACADEMICO> dataList) //GENERA LISTA DE REGISTROS DE LA BASE DE DATOS A MOSTRAR
         {
-            List<Controll_CERTIFICACION> listaCertificacion = new List<Controll_CERTIFICACION>();
-            foreach (CERTIFICACION data in dataList)
+            List<Controll_CENTROACADEMICO> listaCentroAcademico = new List<Controll_CENTROACADEMICO>();
+            foreach (CENTRO_ACADEMICO data in dataList)
             {
-                Controll_CERTIFICACION cer = new Controll_CERTIFICACION();
-                CommonDB.Synchronize(data, cer);
-                cer.ObtenerUsuario();
-                listaCertificacion.Add(cer);
+                Controll_CENTROACADEMICO ca = new Controll_CENTROACADEMICO();
+                CommonDB.Synchronize(data, ca);
+                ca.ObtenerUsuario();
+                listaCentroAcademico.Add(ca);
             }
-            return listaCertificacion;
+            return listaCentroAcademico;
         }
 
         // OTROS METODOS
@@ -193,14 +196,15 @@ namespace RCSTecMed_Controll
         {
             using (RCSTecMed_Entities db = new RCSTecMed_Entities())
             {
-                int ultimoId = db.CERTIFICACION
-                    .OrderByDescending(x => x.IdCertificacion)
-                    .Select(x => x.IdCertificacion)
+                int ultimoId = db.CENTRO_ACADEMICO
+                    .OrderByDescending(x => x.IdCentroAcademico)
+                    .Select(x => x.IdCentroAcademico)
                     .FirstOrDefault();
 
                 return ultimoId + 1;
             }
         }
+
 
     }
 }

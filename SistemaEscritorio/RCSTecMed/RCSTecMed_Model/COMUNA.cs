@@ -24,7 +24,7 @@ namespace RCSTecMed_Model
         public string IdComuna { get; set; }
         public string NombreComuna { get; set; }
         public int IdRegion { get; set; }
-        public Nullable<int> IdUsuario { get; set; }
+        public int IdUsuario { get; set; }
     
         public virtual REGION REGION { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

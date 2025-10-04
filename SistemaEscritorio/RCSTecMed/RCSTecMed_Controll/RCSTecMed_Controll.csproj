@@ -53,9 +53,15 @@
   <ItemGroup>
     <Compile Include="CommonDB.cs" />
     <Compile Include="Controll_ACADEMICO.cs" />
+    <Compile Include="Controll_CENTROACADEMICO.cs" />
     <Compile Include="Controll_CERTIFICACION.cs" />
+    <Compile Include="Controll_COMUNA.cs" />
+    <Compile Include="Controll_ESTABLECIMIENTO.cs" />
+    <Compile Include="Controll_ESTABLECIMIENTOACTUAL.cs" />
     <Compile Include="Controll_ESTADOSOCIO.cs" />
     <Compile Include="Controll_ESTADOUSUARIO.cs" />
+    <Compile Include="Controll_FORMAPAGO.cs" />
+    <Compile Include="Controll_REGION.cs" />
     <Compile Include="Controll_USUARIO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -7,35 +7,35 @@ using RCSTecMed_Model;
 
 namespace RCSTecMed_Controll
 {
-    public class Controll_CERTIFICACION
+    public class Controll_FORMAPAGO
     {
-        /*ATRIBUTOS DE LA TABLA*/
-        public int IdCertificacion { get; set; }
-        public string DescripcionCertificacion { get; set; }
+        /*ATRIBUTOS DE LA CLASE*/
+        public int IdFormaPagoCuota { get; set; }
+        public string DescripcionFormaPagoCuota { get; set; }
         public int IdUsuario { get; set; }
 
         /*VARIABLES COMPLEMENTARIAS*/
         string NombreUsuario;
-        public string _nombreUsuario { get { return NombreUsuario; } }
+        public string _nombreUsuario { get {  return NombreUsuario; } }
 
         private void Init() //INICIALIZADOR DE LA CLASE
         {
-            /*ATRIBUTOS DE LA TABLA*/
-            IdCertificacion = 0;
-            DescripcionCertificacion = string.Empty;
+            /*ATRIBUTOS DE LA CLASE*/
+            IdFormaPagoCuota = 0;
+            DescripcionFormaPagoCuota = string.Empty;
             IdUsuario = 0;
 
-            /*VARIBLAES COMPLEMENTARIAS*/
+            /*VARIABLES COMPLEMENTARIAS*/
             NombreUsuario = string.Empty;
         }
 
-        public Controll_CERTIFICACION() { Init(); } //CONSTRUCTOR DE LA CLASE
+        public Controll_FORMAPAGO() { Init(); } //CONSTRUCTOR DE LA CLASE
 
-        /*METODOS DE LLAMADA COMPLEMENTARIA*/
+        /*METODOS DE LLAMADA COMPLEMENTARIOS*/
         private void ObtenerUsuario()
         {
-            var us = new Controll_USUARIO { IdUsuario = IdUsuario };
-            NombreUsuario = us.ReadId() ? us.UserName ?? string.Empty : string.Empty;
+            var eu = new Controll_USUARIO { IdUsuario = IdUsuario };
+            NombreUsuario = eu.ReadId() ? eu.UserName ?? string.Empty : string.Empty;
         }
 
         /*METODOS DE CRUD*/
@@ -43,11 +43,11 @@ namespace RCSTecMed_Controll
         {
             using (RCSTecMed_Entities db = new RCSTecMed_Entities())
             {
-                CERTIFICACION cer = new CERTIFICACION();
+                FORMAPAGO fp = new FORMAPAGO();
                 try
                 {
-                    CommonDB.Synchronize(this, cer);
-                    db.CERTIFICACION.Add(cer);
+                    CommonDB.Synchronize(this, fp);
+                    db.FORMAPAGO.Add(fp);
                     db.SaveChanges();
                     return true;
                 }
@@ -64,11 +64,11 @@ namespace RCSTecMed_Controll
             {
                 try
                 {
-                    CERTIFICACION cer = db.CERTIFICACION.FirstOrDefault(x => x.IdCertificacion == IdCertificacion);
-                    if (cer == null)
+                    FORMAPAGO fp = db.FORMAPAGO.FirstOrDefault(x => x.IdFormaPagoCuota == IdFormaPagoCuota);
+                    if (fp == null)
                         return false;
 
-                    CommonDB.Synchronize(cer, this);
+                    CommonDB.Synchronize(fp, this);
                     ObtenerUsuario();
                     return true;
                 }
@@ -85,11 +85,11 @@ namespace RCSTecMed_Controll
             {
                 try
                 {
-                    CERTIFICACION cer = db.CERTIFICACION.First(x => x.DescripcionCertificacion == DescripcionCertificacion);
-                    if (cer == null)
+                    FORMAPAGO fp = db.FORMAPAGO.First(x => x.DescripcionFormaPagoCuota == DescripcionFormaPagoCuota);
+                    if (fp == null)
                         return false;
 
-                    CommonDB.Synchronize(cer, this);
+                    CommonDB.Synchronize(fp, this);
                     ObtenerUsuario();
                     return true;
                 }
@@ -99,7 +99,6 @@ namespace RCSTecMed_Controll
                 }
             }
         }
-
         
         public bool Update() //ACTUALIZA UN REGISTRO EN LA BASE DE DATOS
         {
@@ -107,11 +106,11 @@ namespace RCSTecMed_Controll
             {
                 try
                 {
-                    CERTIFICACION cer = db.CERTIFICACION.FirstOrDefault(x => x.IdCertificacion == IdCertificacion);
-                    if (cer == null)
+                    FORMAPAGO fp = db.FORMAPAGO.FirstOrDefault(x => x.IdFormaPagoCuota == IdFormaPagoCuota);
+                    if (fp == null)
                         return false;
 
-                    CommonDB.Synchronize(this, cer);
+                    CommonDB.Synchronize(this, fp);
                     db.SaveChanges();
                     return true;
                 }
@@ -128,11 +127,11 @@ namespace RCSTecMed_Controll
             {
                 try
                 {
-                    CERTIFICACION cer = db.CERTIFICACION.FirstOrDefault(x => x.IdCertificacion == IdCertificacion);
-                    if (cer == null)
+                    FORMAPAGO fp = db.FORMAPAGO.FirstOrDefault(x => x.IdFormaPagoCuota == IdFormaPagoCuota);
+                    if (fp == null)
                         return false;
 
-                    db.CERTIFICACION.Remove(cer);
+                    db.FORMAPAGO.Remove(fp);
                     db.SaveChanges();
                     return true;
                 }
@@ -144,48 +143,48 @@ namespace RCSTecMed_Controll
         }
 
         /*METODOS DE LISTADOS*/
-        public List<Controll_CERTIFICACION> ReadAll() //MUESTRA LISTA DE REGISTROS DE LA BASE DE DATOS
+        public List<Controll_FORMAPAGO> ReadAll() //MUESTRA LISTA DE REGISTROS DE LA BASE DE DATOS
         {
             RCSTecMed_Entities db = new RCSTecMed_Entities();
             try
             {
-                List<CERTIFICACION> listaDatos = db.CERTIFICACION.ToList<CERTIFICACION>();
-                List<Controll_CERTIFICACION> listaCertificacion = GenerarLista(listaDatos);
-                return listaCertificacion;
+                List<FORMAPAGO> listaDatos = db.FORMAPAGO.ToList<FORMAPAGO>();
+                List<Controll_FORMAPAGO> listaFormaPago = GenerarLista(listaDatos);
+                return listaFormaPago;
             }
             catch (Exception)
             {
-                return new List<Controll_CERTIFICACION>();
+                return new List<Controll_FORMAPAGO>();
             }
         }
 
-        public List<Controll_CERTIFICACION> ReadAllOrdenadoDescrpcion() //MUESTRA LISTA DE REGISTROS DE LA BASE DE DATOS ORDENADA 
+        public List<Controll_FORMAPAGO> ReadAllOrdenadoDesc() //MUESTRA LISTA DE REGISTROS DE LA BASE DE DATOS ORDENADA 
         {
             RCSTecMed_Entities db = new RCSTecMed_Entities();
             try
             {
-                List<CERTIFICACION> listaDatos = db.CERTIFICACION.ToList<CERTIFICACION>();
-                List<Controll_CERTIFICACION> listaCertificacion = GenerarLista(listaDatos);
-                listaCertificacion = listaCertificacion.OrderBy(x => x.DescripcionCertificacion).ToList();
-                return listaCertificacion;
+                List<FORMAPAGO> listaDatos = db.FORMAPAGO.ToList<FORMAPAGO>();
+                List<Controll_FORMAPAGO> listaFormaPago = GenerarLista(listaDatos);
+                listaFormaPago = listaFormaPago.OrderBy(x => x.DescripcionFormaPagoCuota).ToList();
+                return listaFormaPago;
             }
             catch (Exception)
             {
-                return new List<Controll_CERTIFICACION>();
+                return new List<Controll_FORMAPAGO>();
             }
         }
 
-        private List<Controll_CERTIFICACION> GenerarLista(List<CERTIFICACION> dataList) //GENERA LISTA DE REGISTROS DE LA BASE DE DATOS A MOSTRAR
+        private List<Controll_FORMAPAGO> GenerarLista(List<FORMAPAGO> dataList) //GENERA LISTA DE REGISTROS DE LA BASE DE DATOS A MOSTRAR
         {
-            List<Controll_CERTIFICACION> listaCertificacion = new List<Controll_CERTIFICACION>();
-            foreach (CERTIFICACION data in dataList)
+            List<Controll_FORMAPAGO> listaFormaPago = new List<Controll_FORMAPAGO>();
+            foreach (FORMAPAGO data in dataList)
             {
-                Controll_CERTIFICACION cer = new Controll_CERTIFICACION();
-                CommonDB.Synchronize(data, cer);
-                cer.ObtenerUsuario();
-                listaCertificacion.Add(cer);
+                Controll_FORMAPAGO fp = new Controll_FORMAPAGO();
+                CommonDB.Synchronize(data, fp);
+                fp.ObtenerUsuario();
+                listaFormaPago.Add(fp);
             }
-            return listaCertificacion;
+            return listaFormaPago;
         }
 
         // OTROS METODOS
@@ -193,9 +192,9 @@ namespace RCSTecMed_Controll
         {
             using (RCSTecMed_Entities db = new RCSTecMed_Entities())
             {
-                int ultimoId = db.CERTIFICACION
-                    .OrderByDescending(x => x.IdCertificacion)
-                    .Select(x => x.IdCertificacion)
+                int ultimoId = db.FORMAPAGO
+                    .OrderByDescending(x => x.IdFormaPagoCuota)
+                    .Select(x => x.IdFormaPagoCuota)
                     .FirstOrDefault();
 
                 return ultimoId + 1;

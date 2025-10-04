@@ -7,31 +7,31 @@ using RCSTecMed_Model;
 
 namespace RCSTecMed_Controll
 {
-    public class Controll_CERTIFICACION
+    public class Controll_REGION
     {
-        /*ATRIBUTOS DE LA TABLA*/
-        public int IdCertificacion { get; set; }
-        public string DescripcionCertificacion { get; set; }
+        /*ATRIBUTOS DE LA CLASE*/
+        public int IdRegion { get; set; }
+        public string NombreRegion { get; set; }
         public int IdUsuario { get; set; }
 
-        /*VARIABLES COMPLEMENTARIAS*/
+        /*VARIBLES COMPLEMENTARIAS*/
         string NombreUsuario;
         public string _nombreUsuario { get { return NombreUsuario; } }
 
-        private void Init() //INICIALIZADOR DE LA CLASE
+        private void Init() //INICIALIZACION DE LA CLASE
         {
-            /*ATRIBUTOS DE LA TABLA*/
-            IdCertificacion = 0;
-            DescripcionCertificacion = string.Empty;
+            /*ATRIBUTOS DE LA CLASE*/
+            IdRegion = 0;
+            NombreRegion = string.Empty;
             IdUsuario = 0;
 
-            /*VARIBLAES COMPLEMENTARIAS*/
+            /*VARIBALES COMPLEMENTARIAS*/
             NombreUsuario = string.Empty;
         }
 
-        public Controll_CERTIFICACION() { Init(); } //CONSTRUCTOR DE LA CLASE
+        public Controll_REGION() { Init(); } //CONSTRUCTOR DE LA CLASE
 
-        /*METODOS DE LLAMADA COMPLEMENTARIA*/
+        /*METODOS DE LLAMADA COMPLEMENTARIOS*/
         private void ObtenerUsuario()
         {
             var us = new Controll_USUARIO { IdUsuario = IdUsuario };
@@ -43,11 +43,11 @@ namespace RCSTecMed_Controll
         {
             using (RCSTecMed_Entities db = new RCSTecMed_Entities())
             {
-                CERTIFICACION cer = new CERTIFICACION();
+                REGION re = new REGION();
                 try
                 {
-                    CommonDB.Synchronize(this, cer);
-                    db.CERTIFICACION.Add(cer);
+                    CommonDB.Synchronize(this, re);
+                    db.REGION.Add(re);
                     db.SaveChanges();
                     return true;
                 }
@@ -64,11 +64,11 @@ namespace RCSTecMed_Controll
             {
                 try
                 {
-                    CERTIFICACION cer = db.CERTIFICACION.FirstOrDefault(x => x.IdCertificacion == IdCertificacion);
-                    if (cer == null)
+                    REGION re = db.REGION.FirstOrDefault(x => x.IdRegion == IdRegion);
+                    if (re == null)
                         return false;
 
-                    CommonDB.Synchronize(cer, this);
+                    CommonDB.Synchronize(re, this);
                     ObtenerUsuario();
                     return true;
                 }
@@ -79,17 +79,17 @@ namespace RCSTecMed_Controll
             }
         }
 
-        public bool ReadDesc() //BUSCA UN REGISTRO GRABADO EN LA BASE DE DATOS A TRAVEZ DE LA DESCRIPCION O NOMBRE DE ESTE
+        public bool ReadRegion() //BUSCA UN REGISTRO GRABADO EN LA BASE DE DATOS A TRAVEZ DE LA DESCRIPCION O NOMBRE DE ESTE
         {
             using (RCSTecMed_Entities db = new RCSTecMed_Entities())
             {
                 try
                 {
-                    CERTIFICACION cer = db.CERTIFICACION.First(x => x.DescripcionCertificacion == DescripcionCertificacion);
-                    if (cer == null)
+                    REGION re = db.REGION.First(x => x.NombreRegion == NombreRegion);
+                    if (re == null)
                         return false;
 
-                    CommonDB.Synchronize(cer, this);
+                    CommonDB.Synchronize(re, this);
                     ObtenerUsuario();
                     return true;
                 }
@@ -100,18 +100,17 @@ namespace RCSTecMed_Controll
             }
         }
 
-        
         public bool Update() //ACTUALIZA UN REGISTRO EN LA BASE DE DATOS
         {
             using (RCSTecMed_Entities db = new RCSTecMed_Entities())
             {
                 try
                 {
-                    CERTIFICACION cer = db.CERTIFICACION.FirstOrDefault(x => x.IdCertificacion == IdCertificacion);
-                    if (cer == null)
+                    REGION re = db.REGION.FirstOrDefault(x => x.IdRegion == IdRegion);
+                    if (re == null)
                         return false;
 
-                    CommonDB.Synchronize(this, cer);
+                    CommonDB.Synchronize(this, re);
                     db.SaveChanges();
                     return true;
                 }
@@ -128,11 +127,11 @@ namespace RCSTecMed_Controll
             {
                 try
                 {
-                    CERTIFICACION cer = db.CERTIFICACION.FirstOrDefault(x => x.IdCertificacion == IdCertificacion);
-                    if (cer == null)
+                    REGION re = db.REGION.FirstOrDefault(x => x.IdRegion == IdRegion);
+                    if (re == null)
                         return false;
 
-                    db.CERTIFICACION.Remove(cer);
+                    db.REGION.Remove(re);
                     db.SaveChanges();
                     return true;
                 }
@@ -144,48 +143,48 @@ namespace RCSTecMed_Controll
         }
 
         /*METODOS DE LISTADOS*/
-        public List<Controll_CERTIFICACION> ReadAll() //MUESTRA LISTA DE REGISTROS DE LA BASE DE DATOS
+        public List<Controll_REGION> ReadAll() //MUESTRA LISTA DE REGISTROS DE LA BASE DE DATOS
         {
             RCSTecMed_Entities db = new RCSTecMed_Entities();
             try
             {
-                List<CERTIFICACION> listaDatos = db.CERTIFICACION.ToList<CERTIFICACION>();
-                List<Controll_CERTIFICACION> listaCertificacion = GenerarLista(listaDatos);
-                return listaCertificacion;
+                List<REGION> listaDatos = db.REGION.ToList<REGION>();
+                List<Controll_REGION> listaRegion = GenerarLista(listaDatos);
+                return listaRegion;
             }
             catch (Exception)
             {
-                return new List<Controll_CERTIFICACION>();
+                return new List<Controll_REGION>();
             }
         }
 
-        public List<Controll_CERTIFICACION> ReadAllOrdenadoDescrpcion() //MUESTRA LISTA DE REGISTROS DE LA BASE DE DATOS ORDENADA 
+        public List<Controll_REGION> ReadAllOrdenadoRegion() //MUESTRA LISTA DE REGISTROS DE LA BASE DE DATOS ORDENADA 
         {
             RCSTecMed_Entities db = new RCSTecMed_Entities();
             try
             {
-                List<CERTIFICACION> listaDatos = db.CERTIFICACION.ToList<CERTIFICACION>();
-                List<Controll_CERTIFICACION> listaCertificacion = GenerarLista(listaDatos);
-                listaCertificacion = listaCertificacion.OrderBy(x => x.DescripcionCertificacion).ToList();
-                return listaCertificacion;
+                List<REGION> listaDatos = db.REGION.ToList<REGION>();
+                List<Controll_REGION> listaRegion = GenerarLista(listaDatos);
+                listaRegion = listaRegion.OrderBy(x => x.NombreRegion).ToList();
+                return listaRegion;
             }
             catch (Exception)
             {
-                return new List<Controll_CERTIFICACION>();
+                return new List<Controll_REGION>();
             }
         }
 
-        private List<Controll_CERTIFICACION> GenerarLista(List<CERTIFICACION> dataList) //GENERA LISTA DE REGISTROS DE LA BASE DE DATOS A MOSTRAR
+        private List<Controll_REGION> GenerarLista(List<REGION> dataList) //GENERA LISTA DE REGISTROS DE LA BASE DE DATOS A MOSTRAR
         {
-            List<Controll_CERTIFICACION> listaCertificacion = new List<Controll_CERTIFICACION>();
-            foreach (CERTIFICACION data in dataList)
+            List<Controll_REGION> listaRegion = new List<Controll_REGION>();
+            foreach (REGION data in dataList)
             {
-                Controll_CERTIFICACION cer = new Controll_CERTIFICACION();
-                CommonDB.Synchronize(data, cer);
-                cer.ObtenerUsuario();
-                listaCertificacion.Add(cer);
+                Controll_REGION re = new Controll_REGION();
+                CommonDB.Synchronize(data, re);
+                re.ObtenerUsuario();
+                listaRegion.Add(re);
             }
-            return listaCertificacion;
+            return listaRegion;
         }
 
         // OTROS METODOS
@@ -193,9 +192,9 @@ namespace RCSTecMed_Controll
         {
             using (RCSTecMed_Entities db = new RCSTecMed_Entities())
             {
-                int ultimoId = db.CERTIFICACION
-                    .OrderByDescending(x => x.IdCertificacion)
-                    .Select(x => x.IdCertificacion)
+                int ultimoId = db.REGION
+                    .OrderByDescending(x => x.IdRegion)
+                    .Select(x => x.IdRegion)
                     .FirstOrDefault();
 
                 return ultimoId + 1;
