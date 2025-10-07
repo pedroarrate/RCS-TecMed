@@ -61,8 +61,14 @@
     <Compile Include="Controll_ESTADOSOCIO.cs" />
     <Compile Include="Controll_ESTADOUSUARIO.cs" />
     <Compile Include="Controll_FORMAPAGO.cs" />
+    <Compile Include="Controll_HISTORICOPAGO.cs" />
+    <Compile Include="Controll_NACIONALIDAD.cs" />
     <Compile Include="Controll_REGION.cs" />
+    <Compile Include="Controll_REGISTROTECMED.cs" />
+    <Compile Include="Controll_ROLUSUARIO.cs" />
     <Compile Include="Controll_USUARIO.cs" />
+    <Compile Include="Controll_USUARIODESK.cs" />
+    <Compile Include="Controll_USUARIOWEB.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
