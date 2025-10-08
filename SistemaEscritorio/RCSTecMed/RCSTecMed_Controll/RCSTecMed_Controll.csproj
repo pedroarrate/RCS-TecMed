@@ -66,6 +66,7 @@
     <Compile Include="Controll_REGION.cs" />
     <Compile Include="Controll_REGISTROTECMED.cs" />
     <Compile Include="Controll_ROLUSUARIO.cs" />
+    <Compile Include="Controll_SOCIO.cs" />
     <Compile Include="Controll_USUARIO.cs" />
     <Compile Include="Controll_USUARIODESK.cs" />
     <Compile Include="Controll_USUARIOWEB.cs" />
