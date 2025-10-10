@@ -65,6 +65,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="View_LogIn.xaml.cs">
+      <DependentUpon>View_LogIn.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Estilos\EstilosGenerales.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -77,6 +84,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View_LogIn.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -110,6 +121,14 @@
       <Project>{6a5da63d-49d4-44ed-8ab5-407b0cda1074}</Project>
       <Name>RCSTecMed_Controll</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Imagenes\logo-tecmed.png" />
+    <Resource Include="Imagenes\logo_colegioTecMed1.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Iconos\Password.png" />
+    <Resource Include="Iconos\Users.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

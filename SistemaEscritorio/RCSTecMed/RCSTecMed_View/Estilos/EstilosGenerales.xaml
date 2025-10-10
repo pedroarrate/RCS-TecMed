@@ -1,0 +1,42 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- Color burdeo -->
+    <SolidColorBrush x:Key="BurdeoBrush" Color="#641c34"/>
+
+    <!-- Estilo para TextBox con borde inferior y derecho -->
+    <Style x:Key="BurdeoTextBoxStyle" TargetType="TextBox">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <Grid>
+                        <Border BorderBrush="{StaticResource BurdeoBrush}" 
+                                BorderThickness="0,0,3,1" 
+                                Background="{TemplateBinding Background}">
+                            <ScrollViewer Margin="0" x:Name="PART_ContentHost"/>
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Estilo para PasswordtBox con borde inferior y derecho -->
+    <Style x:Key="BurdeoPasswordBoxStyle" TargetType="PasswordBox">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="PasswordBox">
+                    <Grid>
+                        <Border BorderBrush="{StaticResource BurdeoBrush}" 
+                            BorderThickness="0,0,3,1" 
+                            Background="{TemplateBinding Background}">
+                            <ScrollViewer Margin="0" x:Name="PART_ContentHost"/>
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Puedes agregar más estilos aquí -->
+
+</ResourceDictionary>
