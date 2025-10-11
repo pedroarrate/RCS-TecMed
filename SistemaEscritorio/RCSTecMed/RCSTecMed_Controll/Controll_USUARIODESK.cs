@@ -88,7 +88,29 @@ namespace RCSTecMed_Controll
                 }
             }
         }
-        
+
+        public bool ReadIdUsuario() //BUSCA UN REGISTRO GRABADO EN LA BASE DE DATOS A TRAVEZ DEL ID
+        {
+            using (RCSTecMed_Entities db = new RCSTecMed_Entities())
+            {
+                try
+                {
+                    USUARIO_DESK usd = db.USUARIO_DESK.FirstOrDefault(x => x.IdUsuario == IdUsuario;
+                    if (usd == null)
+                        return false;
+
+                    CommonDB.Synchronize(usd, this);
+                    ObtenerUsuario();
+                    ObtenerRol();
+                    return true;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            }
+        }
+
         public bool Update() //ACTUALIZA UN REGISTRO EN LA BASE DE DATOS
         {
             using (RCSTecMed_Entities db = new RCSTecMed_Entities())
@@ -138,6 +160,21 @@ namespace RCSTecMed_Controll
             try
             {
                 List<USUARIO_DESK> listaDatos = db.USUARIO_DESK.ToList<USUARIO_DESK>();
+                List<Controll_USUARIODESK> listaUsuarioDesk = GenerarLista(listaDatos);
+                return listaUsuarioDesk;
+            }
+            catch (Exception)
+            {
+                return new List<Controll_USUARIODESK>();
+            }
+        }
+
+        public List<Controll_USUARIODESK> ReadAllIdUsuario(int idUser) //MUESTRA LISTA DE REGISTROS DE LA BASE DE DATOS
+        {
+            RCSTecMed_Entities db = new RCSTecMed_Entities();
+            try
+            {
+                List<USUARIO_DESK> listaDatos = db.USUARIO_DESK.Where(x => x.IdUsuario == idUser).ToList<USUARIO_DESK>();
                 List<Controll_USUARIODESK> listaUsuarioDesk = GenerarLista(listaDatos);
                 return listaUsuarioDesk;
             }

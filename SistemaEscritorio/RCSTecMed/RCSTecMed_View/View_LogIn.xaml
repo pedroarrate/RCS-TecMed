@@ -32,7 +32,7 @@
                     <Image Source="/Iconos/Users.png" Width="24" Height="24" Margin="0,0,10,0"/>
                     <Label Content="Usuario" FontSize="20" FontFamily="Arial" FontWeight="Bold" VerticalAlignment="Center"/>
                     <TextBox x:Name="TXT_Usuario" Width="200" Height="30" FontFamily="Arial" FontSize="20" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"
-                             FontWeight="Light" Style="{StaticResource BurdeoTextBoxStyle}" Margin="60,0,0,0" KeyDown="TXT_Usuario_KeyDown"/>
+                             FontWeight="Light" Style="{StaticResource BurdeoTextBoxStyle}" Margin="60,0,0,0" KeyDown="TXT_Usuario_KeyDown" LostFocus="TXT_Usuario_LostFocus"/>
                 </StackPanel>
 
                 <!-- Contraseña -->
@@ -40,7 +40,7 @@
                     <Image Source="/Iconos/Password.png" Width="24" Height="24" Margin="0,0,10,0"/>
                     <Label Content="Contraseña" FontSize="20" FontFamily="Arial" FontWeight="Bold" VerticalAlignment="Center"/>
                     <PasswordBox x:Name="PASS_Contraseña" Width="200" Height="30" FontFamily="Arial" FontSize="20" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"
-                             FontWeight="Light" Style="{StaticResource BurdeoPasswordBoxStyle}" Margin="25,0,0,0" KeyDown="PASS_Contraseña_KeyDown" />
+                             FontWeight="Light" Style="{StaticResource BurdeoPasswordBoxStyle}" Margin="25,0,0,0" KeyDown="PASS_Contraseña_KeyDown" LostFocus="PASS_Contraseña_LostFocus" />
                 </StackPanel>
             </StackPanel>
         </Grid>
