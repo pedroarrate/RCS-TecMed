@@ -20,8 +20,7 @@ namespace RCSTecMed_View
     /// </summary>
     public partial class View_LogIn : Window
     {
-        private Validaciones_Controll val = new Validaciones_Controll();
-        private bool esCambioPorRecuperar = false; //GENERA BANDERA BOOLEANA PARA VALIDACION EN LOSTFOCUS
+        private readonly Validaciones_Controll val = new Validaciones_Controll();
         private int usuarioId;
         private int rol;
 
@@ -78,18 +77,7 @@ namespace RCSTecMed_View
                 ValidarUsuario();            
         }
 
-        private void TXT_Usuario_LostFocus(object sender, RoutedEventArgs e) // VALIDA EL COMPORTAMIENTO DE LOSTFOCUS EN NOMBRE USUARUI
-        {
-            if (esCambioPorRecuperar)
-            {
-                esCambioPorRecuperar = false;
-                return;
-            }
-
-            ValidarUsuario();
-        }
-
-        private void ValidarContraseña()
+        private void ValidarContraseña()//VALIDA CONTRASEÑA ES CORRECTA Y/O SI FUE INGRESADA
         {
             Controll_USUARIO cu = new Controll_USUARIO();
             string nombreUsuario = TXT_Usuario.Text;
@@ -130,18 +118,18 @@ namespace RCSTecMed_View
             ValidaUsuarioEscritorio(cu.IdUsuario);
         }
 
-        private void GrillaUsuario(int id)
+        private void GrillaUsuario(int id) //GENERA LISTA DE DATAGRID
         {
             DG_Perfiles.ItemsSource = new Controll_USUARIODESK().ReadAllIdUsuario(id);
         }
 
-        private void ValidaUsuarioEscritorio(int id)
+        private void ValidaUsuarioEscritorio(int id) //VALIDA SI USUARIO DE ESCRITORIO ES VALIDO
         {
             Controll_USUARIODESK ud = new Controll_USUARIODESK();
             ud.IdUsuario = id;
             if (ud.ReadIdUsuario())
             {
-                GrillaUsuario(ud.IdUsuario);
+                GrillaUsuario(id);
                 MostrarInformacion("Usuario y Contraseña Correctos.\nSeleccione Perfil a Utilizar");
             }
             else
@@ -149,39 +137,31 @@ namespace RCSTecMed_View
                 MostrarError("Usuario no cuenta con perfiles para Módulos de Escritorio");
             }
         }
-        private void PASS_Contraseña_KeyDown(object sender, KeyEventArgs e)
+        private void PASS_Contraseña_KeyDown(object sender, KeyEventArgs e) // VALIDA EL COMPORTAMIENTO DE ENTER O TAB EN CONTRASEÑA
         {
             if (e.Key == Key.Enter || e.Key == Key.Tab)
                 ValidarContraseña();
         }
 
-        private void PASS_Contraseña_LostFocus(object sender, RoutedEventArgs e)
+        private void DG_Perfiles_SelectionChanged(object sender, SelectionChangedEventArgs e) // CONTROLA LA SELECCION DESDE LA GRILLA
         {
-            if (esCambioPorRecuperar)
-            {
-                esCambioPorRecuperar = false;
-                return;
-            }
-
-            ValidarContraseña();
-        }
-
-        private void DG_Perfiles_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            try
-            {
-                Controll_USUARIODESK ud = (Controll_USUARIODESK)DG_Perfiles.SelectedItems[0];
-                usuarioId = ud.IdUsuario;
-                rol = ud.IdRol;
-            }
-            catch (Exception)
-            {
-
-            }
+            BTN_Ingresar.IsEnabled = DG_Perfiles.SelectedItem != null;            
         }
 
         private void BTN_Ingresar_Click(object sender, RoutedEventArgs e)
         {
+            if (DG_Perfiles.SelectedItem is Controll_USUARIODESK ud)
+            {
+                usuarioId = ud.IdUsuario;
+                rol = ud.IdRol;
+
+                
+                // Aquí podrías usar rol para redirigir al módulo correspondiente
+            }
+            else
+            {
+                MostrarError("Debe seleccionar un perfil para continuar.");
+            }
 
         }
 

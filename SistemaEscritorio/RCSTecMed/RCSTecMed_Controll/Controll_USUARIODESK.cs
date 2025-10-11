@@ -16,9 +16,9 @@ namespace RCSTecMed_Controll
 
         /*VARIABLES COMPLEMENTARIAS*/
         string NombreUsuario;
-        public string _nombreUsuario { get { return NombreUsuario; } }
+        public string Nombreusuario { get { return NombreUsuario; } }
         string NombreRol;
-        public string _nombreRol { get { return NombreRol; } }
+        public string Nombrerol { get { return NombreRol; } }
 
         private void Init() //INICIALIZACION DE LA CLASE
         {
@@ -95,7 +95,7 @@ namespace RCSTecMed_Controll
             {
                 try
                 {
-                    USUARIO_DESK usd = db.USUARIO_DESK.FirstOrDefault(x => x.IdUsuario == IdUsuario;
+                    USUARIO_DESK usd = db.USUARIO_DESK.FirstOrDefault(x => x.IdUsuario == IdUsuario);
                     if (usd == null)
                         return false;
 

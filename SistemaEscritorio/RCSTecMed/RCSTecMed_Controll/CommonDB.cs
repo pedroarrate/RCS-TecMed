@@ -30,7 +30,7 @@ namespace RCSTecMed_Controll
                         }
                     }
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     // Puedes registrar el error si lo deseas
                     //Console.WriteLine($"Error al copiar propiedad '{propiedadOrigen.Name}': {ex.Message}");
