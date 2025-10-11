@@ -44,7 +44,7 @@ namespace RCSTecMed_Controll
         private void ObtenerRol()
         {
             var rol = new Controll_ROLUSUARIO { IdRol = IdRol };
-            NombreRol = rol.ReadId() ? rol.NombreRol ?? string.Empty : string.Empty;
+            NombreRol = rol.ReadId() ? $"Perfil: {rol.NombreRol}" ?? string.Empty : string.Empty;
         }
 
         /*METODOS DE CRUD*/
