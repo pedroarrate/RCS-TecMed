@@ -32,9 +32,15 @@ namespace RCSTecMed_View
 
         private void Limpiar()
         {
+            LimpiarGrilla();
             TXT_Usuario.Text = string.Empty;
             PASS_Contraseña.Password = string.Empty;
             TXT_Usuario.Focus();
+        }
+
+        private void LimpiarGrilla() //GENERA LISTA DE DATAGRID
+        {
+            DG_Perfiles.ItemsSource = new Controll_USUARIODESK().ReadAllIdUsuario(0);
         }
 
         private void MostrarError(string mensaje) //MUESTRA MENSAJES DE ERROR SEGUN SO CONTEXTO
@@ -47,28 +53,43 @@ namespace RCSTecMed_View
             MessageBox.Show(mensaje, "RCSTecMed - Información", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
-        private void ValidarUsuario() //VALIDA NOMBRE DE USUARIO ES CORRECTO Y/O SI FUE INGRESADO
+        private Controll_USUARIO ObtenerUsuarioValidado() //CONTROLA DATOS INGRESADOS EN NOMBRE USUARIO
         {
-            Controll_USUARIO cu = new Controll_USUARIO();
             string nombreUsuario = TXT_Usuario.Text;
-            cu.UserName = nombreUsuario;
 
             if (val.CampoVacio(nombreUsuario))
             {
-                MostrarError("Debe Ingresar un Nombre de Usuario.");
+                MostrarError("Debe ingresar un nombre de usuario.");
                 TXT_Usuario.Focus();
-                return;
+                return null;
             }
+
+            var cu = new Controll_USUARIO { UserName = nombreUsuario };
 
             if (!cu.ReadUserName())
             {
-                MostrarError("Usuario Invalido o No Existe en Base de Datos.");
+                MostrarError("Usuario inválido o no existe en base de datos.");
                 TXT_Usuario.Text = string.Empty;
                 TXT_Usuario.Focus();
-                return;
+                return null;
             }
 
-            PASS_Contraseña.Focus();
+            if (cu.IdEstado != 1)
+            {
+                MostrarError($"Estado usuario: {cu._estadoUsuario}\nUsuario inhabilitado\nComunicarse con directivos o administrador.");
+                TXT_Usuario.Text = string.Empty;
+                TXT_Usuario.Focus();
+                return null;
+            }
+
+            return cu;
+        }
+
+        private void ValidarUsuario() //VALIDA NOMBRE DE USUARIO ES CORRECTO Y/O SI FUE INGRESADO
+        {
+            var cu = ObtenerUsuarioValidado();
+            if (cu != null)
+                PASS_Contraseña.Focus();
         }
 
         private void TXT_Usuario_KeyDown(object sender, KeyEventArgs e) // VALIDA EL COMPORTAMIENTO DE ENTER O TAB EN NOMBRE USUARIO
@@ -79,39 +100,24 @@ namespace RCSTecMed_View
 
         private void ValidarContraseña()//VALIDA CONTRASEÑA ES CORRECTA Y/O SI FUE INGRESADA
         {
-            Controll_USUARIO cu = new Controll_USUARIO();
-            string nombreUsuario = TXT_Usuario.Text;
+            var cu = ObtenerUsuarioValidado();
+            if (cu == null)
+                return;
+
             string contraseña = PASS_Contraseña.Password;
-            cu.UserName = nombreUsuario;
 
             if (val.CampoVacio(contraseña))
             {
-                MostrarError("Debe Ingresar una Contraseña.");
+                MostrarError("Debe ingresar una contraseña.");
                 PASS_Contraseña.Focus();
                 return;
             }
 
-            if (!cu.ReadUserName())
-            {
-                MostrarError("Contraseña Incorrecta.");
-                PASS_Contraseña.Password = string.Empty;
-                PASS_Contraseña.Focus();
-                return;
-            }
-
-            
             if (cu.Password != contraseña)
             {
-                MostrarError("Contraseña Incorrecta.");
+                MostrarError("Contraseña incorrecta.");
                 PASS_Contraseña.Password = string.Empty;
                 PASS_Contraseña.Focus();
-                return;
-            }                
-            
-            if (cu.IdEstado != 1)
-            {
-                MostrarError("Usuario Inhabilitado.\nComunicarse con Administrador de Sistema");
-                Limpiar();
                 return;
             }
 
@@ -148,6 +154,52 @@ namespace RCSTecMed_View
             BTN_Ingresar.IsEnabled = DG_Perfiles.SelectedItem != null;            
         }
 
+        private void AbrirModuloAdministrador(int id) 
+        {
+            //View_ModuloAdministrador vma = new View_ModuloAdministrador(id) { Owner = this };
+            //vma.ShowDialog();
+            MessageBox.Show("Esta Opción abrira el Módulo de ADMINISTRADOR", "Mensaje", MessageBoxButton.OK, MessageBoxImage.Information);
+            Limpiar();
+        }
+
+        private void AbrirModuloSecretaria(int id)
+        {
+            //View_ModuloSecretaria vms = new View_ModuloSecretaria(id) { Owner = this };
+            //vms.ShowDialog();
+            MessageBox.Show("Esta Opción abrira el Módulo de SECRETARIA", "Mensaje", MessageBoxButton.OK, MessageBoxImage.Information);
+            Limpiar();
+        }
+
+        private void AbrirModuloTesoreria(int id)
+        {
+            //View_ModuloTesoreria vmt = new View_ModuloTesoreria(id) { Owner = this };
+            //vmt.ShowDialog();
+            MessageBox.Show("Esta Opción abrira el Módulo de TESORERIA", "Mensaje", MessageBoxButton.OK, MessageBoxImage.Information);
+            Limpiar();
+        }
+
+        private void AbrirModuloDirectorio(int id)
+        {
+            //View_ModuloDirectorio vmd = new View_ModuloDirectorio(id) { Owner = this };
+            //vmd.ShowDialog();
+            MessageBox.Show("Esta Opción abrira el Módulo de DIRECTORIO", "Mensaje", MessageBoxButton.OK, MessageBoxImage.Information);
+            Limpiar();
+        }
+
+        private void AbrirModuloSocioTecnologo(int id)
+        {
+            MessageBox.Show("Opción No Valida para Versión de Escritorio", "Mensaje", MessageBoxButton.OK, MessageBoxImage.Information);
+            Limpiar();
+        }
+
+        private void AbrirModuloAuditor(int id)
+        {
+            //View_ModuloAuditor vmau = new View_ModuloAuditor(id) { Owner = this };
+            //vmau.ShowDialog();
+            MessageBox.Show("Esta Opción abrira el Módulo de AUDITOR", "Mensaje", MessageBoxButton.OK, MessageBoxImage.Information);
+            Limpiar();
+        }
+
         private void BTN_Ingresar_Click(object sender, RoutedEventArgs e)
         {
             if (DG_Perfiles.SelectedItem is Controll_USUARIODESK ud)
@@ -155,21 +207,50 @@ namespace RCSTecMed_View
                 usuarioId = ud.IdUsuario;
                 rol = ud.IdRol;
 
-                
-                // Aquí podrías usar rol para redirigir al módulo correspondiente
+                switch (rol)
+                {
+                    case 1: // Administrador
+                        AbrirModuloAdministrador(usuarioId);
+                        break;
+
+                    case 2: // Secretaria
+                        AbrirModuloSecretaria(usuarioId);
+                        break;
+
+                    case 3: // Tesorería
+                        AbrirModuloTesoreria(usuarioId);
+                        break;
+
+                    case 4: // Directorio
+                        AbrirModuloDirectorio(usuarioId);
+                        break;
+
+                    case 5: // Socio Tecnólogo
+                        AbrirModuloSocioTecnologo(usuarioId);
+                        break;
+
+                    case 6: // Auditor
+                        AbrirModuloAuditor(usuarioId);
+                        break;
+
+                    default:
+                        MostrarError("Rol no reconocido. Comuníquese con el Administrador.");
+                        break;
+                }
+
             }
             else
             {
                 MostrarError("Debe seleccionar un perfil para continuar.");
             }
-
         }
 
         private void RecuperarContrasena_Click(object sender, MouseButtonEventArgs e)
         {
-
+            View_RecuperarContraseña rcon = new View_RecuperarContraseña() { Owner = this };
+            rcon.ShowDialog();
         }
 
-       
+
     }
 }

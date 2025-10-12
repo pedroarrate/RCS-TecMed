@@ -68,6 +68,9 @@
     <Compile Include="View_LogIn.xaml.cs">
       <DependentUpon>View_LogIn.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View_RecuperarContraseña.xaml.cs">
+      <DependentUpon>View_RecuperarContraseña.xaml</DependentUpon>
+    </Compile>
     <Page Include="Estilos\EstilosGenerales.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -85,6 +88,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="View_LogIn.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View_RecuperarContraseña.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
