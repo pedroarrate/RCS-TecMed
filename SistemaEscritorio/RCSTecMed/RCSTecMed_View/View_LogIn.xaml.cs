@@ -143,6 +143,7 @@ namespace RCSTecMed_View
                 MostrarError("Usuario no cuenta con perfiles para Módulos de Escritorio");
             }
         }
+
         private void PASS_Contraseña_KeyDown(object sender, KeyEventArgs e) // VALIDA EL COMPORTAMIENTO DE ENTER O TAB EN CONTRASEÑA
         {
             if (e.Key == Key.Enter || e.Key == Key.Tab)

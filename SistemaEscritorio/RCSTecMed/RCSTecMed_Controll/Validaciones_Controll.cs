@@ -80,10 +80,20 @@ namespace RCSTecMed_Controll
                    dv.ToString();
         }
 
-        public bool EsRutNumericoValido(string rut, int largoMaximo = 8)
+        public bool EsRutNumericoValido(string rut, int largoMaximo = 8) // VALIDA DE RUT INGRESADO ES NUMERICO Y RANGO <= 8
         {
             rut = rut?.Trim();
             return CampoSoloNumero(rut) && LargoCampo(rut) <= largoMaximo;
+        }
+
+        public bool EsFormatoDvValido(string dv) //VALIDA FORMATO DE DV
+        {
+            if (string.IsNullOrWhiteSpace(dv))
+                return false;
+
+            dv = dv.Trim().ToUpper();
+
+            return dv.Length == 1 && (char.IsDigit(dv[0]) || dv[0] == 'K');
         }
 
 

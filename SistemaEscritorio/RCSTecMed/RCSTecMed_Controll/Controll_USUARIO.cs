@@ -95,6 +95,27 @@ namespace RCSTecMed_Controll
             }
         }
 
+        public bool ReadRutUsuario() //BUSCA UN REGISTRO GRABADO EN LA BASE DE DATOS A TRAVEZ DEL RUT USUARIO
+        {
+            using (RCSTecMed_Entities db = new RCSTecMed_Entities())
+            {
+                try
+                {
+                    USUARIO us = db.USUARIO.FirstOrDefault(x => x.Rut == Rut);
+                    if (us == null)
+                        return false;
+
+                    CommonDB.Synchronize(us, this);
+                    ObtenerEstadoUsuario();
+                    return true;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            }
+        }
+
         public bool ReadApellido() //BUSCA UN REGISTRO GRABADO EN LA BASE DE DATOS A TRAVEZ DE LA DESCRIPCION O NOMBRE DE ESTE
         {
             using (RCSTecMed_Entities db = new RCSTecMed_Entities())

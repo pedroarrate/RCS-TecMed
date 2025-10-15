@@ -31,7 +31,6 @@ namespace RCSTecMed_View
         {
             TXT_Rut.Text = string.Empty;
             TXT_Dv.Text = string.Empty;
-            TXT_Mensaje.Text = string.Empty;
             TXT_Rut.Focus();
         }
 
@@ -65,7 +64,7 @@ namespace RCSTecMed_View
             }
             else
             {
-                MostrarError("RUT debe ser numérico y no superar los 10 dígitos");
+                MostrarError("RUT debe ser numérico y no superar los 8 dígitos");
                 Limpiar();
             }
 
@@ -73,6 +72,74 @@ namespace RCSTecMed_View
 
         private void TXT_Dv_KeyDown(object sender, KeyEventArgs e)
         {
+            if (e.Key != Key.Enter && e.Key != Key.Tab)
+                return;
+
+            string rut = TXT_Rut.Text.Trim();
+            string dv = TXT_Dv.Text.Trim().ToUpper();
+
+            if (val.CampoVacio(rut))
+            {
+                MostrarError("Debe ingresar un RUT");
+                TXT_Rut.Focus();
+                return;
+            }
+
+            if (val.CampoVacio(dv))
+            {
+                MostrarError("Debe ingresar un DV");
+                TXT_Dv.Focus();
+                return;
+            }
+
+            if (!val.EsFormatoDvValido(dv))
+            {
+                MostrarError("Formato de DV incorrecto");
+                TXT_Dv.Text = string.Empty;
+                TXT_Dv.Focus();
+                return;
+            }
+
+            if (!int.TryParse(rut, out int rutval))
+            {
+                MostrarError("RUT inválido. Debe contener solo números.");
+                TXT_Rut.Focus();
+                return;
+            }
+
+            if (val.CalcularDV(rutval) != dv)
+            {
+                MostrarError("RUT y/o DV incorrecto\nVolver a ingresar");
+                Limpiar();
+                return;
+            }
+
+            Controll_USUARIO cu = new Controll_USUARIO();
+            Controll_ESTADOUSUARIO eu = new Controll_ESTADOUSUARIO();
+            cu.Rut = rutval;
+            if (cu.ReadRutUsuario())
+            {
+                if (cu.IdEstado == 1)
+                {
+                    
+                    eu.IdEstado = cu.IdEstado;
+                    if (eu.ReadId())
+                    {                        
+                        MostrarInformacion($"Búsqueda exitosa\nRUT encontrado en BD, Estado {eu.EstadoUsuario}");
+                        BTN_Recuperar.Focus();
+                    }
+                }
+                else
+                {
+                    MostrarError($"No es posible recuperar contraseña, Usuario {eu.EstadoUsuario}\nComunicarse con directorio o Administrador");
+                    Limpiar();
+                }
+            }
+            else
+            {
+                MostrarError("RUT no registrado en Base de Datos\nComunicarse con Administrador o Directorio");
+                Limpiar();
+            }
 
         }
 
