@@ -80,6 +80,13 @@ namespace RCSTecMed_Controll
                    dv.ToString();
         }
 
+        public bool EsRutNumericoValido(string rut, int largoMaximo = 8)
+        {
+            rut = rut?.Trim();
+            return CampoSoloNumero(rut) && LargoCampo(rut) <= largoMaximo;
+        }
+
+
         public bool FormatoPassword(string password) //VALIDA SI UNA PASS CUMPLE CON UN FORMATO ESPECIFICO Y UN RANGO ESPECIFICO, SI CUMPLE RETORNA TRUE
         {
             if (string.IsNullOrWhiteSpace(password))

@@ -3,8 +3,15 @@
     <!-- Color burdeo -->
     <SolidColorBrush x:Key="BurdeoBrush" Color="#641c34"/>
     <SolidColorBrush x:Key="WhiteBrush" Color="White"/>
+    <SolidColorBrush x:Key="NegroBrush" Color="Black"/>
+    <SolidColorBrush x:Key="BurdeoPalidoBrush" Color="#D8A0A8"/>
 
-    <!-- Estilo para TextBox con borde inferior y derecho -->
+    <LinearGradientBrush x:Key="BurdeoGradientBrush" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#7B1E3B" Offset="0.0"/>
+        <GradientStop Color="#B03A5B" Offset="1.0"/>
+    </LinearGradientBrush>
+
+    <!-- Estilo para TextBox con borde burdeo inferior y derecho -->
     <Style x:Key="BurdeoTextBoxStyle" TargetType="TextBox">
         <Setter Property="Template">
             <Setter.Value>
@@ -20,7 +27,8 @@
             </Setter.Value>
         </Setter>
     </Style>
-   
+
+    <!-- Estilo para TextBox con borde blanco inferior y derecho -->
     <Style x:Key="WhiteTextBoxStyle" TargetType="TextBox">
         <Setter Property="Template">
             <Setter.Value>
@@ -36,6 +44,41 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <!-- Estilo para TextBox con borde Negro y fondo burdeo gradiente -->
+    <Style x:Key="BurdeoGradientTextBoxStyle" TargetType="TextBox">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <Grid>
+                        <Border BorderBrush="{StaticResource NegroBrush}"
+                            BorderThickness="0,0,3,1"
+                            Background="{StaticResource BurdeoGradientBrush}">
+                            <ScrollViewer Margin="0" x:Name="PART_ContentHost"/>
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Estilo para TextBox con borde Negro y fondo burdeo palido -->
+    <Style x:Key="BurdeoPalidoTextBoxStyle" TargetType="TextBox">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <Grid>
+                        <Border BorderBrush="{StaticResource NegroBrush}"
+                            BorderThickness="0,0,3,1"
+                            Background="{StaticResource BurdeoPalidoBrush}">
+                            <ScrollViewer Margin="0" x:Name="PART_ContentHost"/>
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 
     <!-- Estilo para PasswordtBox con borde inferior y derecho -->
     <Style x:Key="BurdeoPasswordBoxStyle" TargetType="PasswordBox">

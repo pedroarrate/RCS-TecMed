@@ -5,36 +5,44 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RCSTecMed_View"
         mc:Ignorable="d"
-        Title="RCS-TecMed - Recuperar Contraseña" Height="450" Width="800"
+        Title="RCS-TecMed - Recuperar Contraseña" Height="300" Width="800"
         ResizeMode="NoResize"
         WindowStyle="SingleBorderWindow"
         ShowInTaskbar="True"
         WindowStartupLocation="CenterScreen">
     <Window.Background>
-        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
             <GradientStop Color="#7B1E3A" Offset="0.0"/>
             <!-- Burdeo oscuro -->
             <GradientStop Color="#A52A4D" Offset="0.5"/>
             <!-- Burdeo medio -->
-            <GradientStop Color="#C94C6E" Offset="1.0"/>
+            <GradientStop Color="#D8A0A8" Offset="1.0"/>
             <!-- Burdeo claro -->
         </LinearGradientBrush>
     </Window.Background>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
+            <RowDefinition Height="150"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
             <Label Content="Recuperar Contraseña" FontFamily="Arial" FontSize="25" FontWeight="Black" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Grid>
         <Grid Grid.Row="1">
-            <Label Content="Ingrese su RUT" FontFamily="Ariel" FontSize="15" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top"
+            <Label Content="Ingrese su RUT" FontFamily="Arial" FontSize="15" Foreground="White" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top"
                    Margin="20,20,0,0"/>
-            <TextBox x:Name="TXT_Rut" Height="30" Width="100" Text="12345678" FontFamily="Arial" FontSize="15" Style="{StaticResource WhiteTextBoxStyle}" Background="Transparent"
-                     Foreground="Azure" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="150,20,0,0"/>
-            <TextBox x:Name="TXT_Dv" Height="30" Width="20" Text="K" FontFamily="Arial" FontSize="15" Style="{StaticResource WhiteTextBoxStyle}" Background="Transparent"
-         Foreground="Azure" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="250,20,0,0"/>
+            <TextBox x:Name="TXT_Rut" Height="30" Width="100" FontFamily="Arial" FontSize="15" Style="{StaticResource WhiteTextBoxStyle}" Background="Transparent"
+                     Foreground="Azure" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="150,20,0,0" KeyDown="TXT_Rut_KeyDown"/>
+            <TextBox x:Name="TXT_Dv" Height="30" Width="20" FontFamily="Arial" FontSize="15" Style="{StaticResource WhiteTextBoxStyle}" Background="Transparent"
+                     Foreground="Azure" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="250,20,0,0" KeyDown="TXT_Dv_KeyDown"/>
+            <TextBox x:Name="TXT_Mensaje" Height="30" Width="470" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="15" Style="{StaticResource BurdeoPalidoTextBoxStyle}"
+                     Margin="300,20,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" IsEnabled="False"/>
+            <Button x:Name="BTN_Recuperar" Content="Recuperar Contraseña" Style="{StaticResource BotonEstilo1}" Width="150" Height="40" Click="BTN_Recuperar_Click"
+                    HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,80,0,0"/>
+        </Grid>
+        <Grid Grid.Row="2">
+            <Image Source="/Imagenes/logo-tecmed.png" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Top"/>
         </Grid>
     </Grid>
 </Window>
