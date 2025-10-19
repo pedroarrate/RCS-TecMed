@@ -102,7 +102,7 @@ namespace RCSTecMed_Controll
             if (string.IsNullOrWhiteSpace(password))
                 return false;
 
-            if (password.Length < 6 || password.Length > 10)
+            if (password.Length < 10 || password.Length > 20)
                 return false;
 
             bool tieneMinuscula = password.Any(char.IsLower);

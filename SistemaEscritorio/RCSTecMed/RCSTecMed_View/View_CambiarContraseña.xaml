@@ -1,0 +1,82 @@
+﻿<Window x:Class="RCSTecMed_View.View_CambiarContraseña"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RCSTecMed_View"
+        mc:Ignorable="d"
+        Title="RCS-TecMed - Cambiar Contraseña" Height="450" Width="800"
+        ResizeMode="NoResize"
+        WindowStyle="SingleBorderWindow"
+        ShowInTaskbar="True"
+        WindowStartupLocation="CenterScreen">
+    <Window.Background>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+            <GradientStop Color="#7B1E3A" Offset="0.0"/>
+            <!-- Burdeo oscuro -->
+            <GradientStop Color="#A52A4D" Offset="0.5"/>
+            <!-- Burdeo medio -->
+            <GradientStop Color="#D8A0A8" Offset="1.0"/>
+            <!-- Burdeo claro -->
+        </LinearGradientBrush>
+    </Window.Background>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="100"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Label Content="Cambio de Usuario y Contraseña" FontFamily="Arial" FontSize="25" FontWeight="Black" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Grid>
+        
+        <Grid Grid.Row="1">
+            <Label Content="Datos Actuales" FontFamily="Arial" FontSize="20" FontWeight="DemiBold" Foreground="White" FontStyle="Italic" HorizontalAlignment="Left" VerticalAlignment="Top" 
+                   Margin="10,0,0,0"/>
+            <Label Content="Nombre:" FontFamily="Arial" FontSize="15" FontWeight="Medium" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,30,0,0"/>
+            <Label x:Name="LB_NombreCompleto" FontFamily="Cambria" FontSize="18" FontWeight="Medium" Foreground="YellowGreen" HorizontalAlignment="Left" VerticalAlignment="Top" 
+                   HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Width="300" Margin="100,28,0,0"/>
+            <Label Content="UserName:" FontFamily="Arial" FontSize="15" FontWeight="Medium" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,60,0,0"/>
+            <Label x:Name="LB_UserName" FontFamily="Cambria" FontSize="18" FontWeight="Medium" Foreground="YellowGreen" HorizontalAlignment="Left" VerticalAlignment="Top" 
+                   HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Width="300" Margin="100,58,0,0"/>
+            <Label Content="Password:" FontFamily="Arial" FontSize="15" FontWeight="Medium" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,90,0,0"/>
+            <Label x:Name="LB_Password" FontFamily="Cambria" FontSize="18" FontWeight="Medium" Foreground="YellowGreen" HorizontalAlignment="Left" VerticalAlignment="Top" 
+                   HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Width="300" Margin="100,88,0,0"/>
+        </Grid>
+
+        <Grid Grid.Row="2" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="15"/>
+                <ColumnDefinition Width="500"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="15"/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="1" Background="Wheat">
+                <Label Content="Actualización" FontFamily="Arial" FontSize="20" FontWeight="DemiBold" FontStyle="Italic" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,0,0,0"/>
+                <Label Content="Nuevo UserName:" FontFamily="Arial" FontSize="15" FontWeight="Medium" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,30,0,0"/>
+                <TextBox x:Name="TXT_NewUserName" Width="250" Height="20" FontFamily="Cambria" FontSize="18" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" 
+                         Background="Transparent" FontWeight="Light" Style="{StaticResource BurdeoTextBoxStyle}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="210,30,0,0" KeyDown="TXT_NewUserName_KeyDown" />
+               
+                <Label Content="Nueva Password:" FontFamily="Arial" FontSize="15" FontWeight="Medium" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,60,0,0"/>
+                <TextBox x:Name="TXT_NewPassword" Width="250" Height="20" FontFamily="Cambria" FontSize="18" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" IsEnabled="False"
+                         Background="Transparent" FontWeight="Light" Style="{StaticResource BurdeoTextBoxStyle}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="210,60,0,0" KeyDown="TXT_NewPassword_KeyDown" />
+                <Label Content="Confirme Nueva Password:" FontFamily="Arial" FontSize="15" FontWeight="Medium" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,90,0,0"/>
+                <TextBox x:Name="TXT_ConfirmNewPassword" Width="250" Height="20" FontFamily="Cambria" FontSize="18" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" IsEnabled="False"
+                         Background="Transparent" FontWeight="Light" Style="{StaticResource BurdeoTextBoxStyle}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="210,90,0,0" KeyDown="TXT_ConfirmNewPassword_KeyDown" />
+               
+                
+            </Grid>
+
+            <Grid Grid.Column="2" Background="Wheat">
+                <Button x:Name="BTN_CambiarContraseña" Content="Registrar Cambios" Style="{StaticResource BotonEstilo1}" Width="150" Height="40" Click="BTN_CambiarContraseña_Click" 
+                        HorizontalAlignment="Center" VerticalAlignment="Center" IsEnabled="False"/>
+            </Grid>
+            
+        </Grid>
+        
+        <Grid Grid.Row="3">
+            <Image Source="/Imagenes/logo-tecmed.png" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+        </Grid>
+    </Grid>
+</Window>

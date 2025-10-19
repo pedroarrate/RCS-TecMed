@@ -21,6 +21,8 @@ namespace RCSTecMed_View
     public partial class View_LogIn : Window
     {
         private readonly Validaciones_Controll val = new Validaciones_Controll();
+        private readonly Mensajes_Controll ms = new Mensajes_Controll();
+
         private int usuarioId;
         private int rol;
 
@@ -43,23 +45,13 @@ namespace RCSTecMed_View
             DG_Perfiles.ItemsSource = new Controll_USUARIODESK().ReadAllIdUsuario(0);
         }
 
-        private void MostrarError(string mensaje) //MUESTRA MENSAJES DE ERROR SEGUN SO CONTEXTO
-        {
-            MessageBox.Show(mensaje, "RCSTecMed - Error", MessageBoxButton.OK, MessageBoxImage.Error);
-        }
-
-        private void MostrarInformacion(string mensaje)
-        {
-            MessageBox.Show(mensaje, "RCSTecMed - Información", MessageBoxButton.OK, MessageBoxImage.Information);
-        }
-
         private Controll_USUARIO ObtenerUsuarioValidado() //CONTROLA DATOS INGRESADOS EN NOMBRE USUARIO
         {
             string nombreUsuario = TXT_Usuario.Text;
 
             if (val.CampoVacio(nombreUsuario))
             {
-                MostrarError("Debe ingresar un nombre de usuario.");
+                ms.MostrarError("Debe ingresar un nombre de usuario.");
                 TXT_Usuario.Focus();
                 return null;
             }
@@ -68,7 +60,7 @@ namespace RCSTecMed_View
 
             if (!cu.ReadUserName())
             {
-                MostrarError("Usuario inválido o no existe en base de datos.");
+                ms.MostrarError("Usuario inválido o no existe en base de datos.");
                 TXT_Usuario.Text = string.Empty;
                 TXT_Usuario.Focus();
                 return null;
@@ -76,7 +68,7 @@ namespace RCSTecMed_View
 
             if (cu.IdEstado != 1)
             {
-                MostrarError($"Estado usuario: {cu._estadoUsuario}\nUsuario inhabilitado\nComunicarse con directivos o administrador.");
+                ms.MostrarError($"Estado usuario: {cu._estadoUsuario}\nUsuario inhabilitado\nComunicarse con directivos o administrador.");
                 TXT_Usuario.Text = string.Empty;
                 TXT_Usuario.Focus();
                 return null;
@@ -108,14 +100,14 @@ namespace RCSTecMed_View
 
             if (val.CampoVacio(contraseña))
             {
-                MostrarError("Debe ingresar una contraseña.");
+                ms.MostrarError("Debe ingresar una contraseña.");
                 PASS_Contraseña.Focus();
                 return;
             }
 
             if (cu.Password != contraseña)
             {
-                MostrarError("Contraseña incorrecta.");
+                ms.MostrarError("Contraseña incorrecta.");
                 PASS_Contraseña.Password = string.Empty;
                 PASS_Contraseña.Focus();
                 return;
@@ -136,11 +128,11 @@ namespace RCSTecMed_View
             if (ud.ReadIdUsuario())
             {
                 GrillaUsuario(id);
-                MostrarInformacion("Usuario y Contraseña Correctos.\nSeleccione Perfil a Utilizar");
+                ms.MostrarInformacion("Usuario y Contraseña Correctos.\nSeleccione Perfil a Utilizar");
             }
             else
             {
-                MostrarError("Usuario no cuenta con perfiles para Módulos de Escritorio");
+                ms.MostrarError("Usuario no cuenta con perfiles para Módulos de Escritorio");
             }
         }
 
@@ -201,12 +193,34 @@ namespace RCSTecMed_View
             Limpiar();
         }
 
+        private void AbrirCambiarContraseña(int rut)
+        {
+            View_CambiarContraseña vcc = new View_CambiarContraseña(rut) { Owner = this };
+            vcc.ShowDialog();
+            Limpiar();
+        }
+
         private void BTN_Ingresar_Click(object sender, RoutedEventArgs e)
         {
+            Controll_USUARIO cu = new Controll_USUARIO();
+            cu.UserName = TXT_Usuario.Text;
+            if (cu.ReadUserName())
+            {
+                string pass = $"{cu.Rut}-{cu.Dv}";
+                if(cu.Password == pass)
+                {
+                    ms.MostrarInformacion("Debe Cambiar Contraseña\nEl Sistema lo Redirigirá Para realizar cambio");
+                    AbrirCambiarContraseña(cu.Rut);
+                    Limpiar();
+                    return;
+                }
+            }
+
             if (DG_Perfiles.SelectedItem is Controll_USUARIODESK ud)
             {
                 usuarioId = ud.IdUsuario;
                 rol = ud.IdRol;
+
 
                 switch (rol)
                 {
@@ -235,14 +249,14 @@ namespace RCSTecMed_View
                         break;
 
                     default:
-                        MostrarError("Rol no reconocido. Comuníquese con el Administrador.");
+                        ms.MostrarError("Rol no reconocido. Comuníquese con el Administrador.");
                         break;
                 }
 
             }
             else
             {
-                MostrarError("Debe seleccionar un perfil para continuar.");
+                ms.MostrarError("Debe seleccionar un perfil para continuar.");
             }
         }
 
