@@ -76,6 +76,7 @@
     <Compile Include="Controll_USUARIOWEB.cs" />
     <Compile Include="EmailNotifier.cs" />
     <Compile Include="Mensajes_Controll.cs" />
+    <Compile Include="MostrarDatos_Controll.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Validaciones_Controll.cs" />
   </ItemGroup>

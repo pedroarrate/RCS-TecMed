@@ -10,22 +10,19 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
-using RCSTecMed_Controll;
 
 namespace RCSTecMed_View
 {
     /// <summary>
-    /// Lógica de interacción para View_ModuloSecretaria.xaml
+    /// Lógica de interacción para RegistroSocio_UserControl.xaml
     /// </summary>
-    public partial class View_ModuloSecretaria : Window
+    public partial class RegistroSocio_UserControl : UserControl
     {
-        public View_ModuloSecretaria(int id)
+        public RegistroSocio_UserControl()
         {
             InitializeComponent();
-            LB_Fecha.Content = DateTime.Today.ToString("D");
-            LB_HoraConexion.Content = DateTime.Now.ToString("T");
-            LB_Usuario.Content = new MostrarDatos_Controll().MostrarUsuario(id);
         }
     }
 }

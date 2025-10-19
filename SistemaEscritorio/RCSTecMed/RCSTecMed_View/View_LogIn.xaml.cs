@@ -157,9 +157,9 @@ namespace RCSTecMed_View
 
         private void AbrirModuloSecretaria(int id)
         {
-            //View_ModuloSecretaria vms = new View_ModuloSecretaria(id) { Owner = this };
-            //vms.ShowDialog();
-            MessageBox.Show("Esta Opción abrira el Módulo de SECRETARIA", "Mensaje", MessageBoxButton.OK, MessageBoxImage.Information);
+            View_ModuloSecretaria vms = new View_ModuloSecretaria(id) { Owner = this };
+            vms.ShowDialog();
+            //MessageBox.Show("Esta Opción abrira el Módulo de SECRETARIA", "Mensaje", MessageBoxButton.OK, MessageBoxImage.Information);
             Limpiar();
         }
 

@@ -65,6 +65,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="RegistroSocio_UserControl.xaml.cs">
+      <DependentUpon>RegistroSocio_UserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View_CambiarContraseña.xaml.cs">
       <DependentUpon>View_CambiarContraseña.xaml</DependentUpon>
     </Compile>
@@ -93,6 +96,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="RegistroSocio_UserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View_CambiarContraseña.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -150,6 +157,9 @@
   <ItemGroup>
     <Resource Include="Iconos\Password.png" />
     <Resource Include="Iconos\Users.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Imagenes\ModuloSecretaria.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
