@@ -39,6 +39,7 @@ namespace RCSTecMed_Model
         public string ObservacionPagocuota { get; set; }
         public int IdUsuario { get; set; }
         public int IdEstadoSocio { get; set; }
+        public Nullable<int> FolioSuperintendencia { get; set; }
     
         public virtual COMUNA COMUNA { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

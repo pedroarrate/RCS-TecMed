@@ -27,6 +27,7 @@ namespace RCSTecMed_Controll
         public string ObservacionPagocuota { get; set; }
         public int IdUsuario { get; set; }
         public int IdEstadoSocio { get; set; }
+        public Nullable<int> FolioSuperintendencia { get; set; }
 
         /*VARIABLES COMPLEMENTARIAS*/
         public string FechaNacimientoMostrar { get; set; }
@@ -61,6 +62,7 @@ namespace RCSTecMed_Controll
             ObservacionPagocuota = string.Empty;
             IdUsuario = 0;
             IdEstadoSocio = 0;
+            FolioSuperintendencia = null;
 
             /*VARIABLES COMPLEMENTARIAS*/
             FechaNacimientoMostrar = string.Empty;

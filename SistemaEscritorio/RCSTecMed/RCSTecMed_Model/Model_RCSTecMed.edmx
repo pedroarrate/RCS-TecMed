@@ -159,6 +159,7 @@
           <Property Name="Rut" Type="int" Nullable="false" />
           <Property Name="Dv" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="FolioRegistro" Type="int" Nullable="false" />
+          <Property Name="FolioSuperintendencia" Type="int" />
           <Property Name="ApellidoPaterno" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="ApellidoMaterno" Type="nvarchar" MaxLength="50" />
           <Property Name="Nombres" Type="nvarchar" MaxLength="50" Nullable="false" />
@@ -670,6 +671,7 @@
           <Property Name="IdEstadoSocio" Type="Int32" Nullable="false" />
           <NavigationProperty Name="ESTADO_SOCIO" Relationship="RCSTecMed_Model.FK_SOCIO_ESTADO_SOCIO" FromRole="SOCIO" ToRole="ESTADO_SOCIO" />
           <NavigationProperty Name="ACADEMICO" Relationship="RCSTecMed_Model.FK_ACADEMICO_SOCIO" FromRole="SOCIO" ToRole="ACADEMICO" />
+          <Property Name="FolioSuperintendencia" Type="Int32" />
         </EntityType>
         <EntityType Name="USUARIO">
           <Key>
@@ -1189,6 +1191,7 @@
           <EntitySetMapping Name="SOCIO">
             <EntityTypeMapping TypeName="RCSTecMed_Model.SOCIO">
               <MappingFragment StoreEntitySet="SOCIO">
+                <ScalarProperty Name="FolioSuperintendencia" ColumnName="FolioSuperintendencia" />
                 <ScalarProperty Name="IdEstadoSocio" ColumnName="IdEstadoSocio" />
                 <ScalarProperty Name="Rut" ColumnName="Rut" />
                 <ScalarProperty Name="Dv" ColumnName="Dv" />

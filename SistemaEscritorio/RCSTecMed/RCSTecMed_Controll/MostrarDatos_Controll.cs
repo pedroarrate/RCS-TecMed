@@ -20,6 +20,14 @@ namespace RCSTecMed_Controll
             return cu.ReadId()
                 ? $"{cu.ApellidoPaterno} {cu.Nombre}"
                 : "Usuario No encontrado";
+        }
+
+        public int TotalSociosRegistrados()
+        {
+            using (var db = new RCSTecMed_Entities())
+            {
+                return db.SOCIO.Count();
+            }
 
         }
     }
