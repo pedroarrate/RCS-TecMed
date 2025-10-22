@@ -67,5 +67,30 @@ namespace RCSTecMed_View
         {
 
         }
+
+        private void TXT_Rut_KeyDown(object sender, KeyEventArgs e)
+        {
+
+        }
+
+        private void TXT_Dv_KeyDown(object sender, KeyEventArgs e)
+        {
+
+        }
+
+        private void TXT_ApellidoPaterno_KeyDown(object sender, KeyEventArgs e)
+        {
+
+        }
+
+        private void TXT_ApellidoMaterno_KeyDown(object sender, KeyEventArgs e)
+        {
+
+        }
+
+        private void TXT_Nombres_KeyDown(object sender, KeyEventArgs e)
+        {
+
+        }
     }
 }

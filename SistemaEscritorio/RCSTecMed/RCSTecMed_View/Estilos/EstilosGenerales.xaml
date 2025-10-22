@@ -126,6 +126,20 @@
         </Setter>
     </Style>
 
+    <!-- Estilo Datepicker fonfo transparente y bordes blancos inferior y derecho -->
+    <Style x:Key="DatePickerBordeInferiorDerechoBlanco" TargetType="DatePicker">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="White"/>
+        <Setter Property="BorderThickness" Value="0,0,2,2"/>
+        <!-- <Setter Property="FontFamily" Value="Arial"/> -->
+        <!-- <Setter Property="FontSize" Value="15"/> -->
+        <Setter Property="Foreground" Value="Black"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+    </Style>
+
+
+
 
     <!-- Puedes agregar más estilos aquí -->
 
