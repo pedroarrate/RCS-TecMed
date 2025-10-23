@@ -21,7 +21,7 @@
         </Grid.Background>
         <Grid.RowDefinitions>
             <RowDefinition Height="100"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="200"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
@@ -46,9 +46,9 @@
                    Margin="10,0,0,0" FontStyle="Italic" Grid.Row="0"/>
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="13"/>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="13"/>
                 </Grid.ColumnDefinitions>
                 <Border CornerRadius="10" BorderBrush="White" BorderThickness="2" Background="Transparent" Grid.Column="1"/>
                 <Grid Grid.Column="1">
@@ -72,32 +72,108 @@
                              Foreground="Azure" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" 
                              Margin="790,25,0,0" KeyDown="TXT_Nombres_KeyDown" IsEnabled="False"/>
                     <Label Content="FECHA NACIMIENTO" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="10" FontWeight="Bold" Foreground="White" Margin="1110,5,0,0"/>
-                    <DatePicker x:Name="DP_FechaNacimiento" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Width="120" FontFamily="Arial" FontSize="15" Margin="1115,25,0,0"
+                    <DatePicker x:Name="DP_FechaNacimiento" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Width="120" FontFamily="Arial" FontSize="13" Margin="1115,25,0,0"
                                 Style="{StaticResource DatePickerBordeInferiorDerechoBlanco}"/>
                     <Label Content="N° REG. SUPERINTENEDENCIA" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="10" FontWeight="Bold" Foreground="Wheat" 
                            Margin="1260,5,0,0"/>
-                    <TextBox x:Name="TXT_RegistroSuperintendencia" Height="20" Width="180" FontFamily="Arial" FontSize="15" FontWeight="Bold" Style="{StaticResource WhiteTextBoxStyle}" Background="Transparent"
+                    <TextBox x:Name="TXT_RegistroSuperintendencia" Height="20" Width="160" FontFamily="Arial" FontSize="15" FontWeight="Bold" Style="{StaticResource WhiteTextBoxStyle}" Background="Transparent"
                              Foreground="Wheat" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" 
                              Margin="1260,25,0,0" IsEnabled="False"/>
+                    <Label Content="NACIONALIDAD" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="10" FontWeight="Bold" Foreground="White" 
+                             Margin="1440,5,0,0"/>
+                    <ComboBox x:Name="CB_Nacionalidad" Height="20" Width="200" FontFamily="Arial" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Left"
+                              VerticalContentAlignment="Center" Margin="1440,25,0,0"/>
+                    <Label Content="DOMICILIO" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="10" FontWeight="Bold" Foreground="White" Margin="5,60,0,0"/>
+                    <TextBox x:Name="TXT_Domicilio" Height="20" Width="445" FontFamily="Arial" FontSize="15" Style="{StaticResource WhiteTextBoxStyle}" Background="Transparent"
+                             Foreground="Azure" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" 
+                             Margin="5,80,0,0" KeyDown="TXT_Domicilio_KeyDown"/>
+                    <Label Content="REGION" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontWeight="Bold" FontSize="10" Foreground="White" Margin="470,60,0,0"/>
+                    <ComboBox x:Name="CB_Region" Height="20" Width="300" FontFamily="Arial" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Left"
+                              VerticalContentAlignment="Center" Margin="470,80,0,0" SelectionChanged="CB_Region_SelectionChanged"/>
+                    <Label Content="COMUNA" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontWeight="Bold" FontSize="10" Foreground="White" Margin="790,60,0,0"/>
+                    <ComboBox x:Name="CB_Comuna" Height="20" Width="300" FontFamily="Arial" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Left"
+                              VerticalContentAlignment="Center" Margin="790,80,0,0"/>
+                    <Label Content="EMAIL (Correo Electrónico)" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontWeight="Bold" FontSize="10" Foreground="White" Margin="1115,60,0,0"/>
+                    <TextBox x:Name="TXT_EMail" Height="20" Width="525" FontFamily="Arial" FontSize="15" Style="{StaticResource WhiteTextBoxStyle}" Background="Transparent"
+                             Foreground="Azure" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" 
+                             Margin="1115,80,0,0" KeyDown="TXT_EMail_KeyDown"/>
+                    <Label Content="TELÉFONO FIJO" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="10" FontWeight="Bold" Foreground="White" Margin="5,110,0,0"/>
+                    <TextBox x:Name="TXT_FonoFijo" Height="20" Width="200" FontFamily="Arial" FontSize="15" Style="{StaticResource WhiteTextBoxStyle}" Background="Transparent"
+                             Foreground="Azure" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" 
+                             Margin="5,130,0,0" KeyDown="TXT_FonoFijo_KeyDown"/>
+                    <Label Content="TELÉFONO MÓVIL" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="10" FontWeight="Bold" Foreground="White" Margin="230,110,0,0"/>
+                    <TextBox x:Name="TXT_FonoMovil" Height="20" Width="200" FontFamily="Arial" FontSize="15" Style="{StaticResource WhiteTextBoxStyle}" Background="Transparent"
+                             Foreground="Azure" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" 
+                             Margin="230,130,0,0" KeyDown="TXT_FonoMovil_KeyDown"/>
+
                 </Grid>
-
-
             </Grid>
         </Grid>
 
         <Grid Grid.Row="2">
-            <Label Content="ANTECEDENTES ACADÉMICOS" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="20" FontWeight="Black" Foreground="LightGoldenrodYellow" 
-                   Margin="10,0,0,0" FontStyle="Italic"/>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="35"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="5"/>
+            </Grid.RowDefinitions>
+            <Label Content="ANTECEDENTES ACADÉMICOS" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="20" FontWeight="Black" Foreground="LightGoldenrodYellow"
+                   Margin="10,0,0,0" FontStyle="Italic" Grid.Row="0"/>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="25"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="25"/>
+                </Grid.ColumnDefinitions>
+                <Border CornerRadius="10" BorderBrush="White" BorderThickness="2" Background="Transparent" Grid.Column="1"/>
+                <Grid Grid.Column="1">
+
+
+                </Grid>
+            </Grid>
         </Grid>
 
         <Grid Grid.Row="3">
-            <Label Content="ANTECEDENTES LABORALES" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="20" FontWeight="Black" Foreground="LightGoldenrodYellow" 
-                   Margin="10,0,0,0" FontStyle="Italic"/>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="35"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="5"/>
+            </Grid.RowDefinitions>
+            <Label Content="ANTECEDENTES LABORALES" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="20" FontWeight="Black" Foreground="LightGoldenrodYellow"
+                   Margin="10,0,0,0" FontStyle="Italic" Grid.Row="0"/>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="25"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="25"/>
+                </Grid.ColumnDefinitions>
+                <Border CornerRadius="10" BorderBrush="White" BorderThickness="2" Background="Transparent" Grid.Column="1"/>
+                <Grid Grid.Column="1">
+
+
+                </Grid>
+            </Grid>
         </Grid>
 
         <Grid Grid.Row="4">
-            <Label Content="TIPO DE DESCUENTO" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="20" FontWeight="Black" Foreground="LightGoldenrodYellow" 
-                   Margin="10,0,0,0" FontStyle="Italic"/>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="35"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="5"/>
+            </Grid.RowDefinitions>
+            <Label Content="TIPO DE DESCUENTO" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="20" FontWeight="Black" Foreground="LightGoldenrodYellow"
+       Margin="10,0,0,0" FontStyle="Italic" Grid.Row="0"/>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="25"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="25"/>
+                </Grid.ColumnDefinitions>
+                <Border CornerRadius="10" BorderBrush="White" BorderThickness="2" Background="Transparent" Grid.Column="1"/>
+                <Grid Grid.Column="1">
+
+
+                </Grid>
+            </Grid>
         </Grid>
         <Grid Grid.Row="5">
             <Grid.ColumnDefinitions>

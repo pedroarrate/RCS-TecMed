@@ -92,5 +92,30 @@ namespace RCSTecMed_View
         {
 
         }
+
+        private void TXT_Domicilio_KeyDown(object sender, KeyEventArgs e)
+        {
+
+        }
+
+        private void CB_Region_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void TXT_EMail_KeyDown(object sender, KeyEventArgs e)
+        {
+
+        }
+
+        private void TXT_FonoFijo_KeyDown(object sender, KeyEventArgs e)
+        {
+
+        }
+
+        private void TXT_FonoMovil_KeyDown(object sender, KeyEventArgs e)
+        {
+
+        }
     }
 }
