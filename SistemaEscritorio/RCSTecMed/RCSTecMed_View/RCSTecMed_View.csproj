@@ -69,11 +69,29 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CentroAcademico_UserControl.xaml.cs">
+      <DependentUpon>CentroAcademico_UserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Certificaciones_UserControl.xaml.cs">
+      <DependentUpon>Certificaciones_UserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ListadoSociosRegistrados_UserControl.xaml.cs">
+      <DependentUpon>ListadoSociosRegistrados_UserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LugarTrabajo_UserControl.xaml.cs">
+      <DependentUpon>LugarTrabajo_UserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="RegistroSocio_UserControl.xaml.cs">
       <DependentUpon>RegistroSocio_UserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TipoCertificacion_UserControl.xaml.cs">
+      <DependentUpon>TipoCertificacion_UserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View_CambiarContraseña.xaml.cs">
       <DependentUpon>View_CambiarContraseña.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View_CompletarDatosRegistroSocio.xaml.cs">
+      <DependentUpon>View_CompletarDatosRegistroSocio.xaml</DependentUpon>
     </Compile>
     <Compile Include="View_LogIn.xaml.cs">
       <DependentUpon>View_LogIn.xaml</DependentUpon>
@@ -84,7 +102,23 @@
     <Compile Include="View_RecuperarContraseña.xaml.cs">
       <DependentUpon>View_RecuperarContraseña.xaml</DependentUpon>
     </Compile>
+    <Page Include="CentroAcademico_UserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Certificaciones_UserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Estilos\EstilosGenerales.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ListadoSociosRegistrados_UserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LugarTrabajo_UserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -104,7 +138,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="TipoCertificacion_UserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View_CambiarContraseña.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View_CompletarDatosRegistroSocio.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

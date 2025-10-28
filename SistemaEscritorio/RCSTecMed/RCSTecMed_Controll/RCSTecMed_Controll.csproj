@@ -64,6 +64,7 @@
     <Compile Include="Controll_ESTABLECIMIENTOACTUAL.cs" />
     <Compile Include="Controll_ESTADOSOCIO.cs" />
     <Compile Include="Controll_ESTADOUSUARIO.cs" />
+    <Compile Include="Controll_ESTIMADOPAGO.cs" />
     <Compile Include="Controll_FORMAPAGO.cs" />
     <Compile Include="Controll_HISTORICOPAGO.cs" />
     <Compile Include="Controll_NACIONALIDAD.cs" />

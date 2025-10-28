@@ -28,6 +28,7 @@ namespace RCSTecMed_Controll
         public int IdUsuario { get; set; }
         public int IdEstadoSocio { get; set; }
         public Nullable<int> FolioSuperintendencia { get; set; }
+        public int IdEstimadoPago { get; set; }
 
         /*VARIABLES COMPLEMENTARIAS*/
         public string FechaNacimientoMostrar { get; set; }
@@ -41,6 +42,9 @@ namespace RCSTecMed_Controll
         public string _nombreUsuario { get { return NombreUsuario; } }
         string DescripcionEstadoSocio;
         public string _descripcionEstadoSocio { get { return DescripcionEstadoSocio; } }
+        string NombreEstimadoPago;
+        public string _nombreEstimadoPago { get { return NombreEstimadoPago; } }
+
 
         private void Init() //INICIALIZADOR DE LA CLASE
         {
@@ -63,6 +67,7 @@ namespace RCSTecMed_Controll
             IdUsuario = 0;
             IdEstadoSocio = 0;
             FolioSuperintendencia = null;
+            IdEstimadoPago = 0;
 
             /*VARIABLES COMPLEMENTARIAS*/
             FechaNacimientoMostrar = string.Empty;
@@ -71,6 +76,7 @@ namespace RCSTecMed_Controll
             DescripcionFormaPago = string.Empty;
             NombreUsuario = string.Empty;
             DescripcionEstadoSocio = string.Empty;
+            NombreEstimadoPago = string.Empty;
         }
 
         public Controll_SOCIO() { Init(); } //CONSTRUTOR DE LA CLASE
@@ -125,6 +131,12 @@ namespace RCSTecMed_Controll
             DescripcionEstadoSocio = es.ReadId() ? es.DescripcionEstadoSocio ?? string.Empty : string.Empty;
         }
 
+        private void ObtenerEstimadoPago()
+        {
+            var ep = new Controll_ESTIMADOPAGO { IdEstimadoPago = IdEstimadoPago };
+            NombreEstimadoPago = ep.ReadId() ? ep.DescripcionEstimadoPago ?? string.Empty : string.Empty;
+        }
+
         /*METODOS DE CRUD*/
         public bool Create() //CREA REGISTRO QUE SE GRABA EN LA BASE DE DATOS
         {
@@ -161,6 +173,7 @@ namespace RCSTecMed_Controll
                     ObtenerFormaPago();
                     ObtenerUsuario();
                     ObtenerEstadoSocio();
+                    ObtenerEstimadoPago();
 
                     return true;
                 }
@@ -187,6 +200,7 @@ namespace RCSTecMed_Controll
                     ObtenerFormaPago();
                     ObtenerUsuario();
                     ObtenerEstadoSocio();
+                    ObtenerEstimadoPago();
 
                     return true;
                 }
@@ -316,6 +330,8 @@ namespace RCSTecMed_Controll
                 soc.ObtenerFormaPago();
                 soc.ObtenerUsuario();
                 soc.ObtenerEstadoSocio();
+                soc.ObtenerEstimadoPago();
+
                 listaSocio.Add(soc);
             }
             return listaSocio;

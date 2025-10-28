@@ -17,6 +17,7 @@ namespace RCSTecMed_Controll
         /*VARIABLES COMPLEMENTARIAS*/
         string NombreUsuario;
         public string _nombreUsuario { get {  return NombreUsuario; } }
+        
 
         private void Init() //INICIALIZADOR DE LA CLASE
         {
@@ -36,7 +37,7 @@ namespace RCSTecMed_Controll
         {
             var eu = new Controll_USUARIO { IdUsuario = IdUsuario };
             NombreUsuario = eu.ReadId() ? eu.UserName ?? string.Empty : string.Empty;
-        }
+        }        
 
         /*METODOS DE CRUD*/
         public bool Create() //CREA REGISTRO QUE SE GRABA EN LA BASE DE DATOS
@@ -182,6 +183,7 @@ namespace RCSTecMed_Controll
                 Controll_FORMAPAGO fp = new Controll_FORMAPAGO();
                 CommonDB.Synchronize(data, fp);
                 fp.ObtenerUsuario();
+
                 listaFormaPago.Add(fp);
             }
             return listaFormaPago;

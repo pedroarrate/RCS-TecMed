@@ -1,0 +1,167 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using RCSTecMed_Model;
+
+namespace RCSTecMed_Controll
+{
+    public class Controll_ESTIMADOPAGO
+    {
+        /*ATRIBUSTOS DE LA TABLA*/
+        public int IdEstimadoPago { get; set; }
+        public string DescripcionEstimadoPago { get; set; }
+        public int IdUsuario { get; set; }
+
+        private void Init() //INICIALIZACION DE LOS ATRIBUTOS
+        {
+            IdEstimadoPago = 0;
+            DescripcionEstimadoPago = string.Empty;
+            IdUsuario = 0;
+        }
+
+        public Controll_ESTIMADOPAGO() { Init(); } //CONSTRUCTOR DE LA CLASE
+
+        //METODOS DE CRUD
+        public bool Create() //CREA REGISTRO QUE SE GRABA EN LA BASE DE DATOS
+        {            
+            using (RCSTecMed_Entities db = new RCSTecMed_Entities())
+            {
+                ESTIMADOPAGO ep = new ESTIMADOPAGO();
+                try
+                {
+                    CommonDB.Synchronize(this, ep);
+                    db.ESTIMADOPAGO.Add(ep);
+                    return true;
+                }
+                catch (Exception)
+                {
+                    return false;
+                    throw;
+                }
+            }
+        }
+
+        public bool ReadId() //BUSCA UN REGISTRO GRABADO EN LA BASE DE DATOS A TRAVEZ DEL ID
+        {            
+            using (RCSTecMed_Entities db = new RCSTecMed_Entities())
+            {
+                try
+                {
+                    ESTIMADOPAGO ep = db.ESTIMADOPAGO.FirstOrDefault(x => x.IdEstimadoPago == IdEstimadoPago);
+                    if (ep == null)
+                        return false;
+
+                    CommonDB.Synchronize(ep, this);
+                    return true;
+                }
+                catch (Exception)
+                {
+                    return false;
+                    throw;
+                }
+            }
+        }
+
+        public bool Update() //ACTUALIZA UN REGISTRO EN LA BASE DE DATOS
+        {
+            using (RCSTecMed_Entities db = new RCSTecMed_Entities())
+            {
+                try
+                {
+                    ESTIMADOPAGO ep = db.ESTIMADOPAGO.FirstOrDefault(x => x.IdEstimadoPago == IdEstimadoPago);
+                    if (ep == null)
+                        return false;
+
+                    CommonDB.Synchronize(this, ep);
+                    db.SaveChanges();
+                    return true;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            }
+        }
+
+        public bool Delete() //ELIMINA UN REGISTRO DE LA BASE DE DATOS
+        {
+            using (RCSTecMed_Entities db = new RCSTecMed_Entities())
+            {
+                try
+                {
+                    ESTIMADOPAGO ep = db.ESTIMADOPAGO.FirstOrDefault(x => x.IdEstimadoPago == IdEstimadoPago);
+                    if (ep == null)
+                        return false;
+
+                    db.ESTIMADOPAGO.Remove(ep);
+                    db.SaveChanges();
+                    return true;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            }
+        }
+
+        /*METODOS DE LISTADOS*/
+        public List<Controll_ESTIMADOPAGO> ReadAll() //MUESTRA LISTA DE REGISTROS DE LA BASE DE DATOS
+        {
+            RCSTecMed_Entities db = new RCSTecMed_Entities();
+            try
+            {
+                List<ESTIMADOPAGO> listaDatos = db.ESTIMADOPAGO.ToList<ESTIMADOPAGO>();
+                List<Controll_ESTIMADOPAGO> listaEstimadoPago = GenerarLista(listaDatos);
+                return listaEstimadoPago;
+            }
+            catch (Exception)
+            {
+                return new List<Controll_ESTIMADOPAGO>();
+            }
+        }
+
+        public List<Controll_ESTIMADOPAGO> ListaEstimadoPagoOrdenado() //MUESTRA LISTA DE REGISTROS DE LA BASE DE DATOS ORDENADA POR DESCRIPCION
+        {
+            RCSTecMed_Entities db = new RCSTecMed_Entities();
+            try
+            {
+                List<ESTIMADOPAGO> listaDatos = db.ESTIMADOPAGO.ToList<ESTIMADOPAGO>();
+                List<Controll_ESTIMADOPAGO> listaEstimadoPago = GenerarLista(listaDatos);
+                listaEstimadoPago = listaEstimadoPago.OrderBy(x => x.DescripcionEstimadoPago).ToList();
+                return listaEstimadoPago;
+            }
+            catch (Exception)
+            {
+                return new List<Controll_ESTIMADOPAGO>();
+            }
+        }
+
+        private List<Controll_ESTIMADOPAGO> GenerarLista(List<ESTIMADOPAGO> dataList) //GENERA LISTA DE REGISTROS DE LA BASE DE DATOS A MOSTRAR
+        {
+            List<Controll_ESTIMADOPAGO> listaEstimadoPago = new List<Controll_ESTIMADOPAGO>();
+            foreach (ESTIMADOPAGO data in dataList)
+            {
+                Controll_ESTIMADOPAGO es = new Controll_ESTIMADOPAGO();
+                CommonDB.Synchronize(data, es);
+                listaEstimadoPago.Add(es);
+            }
+            return listaEstimadoPago;
+        }
+
+        // OTROS METODOS
+        public int AsignarId() //GENERA AUTOMATICAMENTE ID O CODIGO DE REGISTRO
+        {
+            using (RCSTecMed_Entities db = new RCSTecMed_Entities())
+            {
+                int ultimoId = db.ESTIMADOPAGO
+                    .OrderByDescending(x => x.IdEstimadoPago)
+                    .Select(x => x.IdEstimadoPago)
+                    .FirstOrDefault();
+
+                return ultimoId + 1;
+            }
+        }
+    }
+}

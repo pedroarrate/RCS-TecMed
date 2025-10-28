@@ -18,6 +18,8 @@ namespace RCSTecMed_Controll
         public string DescripcionAcademico { get; set; }
         public string FolioRegistroAcademico { get; set; }
         public int IdUsuario { get; set; }
+        public Nullable<decimal> Nota { get; set; }
+        public Nullable<int> Horas { get; set; }
 
         /*VARIABLES COMPLEMENTARIA*/
         public string FechaRegistro { get; set; }
@@ -41,6 +43,8 @@ namespace RCSTecMed_Controll
             DescripcionAcademico = string.Empty;
             FolioRegistroAcademico = string.Empty;
             IdUsuario = 0;
+            Nota = null;
+            Horas = null;
 
             /*VARIABLES COMPLEMENTARIAS*/
             FechaRegistro = string.Empty;

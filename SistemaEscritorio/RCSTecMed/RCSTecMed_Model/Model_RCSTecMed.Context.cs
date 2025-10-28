@@ -29,7 +29,6 @@ namespace RCSTecMed_Model
         public virtual DbSet<ESTABLECIMIENTO> ESTABLECIMIENTO { get; set; }
         public virtual DbSet<ESTABLECIMIENTO_ACTUAL> ESTABLECIMIENTO_ACTUAL { get; set; }
         public virtual DbSet<ESTADO_USUARIO> ESTADO_USUARIO { get; set; }
-        public virtual DbSet<FORMAPAGO> FORMAPAGO { get; set; }
         public virtual DbSet<HISTORICO_PAGO> HISTORICO_PAGO { get; set; }
         public virtual DbSet<NACIONALIDAD> NACIONALIDAD { get; set; }
         public virtual DbSet<REGION> REGION { get; set; }
@@ -43,5 +42,7 @@ namespace RCSTecMed_Model
         public virtual DbSet<ACADEMICO> ACADEMICO { get; set; }
         public virtual DbSet<CENTRO_ACADEMICO> CENTRO_ACADEMICO { get; set; }
         public virtual DbSet<CERTIFICACION> CERTIFICACION { get; set; }
+        public virtual DbSet<FORMAPAGO> FORMAPAGO { get; set; }
+        public virtual DbSet<ESTIMADOPAGO> ESTIMADOPAGO { get; set; }
     }
 }

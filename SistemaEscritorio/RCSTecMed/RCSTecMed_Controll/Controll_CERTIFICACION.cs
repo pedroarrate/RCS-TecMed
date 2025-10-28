@@ -13,17 +13,17 @@ namespace RCSTecMed_Controll
         public int IdCertificacion { get; set; }
         public string DescripcionCertificacion { get; set; }
         public int IdUsuario { get; set; }
-
+        
         /*VARIABLES COMPLEMENTARIAS*/
         string NombreUsuario;
-        public string _nombreUsuario { get { return NombreUsuario; } }
+        public string UsuarioNombre { get { return NombreUsuario; } }
 
         private void Init() //INICIALIZADOR DE LA CLASE
         {
             /*ATRIBUTOS DE LA TABLA*/
             IdCertificacion = 0;
             DescripcionCertificacion = string.Empty;
-            IdUsuario = 0;
+            IdUsuario = 0;            
 
             /*VARIBLAES COMPLEMENTARIAS*/
             NombreUsuario = string.Empty;

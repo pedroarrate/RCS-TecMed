@@ -17,6 +17,8 @@
           <Property Name="DescripcionAcademico" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="FolioRegistroAcademico" Type="nvarchar" MaxLength="100" />
           <Property Name="IdUsuario" Type="int" Nullable="false" />
+          <Property Name="Nota" Type="numeric" Precision="1" Scale="1" />
+          <Property Name="Horas" Type="int" />
         </EntityType>
         <EntityType Name="CENTRO_ACADEMICO">
           <Key>
@@ -82,6 +84,14 @@
           </Key>
           <Property Name="IdEstado" Type="int" Nullable="false" />
           <Property Name="EstadoUsuario" Type="nvarchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ESTIMADOPAGO">
+          <Key>
+            <PropertyRef Name="IdEstimadoPago" />
+          </Key>
+          <Property Name="IdEstimadoPago" Type="int" Nullable="false" />
+          <Property Name="DescripcionEstimadoPago" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="IdUsuario" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="FORMAPAGO">
           <Key>
@@ -174,6 +184,7 @@
           <Property Name="ObservacionPagocuota" Type="nvarchar" MaxLength="100" />
           <Property Name="IdEstadoSocio" Type="int" Nullable="false" />
           <Property Name="IdUsuario" Type="int" Nullable="false" />
+          <Property Name="IdEstimadoPago" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="USUARIO">
           <Key>
@@ -338,6 +349,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_SOCIO_ESTIMADOPAGO">
+          <End Role="ESTIMADOPAGO" Type="Self.ESTIMADOPAGO" Multiplicity="1" />
+          <End Role="SOCIO" Type="Self.SOCIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ESTIMADOPAGO">
+              <PropertyRef Name="IdEstimadoPago" />
+            </Principal>
+            <Dependent Role="SOCIO">
+              <PropertyRef Name="IdEstimadoPago" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_SOCIO_FORMAPAGO">
           <End Role="FORMAPAGO" Type="Self.FORMAPAGO" Multiplicity="1" />
           <End Role="SOCIO" Type="Self.SOCIO" Multiplicity="*" />
@@ -431,6 +454,7 @@
           <EntitySet Name="ESTABLECIMIENTO_ACTUAL" EntityType="Self.ESTABLECIMIENTO_ACTUAL" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ESTADO_SOCIO" EntityType="Self.ESTADO_SOCIO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ESTADO_USUARIO" EntityType="Self.ESTADO_USUARIO" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ESTIMADOPAGO" EntityType="Self.ESTIMADOPAGO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FORMAPAGO" EntityType="Self.FORMAPAGO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HISTORICO_PAGO" EntityType="Self.HISTORICO_PAGO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NACIONALIDAD" EntityType="Self.NACIONALIDAD" Schema="dbo" store:Type="Tables" />
@@ -483,6 +507,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_SOCIO_ESTADO_SOCIO" Association="Self.FK_SOCIO_ESTADO_SOCIO">
             <End Role="ESTADO_SOCIO" EntitySet="ESTADO_SOCIO" />
+            <End Role="SOCIO" EntitySet="SOCIO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SOCIO_ESTIMADOPAGO" Association="Self.FK_SOCIO_ESTIMADOPAGO">
+            <End Role="ESTIMADOPAGO" EntitySet="ESTIMADOPAGO" />
             <End Role="SOCIO" EntitySet="SOCIO" />
           </AssociationSet>
           <AssociationSet Name="FK_SOCIO_FORMAPAGO" Association="Self.FK_SOCIO_FORMAPAGO">
@@ -566,16 +594,6 @@
           <Property Name="EstadoUsuario" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="USUARIO" Relationship="Self.FK_USUARIO_ESTADO_USUARIO" FromRole="ESTADO_USUARIO" ToRole="USUARIO" />
         </EntityType>
-        <EntityType Name="FORMAPAGO">
-          <Key>
-            <PropertyRef Name="IdFormaPagoCuota" />
-          </Key>
-          <Property Name="IdFormaPagoCuota" Type="Int32" Nullable="false" />
-          <Property Name="DescripcionFormaPagoCuota" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="IdUsuario" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="HISTORICO_PAGO" Relationship="Self.FK_HISTORICO_PAGO_FORMAPAGO" FromRole="FORMAPAGO" ToRole="HISTORICO_PAGO" />
-          <NavigationProperty Name="SOCIO" Relationship="Self.FK_SOCIO_FORMAPAGO" FromRole="FORMAPAGO" ToRole="SOCIO" />
-        </EntityType>
         <EntityType Name="HISTORICO_PAGO">
           <Key>
             <PropertyRef Name="IdHistoricoPago" />
@@ -588,8 +606,8 @@
           <Property Name="AnnoMesCancekadi" Type="Int32" Nullable="false" />
           <Property Name="ValorCancelado" Type="Int32" Nullable="false" />
           <Property Name="IdUsuario" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="FORMAPAGO" Relationship="Self.FK_HISTORICO_PAGO_FORMAPAGO" FromRole="HISTORICO_PAGO" ToRole="FORMAPAGO" />
           <NavigationProperty Name="SOCIO" Relationship="Self.FK_HISTORICO_PAGO_SOCIO" FromRole="HISTORICO_PAGO" ToRole="SOCIO" />
+          <NavigationProperty Name="FORMAPAGO" Relationship="RCSTecMed_Model.FK_HISTORICO_PAGO_FORMAPAGO" FromRole="HISTORICO_PAGO" ToRole="FORMAPAGO" />
         </EntityType>
         <EntityType Name="NACIONALIDAD">
           <Key>
@@ -665,13 +683,15 @@
           <Property Name="IdUsuario" Type="Int32" Nullable="false" />
           <NavigationProperty Name="COMUNA" Relationship="Self.FK_SOCIO_COMUNA" FromRole="SOCIO" ToRole="COMUNA" />
           <NavigationProperty Name="ESTABLECIMIENTO_ACTUAL" Relationship="Self.FK_ESTABLECIMIENTO_ACTUAL_SOCIO" FromRole="SOCIO" ToRole="ESTABLECIMIENTO_ACTUAL" />
-          <NavigationProperty Name="FORMAPAGO" Relationship="Self.FK_SOCIO_FORMAPAGO" FromRole="SOCIO" ToRole="FORMAPAGO" />
           <NavigationProperty Name="HISTORICO_PAGO" Relationship="Self.FK_HISTORICO_PAGO_SOCIO" FromRole="SOCIO" ToRole="HISTORICO_PAGO" />
           <NavigationProperty Name="NACIONALIDAD" Relationship="Self.FK_SOCIO_NACIONALIDAD" FromRole="SOCIO" ToRole="NACIONALIDAD" />
           <Property Name="IdEstadoSocio" Type="Int32" Nullable="false" />
           <NavigationProperty Name="ESTADO_SOCIO" Relationship="RCSTecMed_Model.FK_SOCIO_ESTADO_SOCIO" FromRole="SOCIO" ToRole="ESTADO_SOCIO" />
           <NavigationProperty Name="ACADEMICO" Relationship="RCSTecMed_Model.FK_ACADEMICO_SOCIO" FromRole="SOCIO" ToRole="ACADEMICO" />
           <Property Name="FolioSuperintendencia" Type="Int32" />
+          <Property Name="IdEstimadoPago" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="FORMAPAGO" Relationship="RCSTecMed_Model.FK_SOCIO_FORMAPAGO" FromRole="SOCIO" ToRole="FORMAPAGO" />
+          <NavigationProperty Name="ESTIMADOPAGO" Relationship="RCSTecMed_Model.FK_SOCIO_ESTIMADOPAGO" FromRole="SOCIO" ToRole="ESTIMADOPAGO" />
         </EntityType>
         <EntityType Name="USUARIO">
           <Key>
@@ -783,30 +803,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_HISTORICO_PAGO_FORMAPAGO">
-          <End Role="FORMAPAGO" Type="Self.FORMAPAGO" Multiplicity="1" />
-          <End Role="HISTORICO_PAGO" Type="Self.HISTORICO_PAGO" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="FORMAPAGO">
-              <PropertyRef Name="IdFormaPagoCuota" />
-            </Principal>
-            <Dependent Role="HISTORICO_PAGO">
-              <PropertyRef Name="IdFormaPagoCuota" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_SOCIO_FORMAPAGO">
-          <End Role="FORMAPAGO" Type="Self.FORMAPAGO" Multiplicity="1" />
-          <End Role="SOCIO" Type="Self.SOCIO" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="FORMAPAGO">
-              <PropertyRef Name="IdFormaPagoCuota" />
-            </Principal>
-            <Dependent Role="SOCIO">
-              <PropertyRef Name="IdFormaPagoCuota" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_HISTORICO_PAGO_SOCIO">
           <End Role="SOCIO" Type="Self.SOCIO" Multiplicity="1" />
           <End Role="HISTORICO_PAGO" Type="Self.HISTORICO_PAGO" Multiplicity="*" />
@@ -884,7 +880,6 @@
           <EntitySet Name="ESTABLECIMIENTO" EntityType="Self.ESTABLECIMIENTO" />
           <EntitySet Name="ESTABLECIMIENTO_ACTUAL" EntityType="Self.ESTABLECIMIENTO_ACTUAL" />
           <EntitySet Name="ESTADO_USUARIO" EntityType="Self.ESTADO_USUARIO" />
-          <EntitySet Name="FORMAPAGO" EntityType="Self.FORMAPAGO" />
           <EntitySet Name="HISTORICO_PAGO" EntityType="Self.HISTORICO_PAGO" />
           <EntitySet Name="NACIONALIDAD" EntityType="Self.NACIONALIDAD" />
           <EntitySet Name="REGION" EntityType="Self.REGION" />
@@ -918,14 +913,6 @@
             <End Role="ESTADO_USUARIO" EntitySet="ESTADO_USUARIO" />
             <End Role="USUARIO" EntitySet="USUARIO" />
           </AssociationSet>
-          <AssociationSet Name="FK_HISTORICO_PAGO_FORMAPAGO" Association="Self.FK_HISTORICO_PAGO_FORMAPAGO">
-            <End Role="FORMAPAGO" EntitySet="FORMAPAGO" />
-            <End Role="HISTORICO_PAGO" EntitySet="HISTORICO_PAGO" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SOCIO_FORMAPAGO" Association="Self.FK_SOCIO_FORMAPAGO">
-            <End Role="FORMAPAGO" EntitySet="FORMAPAGO" />
-            <End Role="SOCIO" EntitySet="SOCIO" />
-          </AssociationSet>
           <AssociationSet Name="FK_HISTORICO_PAGO_SOCIO" Association="Self.FK_HISTORICO_PAGO_SOCIO">
             <End Role="SOCIO" EntitySet="SOCIO" />
             <End Role="HISTORICO_PAGO" EntitySet="HISTORICO_PAGO" />
@@ -957,18 +944,32 @@
           </AssociationSet>
           <EntitySet Name="ACADEMICO" EntityType="RCSTecMed_Model.ACADEMICO" />
           <EntitySet Name="CENTRO_ACADEMICO" EntityType="RCSTecMed_Model.CENTRO_ACADEMICO" />
-          <EntitySet Name="CERTIFICACION" EntityType="RCSTecMed_Model.CERTIFICACION" />
           <AssociationSet Name="FK_ACADEMICO_CENTRO_ACADEMICO" Association="RCSTecMed_Model.FK_ACADEMICO_CENTRO_ACADEMICO">
             <End Role="CENTRO_ACADEMICO" EntitySet="CENTRO_ACADEMICO" />
-            <End Role="ACADEMICO" EntitySet="ACADEMICO" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ACADEMICO_CERTIDICACION" Association="RCSTecMed_Model.FK_ACADEMICO_CERTIDICACION">
-            <End Role="CERTIFICACION" EntitySet="CERTIFICACION" />
             <End Role="ACADEMICO" EntitySet="ACADEMICO" />
           </AssociationSet>
           <AssociationSet Name="FK_ACADEMICO_SOCIO" Association="RCSTecMed_Model.FK_ACADEMICO_SOCIO">
             <End Role="SOCIO" EntitySet="SOCIO" />
             <End Role="ACADEMICO" EntitySet="ACADEMICO" />
+          </AssociationSet>
+          <EntitySet Name="CERTIFICACION" EntityType="RCSTecMed_Model.CERTIFICACION" />
+          <AssociationSet Name="FK_ACADEMICO_CERTIDICACION" Association="RCSTecMed_Model.FK_ACADEMICO_CERTIDICACION">
+            <End Role="CERTIFICACION" EntitySet="CERTIFICACION" />
+            <End Role="ACADEMICO" EntitySet="ACADEMICO" />
+          </AssociationSet>
+          <EntitySet Name="FORMAPAGO" EntityType="RCSTecMed_Model.FORMAPAGO" />
+          <AssociationSet Name="FK_HISTORICO_PAGO_FORMAPAGO" Association="RCSTecMed_Model.FK_HISTORICO_PAGO_FORMAPAGO">
+            <End Role="FORMAPAGO" EntitySet="FORMAPAGO" />
+            <End Role="HISTORICO_PAGO" EntitySet="HISTORICO_PAGO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SOCIO_FORMAPAGO" Association="RCSTecMed_Model.FK_SOCIO_FORMAPAGO">
+            <End Role="FORMAPAGO" EntitySet="FORMAPAGO" />
+            <End Role="SOCIO" EntitySet="SOCIO" />
+          </AssociationSet>
+          <EntitySet Name="ESTIMADOPAGO" EntityType="RCSTecMed_Model.ESTIMADOPAGO" />
+          <AssociationSet Name="FK_SOCIO_ESTIMADOPAGO" Association="RCSTecMed_Model.FK_SOCIO_ESTIMADOPAGO">
+            <End Role="ESTIMADOPAGO" EntitySet="ESTIMADOPAGO" />
+            <End Role="SOCIO" EntitySet="SOCIO" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="ESTADO_SOCIO">
@@ -1004,8 +1005,10 @@
           <Property Name="FolioRegistroAcademico" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="IdUsuario" Type="Int32" Nullable="false" />
           <NavigationProperty Name="CENTRO_ACADEMICO" Relationship="RCSTecMed_Model.FK_ACADEMICO_CENTRO_ACADEMICO" FromRole="ACADEMICO" ToRole="CENTRO_ACADEMICO" />
-          <NavigationProperty Name="CERTIFICACION" Relationship="RCSTecMed_Model.FK_ACADEMICO_CERTIDICACION" FromRole="ACADEMICO" ToRole="CERTIFICACION" />
           <NavigationProperty Name="SOCIO" Relationship="RCSTecMed_Model.FK_ACADEMICO_SOCIO" FromRole="ACADEMICO" ToRole="SOCIO" />
+          <NavigationProperty Name="CERTIFICACION" Relationship="RCSTecMed_Model.FK_ACADEMICO_CERTIDICACION" FromRole="ACADEMICO" ToRole="CERTIFICACION" />
+          <Property Name="Nota" Type="Decimal" Precision="1" Scale="1" />
+          <Property Name="Horas" Type="Int32" />
         </EntityType>
         <EntityType Name="CENTRO_ACADEMICO">
           <Key>
@@ -1017,15 +1020,6 @@
           <Property Name="TelefonoCentroAcademico" Type="Int32" Nullable="false" />
           <Property Name="IdUsuario" Type="Int32" Nullable="false" />
           <NavigationProperty Name="ACADEMICO" Relationship="RCSTecMed_Model.FK_ACADEMICO_CENTRO_ACADEMICO" FromRole="CENTRO_ACADEMICO" ToRole="ACADEMICO" />
-        </EntityType>
-        <EntityType Name="CERTIFICACION">
-          <Key>
-            <PropertyRef Name="IdCertificacion" />
-          </Key>
-          <Property Name="IdCertificacion" Type="Int32" Nullable="false" />
-          <Property Name="DescripcionCertificacion" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
-          <Property Name="IdUsuario" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="ACADEMICO" Relationship="RCSTecMed_Model.FK_ACADEMICO_CERTIDICACION" FromRole="CERTIFICACION" ToRole="ACADEMICO" />
         </EntityType>
         <Association Name="FK_ACADEMICO_CENTRO_ACADEMICO">
           <End Type="RCSTecMed_Model.CENTRO_ACADEMICO" Role="CENTRO_ACADEMICO" Multiplicity="1" />
@@ -1039,6 +1033,27 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ACADEMICO_SOCIO">
+          <End Type="RCSTecMed_Model.SOCIO" Role="SOCIO" Multiplicity="1" />
+          <End Type="RCSTecMed_Model.ACADEMICO" Role="ACADEMICO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SOCIO">
+              <PropertyRef Name="Rut" />
+            </Principal>
+            <Dependent Role="ACADEMICO">
+              <PropertyRef Name="Rut" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="CERTIFICACION">
+          <Key>
+            <PropertyRef Name="IdCertificacion" />
+          </Key>
+          <Property Name="IdCertificacion" Type="Int32" Nullable="false" />
+          <Property Name="DescripcionCertificacion" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="IdUsuario" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ACADEMICO" Relationship="RCSTecMed_Model.FK_ACADEMICO_CERTIDICACION" FromRole="CERTIFICACION" ToRole="ACADEMICO" />
+        </EntityType>
         <Association Name="FK_ACADEMICO_CERTIDICACION">
           <End Type="RCSTecMed_Model.CERTIFICACION" Role="CERTIFICACION" Multiplicity="1" />
           <End Type="RCSTecMed_Model.ACADEMICO" Role="ACADEMICO" Multiplicity="*" />
@@ -1051,15 +1066,58 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_ACADEMICO_SOCIO">
-          <End Type="RCSTecMed_Model.SOCIO" Role="SOCIO" Multiplicity="1" />
-          <End Type="RCSTecMed_Model.ACADEMICO" Role="ACADEMICO" Multiplicity="*" />
+        <EntityType Name="FORMAPAGO">
+          <Key>
+            <PropertyRef Name="IdFormaPagoCuota" />
+          </Key>
+          <Property Name="IdFormaPagoCuota" Type="Int32" Nullable="false" />
+          <Property Name="DescripcionFormaPagoCuota" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IdUsuario" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="HISTORICO_PAGO" Relationship="RCSTecMed_Model.FK_HISTORICO_PAGO_FORMAPAGO" FromRole="FORMAPAGO" ToRole="HISTORICO_PAGO" />
+          <NavigationProperty Name="SOCIO" Relationship="RCSTecMed_Model.FK_SOCIO_FORMAPAGO" FromRole="FORMAPAGO" ToRole="SOCIO" />
+        </EntityType>
+        <Association Name="FK_HISTORICO_PAGO_FORMAPAGO">
+          <End Type="RCSTecMed_Model.FORMAPAGO" Role="FORMAPAGO" Multiplicity="1" />
+          <End Type="RCSTecMed_Model.HISTORICO_PAGO" Role="HISTORICO_PAGO" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="SOCIO">
-              <PropertyRef Name="Rut" />
+            <Principal Role="FORMAPAGO">
+              <PropertyRef Name="IdFormaPagoCuota" />
             </Principal>
-            <Dependent Role="ACADEMICO">
-              <PropertyRef Name="Rut" />
+            <Dependent Role="HISTORICO_PAGO">
+              <PropertyRef Name="IdFormaPagoCuota" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SOCIO_FORMAPAGO">
+          <End Type="RCSTecMed_Model.FORMAPAGO" Role="FORMAPAGO" Multiplicity="1" />
+          <End Type="RCSTecMed_Model.SOCIO" Role="SOCIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FORMAPAGO">
+              <PropertyRef Name="IdFormaPagoCuota" />
+            </Principal>
+            <Dependent Role="SOCIO">
+              <PropertyRef Name="IdFormaPagoCuota" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ESTIMADOPAGO">
+          <Key>
+            <PropertyRef Name="IdEstimadoPago" />
+          </Key>
+          <Property Name="IdEstimadoPago" Type="Int32" Nullable="false" />
+          <Property Name="DescripcionEstimadoPago" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IdUsuario" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="SOCIO" Relationship="RCSTecMed_Model.FK_SOCIO_ESTIMADOPAGO" FromRole="ESTIMADOPAGO" ToRole="SOCIO" />
+        </EntityType>
+        <Association Name="FK_SOCIO_ESTIMADOPAGO">
+          <End Type="RCSTecMed_Model.ESTIMADOPAGO" Role="ESTIMADOPAGO" Multiplicity="1" />
+          <End Type="RCSTecMed_Model.SOCIO" Role="SOCIO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ESTIMADOPAGO">
+              <PropertyRef Name="IdEstimadoPago" />
+            </Principal>
+            <Dependent Role="SOCIO">
+              <PropertyRef Name="IdEstimadoPago" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1110,15 +1168,6 @@
               <MappingFragment StoreEntitySet="ESTADO_USUARIO">
                 <ScalarProperty Name="IdEstado" ColumnName="IdEstado" />
                 <ScalarProperty Name="EstadoUsuario" ColumnName="EstadoUsuario" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="FORMAPAGO">
-            <EntityTypeMapping TypeName="RCSTecMed_Model.FORMAPAGO">
-              <MappingFragment StoreEntitySet="FORMAPAGO">
-                <ScalarProperty Name="IdFormaPagoCuota" ColumnName="IdFormaPagoCuota" />
-                <ScalarProperty Name="DescripcionFormaPagoCuota" ColumnName="DescripcionFormaPagoCuota" />
-                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1191,6 +1240,7 @@
           <EntitySetMapping Name="SOCIO">
             <EntityTypeMapping TypeName="RCSTecMed_Model.SOCIO">
               <MappingFragment StoreEntitySet="SOCIO">
+                <ScalarProperty Name="IdEstimadoPago" ColumnName="IdEstimadoPago" />
                 <ScalarProperty Name="FolioSuperintendencia" ColumnName="FolioSuperintendencia" />
                 <ScalarProperty Name="IdEstadoSocio" ColumnName="IdEstadoSocio" />
                 <ScalarProperty Name="Rut" ColumnName="Rut" />
@@ -1257,6 +1307,8 @@
           <EntitySetMapping Name="ACADEMICO">
             <EntityTypeMapping TypeName="RCSTecMed_Model.ACADEMICO">
               <MappingFragment StoreEntitySet="ACADEMICO">
+                <ScalarProperty Name="Horas" ColumnName="Horas" />
+                <ScalarProperty Name="Nota" ColumnName="Nota" />
                 <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
                 <ScalarProperty Name="FolioRegistroAcademico" ColumnName="FolioRegistroAcademico" />
                 <ScalarProperty Name="DescripcionAcademico" ColumnName="DescripcionAcademico" />
@@ -1285,6 +1337,24 @@
                 <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
                 <ScalarProperty Name="DescripcionCertificacion" ColumnName="DescripcionCertificacion" />
                 <ScalarProperty Name="IdCertificacion" ColumnName="IdCertificacion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FORMAPAGO">
+            <EntityTypeMapping TypeName="RCSTecMed_Model.FORMAPAGO">
+              <MappingFragment StoreEntitySet="FORMAPAGO">
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="DescripcionFormaPagoCuota" ColumnName="DescripcionFormaPagoCuota" />
+                <ScalarProperty Name="IdFormaPagoCuota" ColumnName="IdFormaPagoCuota" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ESTIMADOPAGO">
+            <EntityTypeMapping TypeName="RCSTecMed_Model.ESTIMADOPAGO">
+              <MappingFragment StoreEntitySet="ESTIMADOPAGO">
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="DescripcionEstimadoPago" ColumnName="DescripcionEstimadoPago" />
+                <ScalarProperty Name="IdEstimadoPago" ColumnName="IdEstimadoPago" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

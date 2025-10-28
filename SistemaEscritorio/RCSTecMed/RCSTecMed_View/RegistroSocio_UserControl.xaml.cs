@@ -21,9 +21,11 @@ namespace RCSTecMed_View
     /// </summary>
     public partial class RegistroSocio_UserControl : UserControl
     {
-        public RegistroSocio_UserControl()
+        private int idUser {  get; set; }
+        public RegistroSocio_UserControl(int idUsuario)
         {
             InitializeComponent();
+            idUser = idUsuario;
             LB_TotalRegistrados.Content = new MostrarDatos_Controll().TotalSociosRegistrados().ToString();
         }
 
@@ -33,16 +35,17 @@ namespace RCSTecMed_View
             var parentWindow = Window.GetWindow(this);
             if (parentWindow != null)
             {
-                var moduloSecretaria = parentWindow as View_ModuloSecretaria;
-                if (moduloSecretaria != null)
+                var mdSec = parentWindow as View_ModuloSecretaria;
+                if (mdSec != null)
                 {
                     // Activar la pestaña "Home"
-                    moduloSecretaria.MainTabControl.SelectedItem = moduloSecretaria.TAB_Home;
+                    mdSec.MainTabControl.SelectedItem = mdSec.TAB_Home;
                 }
             }
 
         }
 
+        //BOTONES DE CRUD
         private void BTN_Buscar_Click(object sender, RoutedEventArgs e)
         {
 
@@ -68,6 +71,7 @@ namespace RCSTecMed_View
 
         }
 
+        //DATOS PERSONALES
         private void TXT_Rut_KeyDown(object sender, KeyEventArgs e)
         {
 
@@ -116,6 +120,40 @@ namespace RCSTecMed_View
         private void TXT_FonoMovil_KeyDown(object sender, KeyEventArgs e)
         {
 
+        }
+
+        //DATOS ACADEMICOS
+        private void TXT_NotaCertificacion_KeyDown(object sender, KeyEventArgs e)
+        {
+
+        }
+
+        private void TXT_HorasCertificacion_KeyDown(object sender, KeyEventArgs e)
+        {
+
+        }
+
+        private void TXT_FolioCertificacion_KeyDown(object sender, KeyEventArgs e)
+        {
+
+        }
+
+        //DATOS LABORALES
+        private void TXT_DireccionLaboral_KeyDown(object sender, KeyEventArgs e)
+        {
+
+        }
+
+        private void TXT_TelefonoLaboral_KeyDown(object sender, KeyEventArgs e)
+        {
+
+        }
+
+        //LLAMAR COMPLETAR DATOS
+        private void BTN_CompletarDatos_Click(object sender, RoutedEventArgs e)
+        {
+            View_CompletarDatosRegistroSocio vcds = new View_CompletarDatosRegistroSocio(idUser) ;
+            vcds.ShowDialog();
         }
     }
 }

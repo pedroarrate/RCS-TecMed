@@ -12,18 +12,19 @@ namespace RCSTecMed_Model
     using System;
     using System.Collections.Generic;
     
-    public partial class HISTORICO_PAGO
+    public partial class ESTIMADOPAGO
     {
-        public int IdHistoricoPago { get; set; }
-        public int Rut { get; set; }
-        public int IdFormaPagoCuota { get; set; }
-        public System.DateTime FechaPagoCuota { get; set; }
-        public string MesCancelado { get; set; }
-        public int AnnoMesCancekadi { get; set; }
-        public int ValorCancelado { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public ESTIMADOPAGO()
+        {
+            this.SOCIO = new HashSet<SOCIO>();
+        }
+    
+        public int IdEstimadoPago { get; set; }
+        public string DescripcionEstimadoPago { get; set; }
         public int IdUsuario { get; set; }
     
-        public virtual SOCIO SOCIO { get; set; }
-        public virtual FORMAPAGO FORMAPAGO { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SOCIO> SOCIO { get; set; }
     }
 }
