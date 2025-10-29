@@ -31,5 +31,7 @@ namespace RCSTecMed_Controll
         {
             MessageBox.Show(mensaje, "RCSTecMed - Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
         }
+
+        
     }
 }

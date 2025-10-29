@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace RCSTecMed_View
 {
     /// <summary>
-    /// Lógica de interacción para TipoCertificacion_UserControl.xaml
+    /// Lógica de interacción para EstablecimientoLaboral_UserControl.xaml
     /// </summary>
-    public partial class TipoCertificacion_UserControl : UserControl
+    public partial class EstablecimientoLaboral_UserControl : UserControl
     {
-        public TipoCertificacion_UserControl(int idUser)
+        public EstablecimientoLaboral_UserControl(int idUser)
         {
             InitializeComponent();
         }

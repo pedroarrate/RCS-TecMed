@@ -55,6 +55,10 @@ namespace RCSTecMed_View
                             case "TAB_ListadoSociosRegistrados":
                                 selectedTab.Content = new ListadoSociosRegistrados_UserControl();
                                 break;
+
+                            case "TAB_Salir":
+                                Close();
+                                break;
                         }
                     }
                 }

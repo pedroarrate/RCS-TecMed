@@ -21,6 +21,7 @@ namespace RCSTecMed_View
     /// </summary>
     public partial class RegistroSocio_UserControl : UserControl
     {
+        private readonly Mensajes_Controll ms = new Mensajes_Controll();
         private int idUser {  get; set; }
         public RegistroSocio_UserControl(int idUsuario)
         {
@@ -152,8 +153,15 @@ namespace RCSTecMed_View
         //LLAMAR COMPLETAR DATOS
         private void BTN_CompletarDatos_Click(object sender, RoutedEventArgs e)
         {
-            View_CompletarDatosRegistroSocio vcds = new View_CompletarDatosRegistroSocio(idUser) ;
-            vcds.ShowDialog();
+            try
+            {
+                var vcds = new View_CompletarDatosRegistroSocio(idUser);
+                vcds.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                ms.MostrarError($"Error al Abrir Ventana para Completar Datos\nEl Error es: {ex.Message}");
+            }
         }
     }
 }

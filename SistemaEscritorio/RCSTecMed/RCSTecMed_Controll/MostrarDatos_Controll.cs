@@ -28,7 +28,14 @@ namespace RCSTecMed_Controll
             {
                 return db.SOCIO.Count();
             }
+        }
 
+        public int TotalCentrosAcademicosRegistrados()
+        {
+            using (var db = new RCSTecMed_Entities())
+            {
+                return db.CENTRO_ACADEMICO.Count();
+            }
         }
     }
 }

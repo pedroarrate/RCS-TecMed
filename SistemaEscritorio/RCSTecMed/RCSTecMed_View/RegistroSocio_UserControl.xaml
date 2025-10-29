@@ -106,7 +106,9 @@
                     <TextBox x:Name="TXT_FonoMovil" Height="20" Width="200" FontFamily="Arial" FontSize="15" Style="{StaticResource WhiteTextBoxStyle}" Background="Transparent"
                              Foreground="Azure" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" 
                              Margin="230,130,0,0" KeyDown="TXT_FonoMovil_KeyDown"/>
-
+                    <Label Content="ESTADO DE SOCIO EN REGISTRO" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="10" FontWeight="Bold" Foreground="White" Margin="450,110,0,0"/>
+                    <ComboBox x:Name="CB_EstadoSocio" Height="20" Width="300" FontFamily="Arial" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Left"
+                              VerticalContentAlignment="Center" Margin="450,130,0,0"/>
                 </Grid>
             </Grid>
         </Grid>
@@ -303,8 +305,8 @@
 
             <Button x:Name="BTN_Home" Width="200" Height="45" Background="#FFDDDDDD" Style="{StaticResource BotonEstilo1}" Click="BTN_Home_Click" Grid.Column="11">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <fa:IconImage Icon="SignOutAlt" Width="25" Height="25" Margin="0,0,8,0"/>
-                    <TextBlock Text="Salir" VerticalAlignment="Center" FontWeight="Bold"/>
+                    <fa:IconImage Icon="Home" Width="25" Height="25" Margin="0,0,8,0"/>
+                    <TextBlock Text="Inicio" VerticalAlignment="Center" FontWeight="Bold"/>
                 </StackPanel>
             </Button>
 
