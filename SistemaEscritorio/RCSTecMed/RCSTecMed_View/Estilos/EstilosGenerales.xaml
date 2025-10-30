@@ -97,6 +97,23 @@
         </Setter>
     </Style>
 
+    <!-- Estilo para PasswordtBox con borde Blanco inferior y derecho -->
+    <Style x:Key="BurdeoPasswordBoxWhiteStyle" TargetType="PasswordBox">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="PasswordBox">
+                    <Grid>
+                        <Border BorderBrush="{StaticResource WhiteBrush}" 
+                            BorderThickness="0,0,3,1" 
+                            Background="{TemplateBinding Background}">
+                            <ScrollViewer Margin="0" x:Name="PART_ContentHost"/>
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <!-- Estilo para Botones color Burdeo y letras blancas -->
     <Style x:Key="BotonEstilo1" TargetType="Button">
         <Setter Property="Background" Value="#FFDDDDDD"/>

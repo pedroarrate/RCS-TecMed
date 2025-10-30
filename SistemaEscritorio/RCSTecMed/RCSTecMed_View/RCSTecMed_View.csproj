@@ -102,6 +102,9 @@
     <Compile Include="View_CompletarDatosRegistroSocio.xaml.cs">
       <DependentUpon>View_CompletarDatosRegistroSocio.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View_ConfirmaEliminar.xaml.cs">
+      <DependentUpon>View_ConfirmaEliminar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View_LogIn.xaml.cs">
       <DependentUpon>View_LogIn.xaml</DependentUpon>
     </Compile>
@@ -168,6 +171,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View_CompletarDatosRegistroSocio.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View_ConfirmaEliminar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

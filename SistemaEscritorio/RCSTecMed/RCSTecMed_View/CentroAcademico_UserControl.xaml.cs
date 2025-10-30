@@ -1,5 +1,4 @@
-﻿using RCSTecMed_Controll;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -32,13 +31,15 @@ namespace RCSTecMed_View
         {
             InitializeComponent();
             idUsuario = idUser;
-            LB_TotalRegistrados.Content = md.TotalCentrosAcademicosRegistrados().ToString();
+            
             Limpiar();
         }
 
         //METODOS VARIOS
         private void Limpiar()
         {
+            LB_TotalRegistrados.Content = md.TotalCentrosAcademicosRegistrados().ToString();
+
             TXT_IdCentroAcademico.Text = string.Empty;
             TXT_NombreCentroAcademico.Text = string.Empty;
             TXT_TelefonoCentroAcademico.Text = string.Empty;
@@ -180,6 +181,14 @@ namespace RCSTecMed_View
             return;
         }
 
+        private bool Confirmacion(string mensaje)
+        {
+            MessageBoxResult resultado = MessageBox.Show(mensaje, "Confirmación requerida", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+            return resultado == MessageBoxResult.Yes;
+        }
+
+
         //REGISTROS EN TEXTBOX
         private void TXT_IdCentroAcademico_KeyDown(object sender, KeyEventArgs e)
         {
@@ -228,31 +237,262 @@ namespace RCSTecMed_View
             {
                 msc.MostrarError($"Error al Cargar Datos de Grilla\nDebido a: {ex.Message}");
             }
-        }
+        }       
+
         private void DG_CentroAcademico_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (DG_CentroAcademico.SelectedItems.Count == 0)
+                return;
 
+            var ca = DG_CentroAcademico.SelectedItems[0] as Controll_CENTROACADEMICO;
+            if (ca == null)
+                return;
+
+            TXT_IdCentroAcademico.Text = ca.IdCentroAcademico.ToString();
+            TXT_NombreCentroAcademico.Text = ca.NombreCentroAcademico;
+            TXT_TelefonoCentroAcademico.Text = ca.TelefonoCentroAcademico.ToString();
+            TXT_EmailCentroAcademico.Text = ca.EmailCentroAcademico;
         }
 
         //BOTONES DE ACCION
+        //BOTONES DE ACCION: ACTUALIZAR
+        private void MostrarMensajeBusquedaInvalida()
+        {
+            msc.MostrarError("Para Buscar tiene las siguientes opciones:" +
+                "\n1. Ingresar un Número de Registrado y hacer click en botón BUSCAR" +
+                "\n2. Ingresar un Nombre de Centro Académico Registrado y hacer click en botón BUSCAR" +
+                "\n3. Seleccionar un Registro desde el Listado de la Grilla");
+        }
+
+        private void CargarDatosCentroAcademico(Controll_CENTROACADEMICO ca)
+        {
+            TXT_IdCentroAcademico.Text = ca.IdCentroAcademico.ToString();
+            TXT_NombreCentroAcademico.Text = ca.NombreCentroAcademico;
+            TXT_TelefonoCentroAcademico.Text = ca.TelefonoCentroAcademico.ToString();
+            TXT_EmailCentroAcademico.Text = ca.EmailCentroAcademico;
+        }
+
+        private void CargarGrillaCentroAcademicoPorId(int id)
+        {
+            try
+            {
+                DG_CentroAcademico.ItemsSource = cca.ListaCentroAcademicoPorId(id);
+            }
+            catch (Exception ex)
+            {
+                msc.MostrarError($"Error al Cargar Datos de Grilla\nDebido a: {ex.Message}");
+            }
+        }
+
+        private void CargarGrillaCentroAcademicoPorNombre(string nombre)
+        {
+            try
+            {
+                DG_CentroAcademico.ItemsSource = cca.ListaCentroAcademicoPorNombre(nombre);
+            }
+            catch (Exception ex)
+            {
+                msc.MostrarError($"Error al Cargar Datos de Grilla\nDebido a: {ex.Message}");
+            }
+        }
+
         private void BTN_Buscar_Click(object sender, RoutedEventArgs e)
         {
+            string campoId = TXT_IdCentroAcademico.Text;
+            string campoNombre = TXT_NombreCentroAcademico.Text;
 
+            if (campoId.Length == 0 && campoNombre.Length == 0 || campoId.Length > 0 && campoNombre.Length > 0)
+            {
+                MostrarMensajeBusquedaInvalida();
+                TXT_IdCentroAcademico.Focus();
+                return;
+            }
+
+            if (campoId.Length > 0)
+            {
+                if (int.TryParse(campoId, out int id))
+                {
+                    cca.IdCentroAcademico = id;
+                    if (cca.ReadId())
+                    {
+                        msc.MostrarInformacion("Registro Encontrado");
+                        CargarDatosCentroAcademico(cca);
+                        CargarGrillaCentroAcademicoPorId(id);
+                    }
+                    else
+                    {
+                        msc.MostrarError("Registro No Encontrado\nComunicarse con Administrador");
+                        ResetIdTexto();
+                    }
+                }
+                else
+                {
+                    msc.MostrarError("Recuerde, el campo Número de Registro debe ser numérico");
+                    ResetIdTexto();
+                }
+            }
+            else if (campoNombre.Length > 0)
+            {
+                cca.NombreCentroAcademico = campoNombre;
+                if (cca.ReadCentroAcademico())
+                {
+                    msc.MostrarInformacion("Registro Encontrado");
+                    CargarDatosCentroAcademico(cca);
+                    CargarGrillaCentroAcademicoPorNombre(campoNombre);
+                }
+                else
+                {
+                    msc.MostrarError("Registro No Encontrado\nComunicarse con Administrador");
+                    ResetIdTexto();
+                }
+            }
+
+            TXT_IdCentroAcademico.Focus();
         }
+
+        //BOTONES DE ACCION: GRABAR Y ACTUALIZAR
+        private bool ValidarEntradas()
+        {
+            bool hayCampoVacio = val.CampoVacio(TXT_IdCentroAcademico.Text) || val.CampoVacio(TXT_NombreCentroAcademico.Text) || val.CampoVacio(TXT_TelefonoCentroAcademico.Text) || val.CampoVacio(TXT_EmailCentroAcademico.Text);
+
+            if (hayCampoVacio)
+            {
+                msc.MostrarError("Debe completar todos los campos o Seleccionar un Registro");
+                TXT_IdCentroAcademico.Focus();
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool MapearFormularioACentroAcademico()
+        {
+            if (!int.TryParse(TXT_IdCentroAcademico.Text, out int id) ||
+                !int.TryParse(TXT_TelefonoCentroAcademico.Text, out int telefono))
+            {
+                msc.MostrarError("ID y Teléfono deben ser numéricos");
+                return false;
+            }
+
+            cca.IdCentroAcademico = id;
+            cca.NombreCentroAcademico = TXT_NombreCentroAcademico.Text.ToUpper();
+            cca.EmailCentroAcademico = TXT_EmailCentroAcademico.Text.ToUpper();
+            cca.TelefonoCentroAcademico = telefono;
+            cca.IdUsuario = idUsuario;
+
+            return true;
+        }
+
+        private void MostrarErrorYFoco(string mensaje, Control control)
+        {
+            msc.MostrarError(mensaje);
+            control.Focus();
+        }
+
 
         private void BTN_Grabar_Click(object sender, RoutedEventArgs e)
         {
+            cca.IdCentroAcademico = int.Parse(TXT_IdCentroAcademico.Text);
+            cca.NombreCentroAcademico = TXT_NombreCentroAcademico.Text.ToUpper();
 
+            if (!ValidarEntradas())
+                return;
+
+            if (cca.ReadId())
+            {
+                MostrarErrorYFoco("Número de Registro ya existe en la base de datos\nRevisar datos ingresados", TXT_IdCentroAcademico);
+                return;
+            }
+
+            if (cca.ReadCentroAcademico())
+            {
+                MostrarErrorYFoco("Nombre de Centro Académico ya existe en la base de datos\nRevisar datos ingresados", TXT_NombreCentroAcademico);
+                return;
+            }
+
+            cca.IdCentroAcademico = int.Parse(TXT_IdCentroAcademico.Text);
+            cca.NombreCentroAcademico = TXT_NombreCentroAcademico.Text.ToUpper();
+            cca.EmailCentroAcademico = TXT_EmailCentroAcademico.Text.ToUpper();
+            cca.TelefonoCentroAcademico = int.Parse(TXT_TelefonoCentroAcademico.Text);
+            cca.IdUsuario = idUsuario;
+
+            if (!cca.Create())
+            {
+                msc.MostrarError("No se logró realizar el registro en la base de datos\nComunicarse con el administrador");
+                Limpiar();
+                return;
+            }
+
+            msc.MostrarInformacion("Registro exitoso en la base de datos");
+            Limpiar();
         }
 
         private void BTN_Actualizar_Click(object sender, RoutedEventArgs e)
         {
+            if (!ValidarEntradas())
+                return;
 
+            /*if (!MapearFormularioACentroAcademico())
+            {
+                TXT_IdCentroAcademico.Focus();
+                return;
+            }*/
+
+            cca.IdCentroAcademico = int.Parse(TXT_IdCentroAcademico.Text);
+            if (!cca.ReadId())
+            {
+                MostrarErrorYFoco("No se encontró el registro a actualizar\nVerifique el Número de Registro ingresado", TXT_IdCentroAcademico);
+                return;
+            }
+
+            if (!Confirmacion("¿Desea actualizar este registro?"))
+                return;
+
+            cca.IdCentroAcademico = int.Parse(TXT_IdCentroAcademico.Text);
+            cca.NombreCentroAcademico = TXT_NombreCentroAcademico.Text.ToUpper();
+            cca.EmailCentroAcademico = TXT_EmailCentroAcademico.Text.ToUpper();
+            cca.TelefonoCentroAcademico = int.Parse(TXT_TelefonoCentroAcademico.Text);
+            cca.IdUsuario = idUsuario;
+
+            if (!cca.Update())
+            {
+                msc.MostrarError("No se logró realizar Actualización de registro en la base de datos\nComunicarse con el administrador");
+                Limpiar();
+                return;
+            }
+
+            msc.MostrarInformacion("Actualización de registro exitosa en la base de datos");
+            Limpiar();
         }
 
+        //BOTON ACCION: ELIMINAR
         private void BTN_Eliminar_Click(object sender, RoutedEventArgs e)
         {
+            if (!ValidarEntradas())
+                return;
 
+            if (!MapearFormularioACentroAcademico())
+            {
+                TXT_IdCentroAcademico.Focus();
+                return;
+            }
+
+            if (!cca.ReadId())
+            {
+                MostrarErrorYFoco("No se encontró el registro a eliminar\nVerifique el Número de Registro ingresado", TXT_IdCentroAcademico);
+                return;
+            }
+
+            if (Confirmacion("¿Desea Eliminar este registro?"))
+            {
+                string idReg = TXT_IdCentroAcademico.Text;
+                View_ConfirmaEliminar vce = new View_ConfirmaEliminar(idUsuario, idReg, "CentroAcademico") ;
+                vce.ShowDialog();
+                Limpiar();
+                return;
+            }
+
+            Limpiar();
         }
 
         private void BTN_Limpiar_Click(object sender, RoutedEventArgs e)

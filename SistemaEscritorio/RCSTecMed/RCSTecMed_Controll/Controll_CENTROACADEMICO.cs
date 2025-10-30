@@ -47,11 +47,11 @@ namespace RCSTecMed_Controll
         {
             using (RCSTecMed_Entities db = new RCSTecMed_Entities())
             {
-                USUARIO us = new USUARIO();
+                CENTRO_ACADEMICO ca = new CENTRO_ACADEMICO();
                 try
                 {
-                    CommonDB.Synchronize(this, us);
-                    db.USUARIO.Add(us);
+                    CommonDB.Synchronize(this, ca);
+                    db.CENTRO_ACADEMICO.Add(ca);
                     db.SaveChanges();
                     return true;
                 }
@@ -168,6 +168,38 @@ namespace RCSTecMed_Controll
             try
             {
                 List<CENTRO_ACADEMICO> listaDatos = db.CENTRO_ACADEMICO.ToList<CENTRO_ACADEMICO>();
+                List<Controll_CENTROACADEMICO> listaCentroAcademico = GenerarLista(listaDatos);
+                listaCentroAcademico = listaCentroAcademico.OrderBy(x => x.NombreCentroAcademico).ToList();
+                return listaCentroAcademico;
+            }
+            catch (Exception)
+            {
+                return new List<Controll_CENTROACADEMICO>();
+            }
+        }
+
+        public List<Controll_CENTROACADEMICO> ListaCentroAcademicoPorId(int id) //MUESTRA LISTA DE REGISTROS DE LA BASE DE DATOS ORDENADA 
+        {
+            RCSTecMed_Entities db = new RCSTecMed_Entities();
+            try
+            {
+                List<CENTRO_ACADEMICO> listaDatos = db.CENTRO_ACADEMICO.Where(x => x.IdCentroAcademico == id).ToList<CENTRO_ACADEMICO>();
+                List<Controll_CENTROACADEMICO> listaCentroAcademico = GenerarLista(listaDatos);
+                listaCentroAcademico = listaCentroAcademico.OrderBy(x => x.NombreCentroAcademico).ToList();
+                return listaCentroAcademico;
+            }
+            catch (Exception)
+            {
+                return new List<Controll_CENTROACADEMICO>();
+            }
+        }
+
+        public List<Controll_CENTROACADEMICO> ListaCentroAcademicoPorNombre(string nombre) //MUESTRA LISTA DE REGISTROS DE LA BASE DE DATOS ORDENADA 
+        {
+            RCSTecMed_Entities db = new RCSTecMed_Entities();
+            try
+            {
+                List<CENTRO_ACADEMICO> listaDatos = db.CENTRO_ACADEMICO.Where(x => x.NombreCentroAcademico == nombre).ToList<CENTRO_ACADEMICO>();
                 List<Controll_CENTROACADEMICO> listaCentroAcademico = GenerarLista(listaDatos);
                 listaCentroAcademico = listaCentroAcademico.OrderBy(x => x.NombreCentroAcademico).ToList();
                 return listaCentroAcademico;
