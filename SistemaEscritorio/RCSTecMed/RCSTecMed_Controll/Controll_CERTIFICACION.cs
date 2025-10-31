@@ -159,7 +159,7 @@ namespace RCSTecMed_Controll
             }
         }
 
-        public List<Controll_CERTIFICACION> ReadAllOrdenadoDescrpcion() //MUESTRA LISTA DE REGISTROS DE LA BASE DE DATOS ORDENADA 
+        public List<Controll_CERTIFICACION> ListaTipoCertificacionOrdenadaDescrpcion() //MUESTRA LISTA DE REGISTROS DE LA BASE DE DATOS ORDENADA 
         {
             RCSTecMed_Entities db = new RCSTecMed_Entities();
             try
@@ -167,6 +167,36 @@ namespace RCSTecMed_Controll
                 List<CERTIFICACION> listaDatos = db.CERTIFICACION.ToList<CERTIFICACION>();
                 List<Controll_CERTIFICACION> listaCertificacion = GenerarLista(listaDatos);
                 listaCertificacion = listaCertificacion.OrderBy(x => x.DescripcionCertificacion).ToList();
+                return listaCertificacion;
+            }
+            catch (Exception)
+            {
+                return new List<Controll_CERTIFICACION>();
+            }
+        }
+
+        public List<Controll_CERTIFICACION> ListaTipoCertificacionporId(int id) //MUESTRA LISTA DE REGISTROS DE LA BASE DE DATOS
+        {
+            RCSTecMed_Entities db = new RCSTecMed_Entities();
+            try
+            {
+                List<CERTIFICACION> listaDatos = db.CERTIFICACION.Where(x => x.IdCertificacion == id).ToList<CERTIFICACION>();
+                List<Controll_CERTIFICACION> listaCertificacion = GenerarLista(listaDatos);
+                return listaCertificacion;
+            }
+            catch (Exception)
+            {
+                return new List<Controll_CERTIFICACION>();
+            }
+        }
+
+        public List<Controll_CERTIFICACION> ListaTipoCertificacionporDescripcion(string desc) //MUESTRA LISTA DE REGISTROS DE LA BASE DE DATOS
+        {
+            RCSTecMed_Entities db = new RCSTecMed_Entities();
+            try
+            {
+                List<CERTIFICACION> listaDatos = db.CERTIFICACION.Where(x => x.DescripcionCertificacion == desc).ToList<CERTIFICACION>();
+                List<Controll_CERTIFICACION> listaCertificacion = GenerarLista(listaDatos);
                 return listaCertificacion;
             }
             catch (Exception)

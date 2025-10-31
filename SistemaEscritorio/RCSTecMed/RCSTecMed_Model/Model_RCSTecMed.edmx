@@ -59,6 +59,7 @@
           <Property Name="Email" Type="nvarchar" MaxLength="100" />
           <Property Name="NombreContacto" Type="nvarchar" MaxLength="150" />
           <Property Name="IdUsuario" Type="int" Nullable="false" />
+          <Property Name="Region" Type="int" />
         </EntityType>
         <EntityType Name="ESTABLECIMIENTO_ACTUAL">
           <Key>
@@ -572,6 +573,7 @@
           <Property Name="IdUsuario" Type="Int32" Nullable="false" />
           <NavigationProperty Name="COMUNA" Relationship="Self.FK_ESTABLECIMIENTO_COMUNA" FromRole="ESTABLECIMIENTO" ToRole="COMUNA" />
           <NavigationProperty Name="ESTABLECIMIENTO_ACTUAL" Relationship="Self.FK_ESTABLECIMIENTO_ACTUAL_ESTABLECIMIENTO" FromRole="ESTABLECIMIENTO" ToRole="ESTABLECIMIENTO_ACTUAL" />
+          <Property Name="Region" Type="Int32" />
         </EntityType>
         <EntityType Name="ESTABLECIMIENTO_ACTUAL">
           <Key>
@@ -1140,6 +1142,7 @@
           <EntitySetMapping Name="ESTABLECIMIENTO">
             <EntityTypeMapping TypeName="RCSTecMed_Model.ESTABLECIMIENTO">
               <MappingFragment StoreEntitySet="ESTABLECIMIENTO">
+                <ScalarProperty Name="Region" ColumnName="Region" />
                 <ScalarProperty Name="IdEstablecimiento" ColumnName="IdEstablecimiento" />
                 <ScalarProperty Name="NombreEstablecimiento" ColumnName="NombreEstablecimiento" />
                 <ScalarProperty Name="IdComuna" ColumnName="IdComuna" />

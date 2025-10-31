@@ -10,6 +10,7 @@ namespace RCSTecMed_Controll
     public class MostrarDatos_Controll
     {
         
+        private RCSTecMed_Entities db = new RCSTecMed_Entities();
         public MostrarDatos_Controll() { }
         
         public string MostrarUsuario(int id)
@@ -23,19 +24,23 @@ namespace RCSTecMed_Controll
         }
 
         public int TotalSociosRegistrados()
-        {
-            using (var db = new RCSTecMed_Entities())
-            {
-                return db.SOCIO.Count();
-            }
+        {           
+            return db.SOCIO.Count();
         }
 
         public int TotalCentrosAcademicosRegistrados()
         {
-            using (var db = new RCSTecMed_Entities())
-            {
-                return db.CENTRO_ACADEMICO.Count();
-            }
+            return db.CENTRO_ACADEMICO.Count();        
+        }
+
+        public int TotalTipoCertificacionRegistrados()
+        {
+            return db.CERTIFICACION.Count();
+        }
+
+        public int TotalEstablecimientosRegistrados()
+        {
+            return db.ESTABLECIMIENTO.Count();
         }
     }
 }

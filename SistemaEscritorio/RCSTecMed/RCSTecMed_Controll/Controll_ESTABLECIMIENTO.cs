@@ -18,12 +18,15 @@ namespace RCSTecMed_Controll
         public string Email { get; set; }
         public string NombreContacto { get; set; }
         public int IdUsuario { get; set; }
+        public int Region { get; set; }
 
         /*VARIABLES COMPLEMENTARIAS*/
         string NombreComuna;
         public string _nombreComuna { get { return NombreComuna; } }
         string NombreUsuario;
         public string _nombreUsuario { get { return NombreUsuario; } }
+        string NombreRegion;
+        public string _nombreRegion { get { return NombreRegion; } }
 
         private void Init() //INICIALIZACION DE LA CLASE
         {
@@ -36,10 +39,12 @@ namespace RCSTecMed_Controll
             Email = string.Empty;
             NombreContacto = string.Empty;
             IdUsuario = 0;
+            Region = 0;
 
             /*VARIABLES COMPLEMENTARIAS*/
             NombreComuna = string.Empty;
             NombreUsuario = string.Empty;
+            NombreRegion = string.Empty;
         }
 
         public Controll_ESTABLECIMIENTO() { Init(); } //CONSTRUCTOR DE LA CLASE
@@ -57,6 +62,32 @@ namespace RCSTecMed_Controll
             NombreUsuario = us.ReadId() ? us.UserName ?? string.Empty : string.Empty;
         }
 
+        private void ObtenerRegion() 
+        {
+            var reg = new Controll_REGION { IdRegion = Region };
+            NombreRegion = reg.ReadId() ? reg.NombreRegion ?? string.Empty : string.Empty;
+        }
+
+        /*METODOS DE CRUD*/
+        public bool Create() //CREA REGISTRO QUE SE GRABA EN LA BASE DE DATOS
+        {
+            using (RCSTecMed_Entities db = new RCSTecMed_Entities())
+            {
+                ESTABLECIMIENTO est = new ESTABLECIMIENTO();
+                try
+                {
+                    CommonDB.Synchronize(this, est);
+                    db.ESTABLECIMIENTO.Add(est);
+                    db.SaveChanges();
+                    return true;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            }
+        }
+
         public bool ReadId() //BUSCA UN REGISTRO GRABADO EN LA BASE DE DATOS A TRAVEZ DEL ID
         {
             using (RCSTecMed_Entities db = new RCSTecMed_Entities())
@@ -70,6 +101,8 @@ namespace RCSTecMed_Controll
                     CommonDB.Synchronize(est, this);
                     ObtenerComuna();
                     ObtenerUsuario();
+                    ObtenerRegion();
+
                     return true;
                 }
                 catch (Exception)
@@ -92,6 +125,8 @@ namespace RCSTecMed_Controll
                     CommonDB.Synchronize(est, this);
                     ObtenerComuna();
                     ObtenerUsuario();
+                    ObtenerRegion();
+
                     return true;
                 }
                 catch (Exception)
@@ -159,7 +194,7 @@ namespace RCSTecMed_Controll
             }
         }
 
-        public List<Controll_ESTABLECIMIENTO> ReadAllOrdenadoEstablecimiento() //MUESTRA LISTA DE REGISTROS DE LA BASE DE DATOS ORDENADA 
+        public List<Controll_ESTABLECIMIENTO> ListaEstablecimientoOrdenada() //MUESTRA LISTA DE REGISTROS DE LA BASE DE DATOS ORDENADA 
         {
             RCSTecMed_Entities db = new RCSTecMed_Entities();
             try
@@ -175,6 +210,71 @@ namespace RCSTecMed_Controll
             }
         }
 
+        public List<Controll_ESTABLECIMIENTO> ListaEstablecimientoPorId(int id) //MUESTRA LISTA DE REGISTROS DE LA BASE DE DATOS ORDENADA 
+        {
+            RCSTecMed_Entities db = new RCSTecMed_Entities();
+            try
+            {
+                List<ESTABLECIMIENTO> listaDatos = db.ESTABLECIMIENTO.Where(x => x.IdEstablecimiento == id).ToList<ESTABLECIMIENTO>();
+                List<Controll_ESTABLECIMIENTO> listaEstablecimiento = GenerarLista(listaDatos);
+                listaEstablecimiento = listaEstablecimiento.OrderBy(x => x.NombreEstablecimiento).ToList();
+                return listaEstablecimiento;
+            }
+            catch (Exception)
+            {
+                return new List<Controll_ESTABLECIMIENTO>();
+            }
+        }
+
+        public List<Controll_ESTABLECIMIENTO> ListaEstablecimientoPorDescripcion(string desc) //MUESTRA LISTA DE REGISTROS DE LA BASE DE DATOS ORDENADA 
+        {
+            RCSTecMed_Entities db = new RCSTecMed_Entities();
+            try
+            {
+                List<ESTABLECIMIENTO> listaDatos = db.ESTABLECIMIENTO.Where(x => x.NombreEstablecimiento == desc).ToList<ESTABLECIMIENTO>();
+                List<Controll_ESTABLECIMIENTO> listaEstablecimiento = GenerarLista(listaDatos);
+                listaEstablecimiento = listaEstablecimiento.OrderBy(x => x.NombreEstablecimiento).ToList();
+                return listaEstablecimiento;
+            }
+            catch (Exception)
+            {
+                return new List<Controll_ESTABLECIMIENTO>();
+            }
+        }
+
+        public List<Controll_ESTABLECIMIENTO> ListaEstablecimientoPorComuna(string idCom) //MUESTRA LISTA DE REGISTROS DE LA BASE DE DATOS ORDENADA 
+        {
+            RCSTecMed_Entities db = new RCSTecMed_Entities();
+            try
+            {
+                List<ESTABLECIMIENTO> listaDatos = db.ESTABLECIMIENTO.Where(x => x.IdComuna == idCom).ToList<ESTABLECIMIENTO>();
+                List<Controll_ESTABLECIMIENTO> listaEstablecimiento = GenerarLista(listaDatos);
+                listaEstablecimiento = listaEstablecimiento.OrderBy(x => x.NombreEstablecimiento).ToList();
+                return listaEstablecimiento;
+            }
+            catch (Exception)
+            {
+                return new List<Controll_ESTABLECIMIENTO>();
+            }
+        }
+
+        public List<Controll_ESTABLECIMIENTO> ListaEstablecimientoPorRegion(int idRegion) //MUESTRA LISTA DE REGISTROS DE LA BASE DE DATOS ORDENADA 
+        {
+            RCSTecMed_Entities db = new RCSTecMed_Entities();
+            try
+            {
+                List<ESTABLECIMIENTO> listaDatos = db.ESTABLECIMIENTO.Where(x => x.Region == idRegion).ToList<ESTABLECIMIENTO>();
+                List<Controll_ESTABLECIMIENTO> listaEstablecimiento = GenerarLista(listaDatos);
+                listaEstablecimiento = listaEstablecimiento.OrderBy(x => x.NombreEstablecimiento).ToList();
+                return listaEstablecimiento;
+            }
+            catch (Exception)
+            {
+                return new List<Controll_ESTABLECIMIENTO>();
+            }
+        }
+
+
         private List<Controll_ESTABLECIMIENTO> GenerarLista(List<ESTABLECIMIENTO> dataList) //GENERA LISTA DE REGISTROS DE LA BASE DE DATOS A MOSTRAR
         {
             List<Controll_ESTABLECIMIENTO> listaEstablecimiento = new List<Controll_ESTABLECIMIENTO>();
@@ -182,8 +282,11 @@ namespace RCSTecMed_Controll
             {
                 Controll_ESTABLECIMIENTO est = new Controll_ESTABLECIMIENTO();
                 CommonDB.Synchronize(data, est);
+                
                 est.ObtenerComuna();
                 est.ObtenerUsuario();
+                est.ObtenerRegion();
+
                 listaEstablecimiento.Add(est);
             }
             return listaEstablecimiento;

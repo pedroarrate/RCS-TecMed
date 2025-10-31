@@ -137,6 +137,26 @@ namespace RCSTecMed_View
                     }
                     return true;
 
+                case "TipoCertificacion":
+                    var cer = new Controll_CERTIFICACION() { IdCertificacion = int.Parse(id) };
+                    if (!cer.Delete())
+                    {
+                        msc.MostrarError("No se logró eliminar registro en la base de datos\nComunicarse con el administrador");
+                        Limpiar();
+                        return false;
+                    }
+                    return true;
+
+                case "Establecimiento":
+                    var est = new Controll_ESTABLECIMIENTO() { IdEstablecimiento = int.Parse(id) };
+                    if (!est.Delete())
+                    {
+                        msc.MostrarError("No se logró eliminar registro en la base de datos\nComunicarse con el administrador");
+                        Limpiar();
+                        return false;
+                    }
+                    return true;
+
                 default:
                     msc.MostrarError("Tabla no reconocida para eliminación");
                     return false;

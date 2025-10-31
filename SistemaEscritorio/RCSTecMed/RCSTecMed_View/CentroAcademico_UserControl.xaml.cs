@@ -255,7 +255,7 @@ namespace RCSTecMed_View
         }
 
         //BOTONES DE ACCION
-        //BOTONES DE ACCION: ACTUALIZAR
+        //BOTONES DE ACCION: BUSCAR
         private void MostrarMensajeBusquedaInvalida()
         {
             msc.MostrarError("Para Buscar tiene las siguientes opciones:" +
@@ -365,24 +365,6 @@ namespace RCSTecMed_View
             return true;
         }
 
-        private bool MapearFormularioACentroAcademico()
-        {
-            if (!int.TryParse(TXT_IdCentroAcademico.Text, out int id) ||
-                !int.TryParse(TXT_TelefonoCentroAcademico.Text, out int telefono))
-            {
-                msc.MostrarError("ID y Teléfono deben ser numéricos");
-                return false;
-            }
-
-            cca.IdCentroAcademico = id;
-            cca.NombreCentroAcademico = TXT_NombreCentroAcademico.Text.ToUpper();
-            cca.EmailCentroAcademico = TXT_EmailCentroAcademico.Text.ToUpper();
-            cca.TelefonoCentroAcademico = telefono;
-            cca.IdUsuario = idUsuario;
-
-            return true;
-        }
-
         private void MostrarErrorYFoco(string mensaje, Control control)
         {
             msc.MostrarError(mensaje);
@@ -432,12 +414,6 @@ namespace RCSTecMed_View
             if (!ValidarEntradas())
                 return;
 
-            /*if (!MapearFormularioACentroAcademico())
-            {
-                TXT_IdCentroAcademico.Focus();
-                return;
-            }*/
-
             cca.IdCentroAcademico = int.Parse(TXT_IdCentroAcademico.Text);
             if (!cca.ReadId())
             {
@@ -468,15 +444,13 @@ namespace RCSTecMed_View
         //BOTON ACCION: ELIMINAR
         private void BTN_Eliminar_Click(object sender, RoutedEventArgs e)
         {
+            string idReg = TXT_IdCentroAcademico.Text;
+
             if (!ValidarEntradas())
                 return;
 
-            if (!MapearFormularioACentroAcademico())
-            {
-                TXT_IdCentroAcademico.Focus();
-                return;
-            }
 
+            cca.IdCentroAcademico = int.Parse(idReg);
             if (!cca.ReadId())
             {
                 MostrarErrorYFoco("No se encontró el registro a eliminar\nVerifique el Número de Registro ingresado", TXT_IdCentroAcademico);
@@ -485,7 +459,6 @@ namespace RCSTecMed_View
 
             if (Confirmacion("¿Desea Eliminar este registro?"))
             {
-                string idReg = TXT_IdCentroAcademico.Text;
                 View_ConfirmaEliminar vce = new View_ConfirmaEliminar(idUsuario, idReg, "CentroAcademico") ;
                 vce.ShowDialog();
                 Limpiar();

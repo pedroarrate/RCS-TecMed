@@ -171,12 +171,60 @@ namespace RCSTecMed_Controll
             }
         }
 
-        public List<Controll_COMUNA> ReadAllOrdenadoComuna() //MUESTRA LISTA DE REGISTROS DE LA BASE DE DATOS ORDENADA 
+        public List<Controll_COMUNA> ListaComunaOrdenada() //MUESTRA LISTA DE REGISTROS DE LA BASE DE DATOS ORDENADA 
         {
             RCSTecMed_Entities db = new RCSTecMed_Entities();
             try
             {
                 List<COMUNA> listaDatos = db.COMUNA.ToList<COMUNA>();
+                List<Controll_COMUNA> listaComuna = GenerarLista(listaDatos);
+                listaComuna = listaComuna.OrderBy(x => x.NombreComuna).ToList();
+                return listaComuna;
+            }
+            catch (Exception)
+            {
+                return new List<Controll_COMUNA>();
+            }
+        }
+
+        public List<Controll_COMUNA> ListaComunaPorId(string id) //MUESTRA LISTA DE REGISTROS DE LA BASE DE DATOS ORDENADA 
+        {
+            RCSTecMed_Entities db = new RCSTecMed_Entities();
+            try
+            {
+                List<COMUNA> listaDatos = db.COMUNA.Where(x => x.IdComuna == id).ToList<COMUNA>();
+                List<Controll_COMUNA> listaComuna = GenerarLista(listaDatos);
+                listaComuna = listaComuna.OrderBy(x => x.NombreComuna).ToList();
+                return listaComuna;
+            }
+            catch (Exception)
+            {
+                return new List<Controll_COMUNA>();
+            }
+        }
+
+        public List<Controll_COMUNA> ListaComunaPorDesscripcion(string desc) //MUESTRA LISTA DE REGISTROS DE LA BASE DE DATOS ORDENADA 
+        {
+            RCSTecMed_Entities db = new RCSTecMed_Entities();
+            try
+            {
+                List<COMUNA> listaDatos = db.COMUNA.Where(x => x.NombreComuna == desc).ToList<COMUNA>();
+                List<Controll_COMUNA> listaComuna = GenerarLista(listaDatos);
+                listaComuna = listaComuna.OrderBy(x => x.NombreComuna).ToList();
+                return listaComuna;
+            }
+            catch (Exception)
+            {
+                return new List<Controll_COMUNA>();
+            }
+        }
+
+        public List<Controll_COMUNA> ListaComunaPorRegion(int idReg) //MUESTRA LISTA DE REGISTROS DE LA BASE DE DATOS ORDENADA 
+        {
+            RCSTecMed_Entities db = new RCSTecMed_Entities();
+            try
+            {
+                List<COMUNA> listaDatos = db.COMUNA.Where(x => x.IdRegion == idReg).ToList<COMUNA>();
                 List<Controll_COMUNA> listaComuna = GenerarLista(listaDatos);
                 listaComuna = listaComuna.OrderBy(x => x.NombreComuna).ToList();
                 return listaComuna;
