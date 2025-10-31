@@ -10,14 +10,13 @@ namespace RCSTecMed_Controll
     public class MostrarDatos_Controll
     {
         
-        private RCSTecMed_Entities db = new RCSTecMed_Entities();
+        private readonly RCSTecMed_Entities db = new RCSTecMed_Entities();
         public MostrarDatos_Controll() { }
         
         public string MostrarUsuario(int id)
         {
-            Controll_USUARIO cu = new Controll_USUARIO();
-            cu.IdUsuario = id;
-
+            Controll_USUARIO cu = new Controll_USUARIO() { IdUsuario = id };
+            
             return cu.ReadId()
                 ? $"{cu.ApellidoPaterno} {cu.Nombre}"
                 : "Usuario No encontrado";
@@ -41,6 +40,26 @@ namespace RCSTecMed_Controll
         public int TotalEstablecimientosRegistrados()
         {
             return db.ESTABLECIMIENTO.Count();
+        }
+
+        public int TotalEstablecimientosRegistradosPorRegion(int reg)
+        {
+            return db.ESTABLECIMIENTO.Count(x => x.Region == reg);
+        }
+
+        public int TotalEstablecimientosRegistradosPorRegionComuna(string com)
+        {
+            return db.ESTABLECIMIENTO.Count(x => x.IdComuna == com);
+        }
+
+        public int TotalFormaPagoRegistrado()
+        {
+            return db.FORMAPAGO.Count();
+        }
+
+        public int TotalFechaEstimaPagoRegistrado()
+        {
+            return db.ESTIMADOPAGO.Count();
         }
     }
 }

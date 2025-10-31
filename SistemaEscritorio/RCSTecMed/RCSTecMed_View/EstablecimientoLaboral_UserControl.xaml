@@ -30,9 +30,9 @@
             <TextBox x:Name="TXT_IdEstablecimiento" Height="30" Width="330" FontFamily="Arial" FontSize="20" Style="{StaticResource  BurdeoTextBoxStyle}" Background="Transparent"
                      Foreground="Black" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" 
                      Margin="50,60,0,0" KeyDown="TXT_IdEstablecimiento_KeyDown"/>
-            <Label Content="Nombre Establecimiento Laboral" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="18" FontWeight="DemiBold" Margin="500,30,0,0"/>
+            <Label Content="Nombre Establecimiento Laboral" HorizontalAlignment="Center" VerticalAlignment="Top" FontFamily="Arial" FontSize="18" FontWeight="DemiBold" Margin="500,30,0,0"/>
             <TextBox x:Name="TXT_NombreEstablecimiento" Height="30" Width="1100" FontFamily="Arial" FontSize="20" Style="{StaticResource  BurdeoTextBoxStyle}" Background="Transparent"
-                     Foreground="Black" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" 
+                     Foreground="Black" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" 
                      Margin="500,60,0,0" KeyDown="TXT_NombreEstablecimiento_KeyDown"/>
             <Label Content="Región Laboral" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="18" FontWeight="DemiBold" Margin="50,110,0,0"/>
             <ComboBox x:Name="CB_Region" Height="30" Width="350" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="15" HorizontalContentAlignment="Left"
@@ -42,7 +42,7 @@
                       VerticalContentAlignment="Center" Margin="420,140,0,0"/>
             <Label Content="Dirección Establecimiento Laboral" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="18" FontWeight="DemiBold" Margin="770,110,0,0"/>
             <TextBox x:Name="TXT_Direccion" Height="30" Width="830" FontFamily="Arial" FontSize="20" Style="{StaticResource  BurdeoTextBoxStyle}" Background="Transparent"
-                     Foreground="Black" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" 
+                     Foreground="Black" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" 
                      Margin="770,140,0,0" KeyDown="TXT_Direccion_KeyDown"/>
             <Label Content="Teléfono" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="18" FontWeight="DemiBold" Margin="50,200,0,0"/>
             <TextBox x:Name="TXT_Telefono" Height="30" Width="200" FontFamily="Arial" FontSize="20" Style="{StaticResource  BurdeoTextBoxStyle}" Background="Transparent"
@@ -50,11 +50,11 @@
                      Margin="50,230,0,0" KeyDown="TXT_Telefono_KeyDown"/>
             <Label Content="Email Establecimiento Laboral" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="18" FontWeight="DemiBold" Margin="270,200,0,0"/>
             <TextBox x:Name="TXT_Email" Height="30" Width="800" FontFamily="Arial" FontSize="20" Style="{StaticResource  BurdeoTextBoxStyle}" Background="Transparent"
-                     Foreground="Black" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" 
+                     Foreground="Black" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" 
                      Margin="270,230,0,0" KeyDown="TXT_Email_KeyDown"/>
             <Label Content="Nombre Contacto" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="18" FontWeight="DemiBold" Margin="1090,200,0,0"/>
             <TextBox x:Name="TXT_Contacto" Height="30" Width="510" FontFamily="Arial" FontSize="20" Style="{StaticResource  BurdeoTextBoxStyle}" Background="Transparent"
-                     Foreground="Black" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" 
+                     Foreground="Black" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" 
                      Margin="1090,230,0,0" KeyDown="TXT_Contacto_KeyDown"/>
             <DataGrid x:Name="DG_Establecimiento" FontFamily="Arial" FontSize="20" FontWeight="Bold" Background="White" ColumnHeaderHeight="30" AutoGenerateColumns="False" 
                       IsReadOnly="True" SelectionChanged="DG_Establecimiento_SelectionChanged" Width="1600" Height="280" HorizontalAlignment="Center" VerticalAlignment="Bottom"
@@ -62,7 +62,6 @@
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="N° Registro" Binding="{Binding IdEstablecimiento}" FontWeight="Light" Width="200"/>
                     <DataGridTextColumn Header="Nombre Establecimiento" Binding="{Binding NombreEstablecimiento}" FontWeight="Light" Width="600"/>
-                    <DataGridTextColumn Header="Dirección" Binding="{Binding Direccion}" FontWeight="Light" Width="600"/>
                     <DataGridTextColumn Header="Región" Binding="{Binding _nombreRegion}" FontWeight="Light" Width="400"/>
                     <DataGridTextColumn Header="Registrado Por" Binding="{Binding _nombreUsuario}" FontWeight="Light" Width="200"/>
                 </DataGrid.Columns>

@@ -43,6 +43,7 @@
         <AssociationConnector Association="RCSTecMed_Model.FK_SOCIO_FORMAPAGO" />
         <EntityTypeShape EntityType="RCSTecMed_Model.ESTIMADOPAGO" Width="1.5" PointX="10.375" PointY="0.875" />
         <AssociationConnector Association="RCSTecMed_Model.FK_SOCIO_ESTIMADOPAGO" />
+        <AssociationConnector Association="RCSTecMed_Model.FK_ESTABLECIMIENTO_REGION" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -374,11 +374,11 @@ namespace RCSTecMed_View
 
         private void BTN_Grabar_Click(object sender, RoutedEventArgs e)
         {
-            cca.IdCentroAcademico = int.Parse(TXT_IdCentroAcademico.Text);
-            cca.NombreCentroAcademico = TXT_NombreCentroAcademico.Text.ToUpper();
-
             if (!ValidarEntradas())
                 return;
+
+            cca.IdCentroAcademico = int.Parse(TXT_IdCentroAcademico.Text);
+            cca.NombreCentroAcademico = TXT_NombreCentroAcademico.Text.ToUpper();
 
             if (cca.ReadId())
             {

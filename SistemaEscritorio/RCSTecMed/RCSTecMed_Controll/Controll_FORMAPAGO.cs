@@ -16,7 +16,7 @@ namespace RCSTecMed_Controll
 
         /*VARIABLES COMPLEMENTARIAS*/
         string NombreUsuario;
-        public string _nombreUsuario { get {  return NombreUsuario; } }
+        public string UsuarioNombre { get {  return NombreUsuario; } }
         
 
         private void Init() //INICIALIZADOR DE LA CLASE
@@ -159,12 +159,44 @@ namespace RCSTecMed_Controll
             }
         }
 
-        public List<Controll_FORMAPAGO> ReadAllOrdenadoDesc() //MUESTRA LISTA DE REGISTROS DE LA BASE DE DATOS ORDENADA 
+        public List<Controll_FORMAPAGO> ListaFormaPagoOrdenadoDesc() //MUESTRA LISTA DE REGISTROS DE LA BASE DE DATOS ORDENADA 
         {
             RCSTecMed_Entities db = new RCSTecMed_Entities();
             try
             {
                 List<FORMAPAGO> listaDatos = db.FORMAPAGO.ToList<FORMAPAGO>();
+                List<Controll_FORMAPAGO> listaFormaPago = GenerarLista(listaDatos);
+                listaFormaPago = listaFormaPago.OrderBy(x => x.DescripcionFormaPagoCuota).ToList();
+                return listaFormaPago;
+            }
+            catch (Exception)
+            {
+                return new List<Controll_FORMAPAGO>();
+            }
+        }
+
+        public List<Controll_FORMAPAGO> ListaFormaPagoPorId(int id) //MUESTRA LISTA DE REGISTROS DE LA BASE DE DATOS ORDENADA 
+        {
+            RCSTecMed_Entities db = new RCSTecMed_Entities();
+            try
+            {
+                List<FORMAPAGO> listaDatos = db.FORMAPAGO.Where(x => x.IdFormaPagoCuota == id).ToList<FORMAPAGO>();
+                List<Controll_FORMAPAGO> listaFormaPago = GenerarLista(listaDatos);
+                listaFormaPago = listaFormaPago.OrderBy(x => x.DescripcionFormaPagoCuota).ToList();
+                return listaFormaPago;
+            }
+            catch (Exception)
+            {
+                return new List<Controll_FORMAPAGO>();
+            }
+        }
+
+        public List<Controll_FORMAPAGO> ListaFormaPagoPorDesc(string desc) //MUESTRA LISTA DE REGISTROS DE LA BASE DE DATOS ORDENADA 
+        {
+            RCSTecMed_Entities db = new RCSTecMed_Entities();
+            try
+            {
+                List<FORMAPAGO> listaDatos = db.FORMAPAGO.Where(x => x.DescripcionFormaPagoCuota == desc).ToList<FORMAPAGO>();
                 List<Controll_FORMAPAGO> listaFormaPago = GenerarLista(listaDatos);
                 listaFormaPago = listaFormaPago.OrderBy(x => x.DescripcionFormaPagoCuota).ToList();
                 return listaFormaPago;

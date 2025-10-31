@@ -57,6 +57,8 @@ namespace RCSTecMed_View
             RegionComboBox();
             CB_Comuna.IsEnabled = false;
 
+            LimpiarGrilla();
+
             TXT_IdEstablecimiento.Focus();
         }
 
@@ -186,7 +188,7 @@ namespace RCSTecMed_View
             if (val.CampoVacio(campo))
             {
                 msc.MostrarError("El campo no puede estar vacío.");
-                TXT_NombreEstablecimiento.Focus();
+                TXT_Telefono.Focus();
                 return;
             }
 
@@ -358,6 +360,18 @@ namespace RCSTecMed_View
         }
 
         //ACCIONES DE GRILLA
+        private void LimpiarGrilla()
+        {
+            try
+            {
+                DG_Establecimiento.ItemsSource = est.ListaLimpiarGrilla();
+            }
+            catch (Exception ex)
+            {
+                msc.MostrarError($"Error al Cargar Datos de Grilla\nDebido a: {ex.Message}");
+            }
+        }
+
         private void GrillaEstablecimientoLaboralCompleta()
         {
             try
@@ -370,28 +384,395 @@ namespace RCSTecMed_View
             }
         }
 
+        private void GrillaEstablecimientoLaboralId(int id)
+        {
+            try
+            {
+                DG_Establecimiento.ItemsSource = est.ListaEstablecimientoPorId(id);
+            }
+            catch (Exception ex)
+            {
+                msc.MostrarError($"Error al Cargar Datos de Grilla\nDebido a: {ex.Message}");
+            }
+        }
+
+        private void GrillaEstablecimientoLaboralDescripcion(string desc)
+        {
+            try
+            {
+                DG_Establecimiento.ItemsSource = est.ListaEstablecimientoPorDescripcion(desc);
+            }
+            catch (Exception ex)
+            {
+                msc.MostrarError($"Error al Cargar Datos de Grilla\nDebido a: {ex.Message}");
+            }
+        }
+
+        private void GrillaEstablecimientoLaboralRegion(int id)
+        {
+            try
+            {
+                DG_Establecimiento.ItemsSource = est.ListaEstablecimientoPorRegion(id);
+            }
+            catch (Exception ex)
+            {
+                msc.MostrarError($"Error al Cargar Datos de Grilla\nDebido a: {ex.Message}");
+            }
+        }
+
+        private void GrillaEstablecimientoLaboralComuna(string com)
+        {
+            try
+            {
+                DG_Establecimiento.ItemsSource = est.ListaEstablecimientoPorComuna(com);
+            }
+            catch (Exception ex)
+            {
+                msc.MostrarError($"Error al Cargar Datos de Grilla\nDebido a: {ex.Message}");
+            }
+        }
+
+        private void GrillaEstablecimientoLaboralRegionComuna(int id, string com)
+        {
+            try
+            {
+                DG_Establecimiento.ItemsSource = est.ListaEstablecimientoPorRegionComuna(id, com);
+            }
+            catch (Exception ex)
+            {
+                msc.MostrarError($"Error al Cargar Datos de Grilla\nDebido a: {ex.Message}");
+            }
+        }
+
         private void DG_Establecimiento_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (DG_Establecimiento.SelectedItems.Count == 0)
+                return;
 
+            var el = DG_Establecimiento.SelectedItems[0] as Controll_ESTABLECIMIENTO;
+            if (el == null)
+                return;
+
+            TXT_IdEstablecimiento.Text = el.IdEstablecimiento.ToString();
+            TXT_NombreEstablecimiento.Text = el.NombreEstablecimiento;
+            CB_Region.SelectedValue = el.Region;
+            CB_Comuna.SelectedValue = el.IdComuna;
+            TXT_Direccion.Text = el.Direccion;
+            TXT_Telefono.Text = el.Telefono.ToString();
+            TXT_Email.Text = el.Email;
+            TXT_Contacto.Text = el.NombreContacto;
+        }
+
+        //BOTONES DE ACCION
+        //BOTON: BUSCAR
+        private void MostrarMensajeBusquedaInvalida()
+        {
+            msc.MostrarWarning("Para Buscar tiene las siguientes opciones:" +
+                "\n1. Ingresar un Número de Registro y hacer click en botón BUSCAR" +
+                "\n2. Ingresar un Nombre de Centro Laboral y hacer click en botón BUSCAR" +
+                "\n3. Seleccionar una Región del listado Desplegable y hacer click en BUSCAR" +
+                "\n4. Seleccionar una Región y una Comuna y hacer click en Buscar");
+        }
+
+        private bool CamposVaciosBusqueda()
+        {
+            return val.CampoVacio(TXT_IdEstablecimiento.Text) 
+                && val.CampoVacio(TXT_NombreEstablecimiento.Text)
+                && CB_Region.SelectedIndex == -1
+                && CB_Comuna.SelectedIndex == -1;
+        }
+
+        private bool CampoIdBusqueda()
+        {
+            return !val.CampoVacio(TXT_IdEstablecimiento.Text)
+                && val.CampoVacio(TXT_NombreEstablecimiento.Text)
+                && CB_Region.SelectedIndex == -1
+                && CB_Comuna.SelectedIndex == -1;
+        }
+
+        private void MostrarId(int id)
+        {
+            est.IdEstablecimiento = id;
+
+            if (!est.ReadId())
+            {
+                DG_Establecimiento.IsEnabled = false;
+                msc.MostrarError("Registro no encontrado en Base de Datos");
+                return;
+            }
+
+            msc.MostrarInformacion("Registro encontrado. Se desplegarán los campos.");
+
+            // Asignación de campos
+            TXT_IdEstablecimiento.Text = est.IdEstablecimiento.ToString();
+            TXT_NombreEstablecimiento.Text = est.NombreEstablecimiento;
+            CB_Region.SelectedValue = est.Region;
+            CB_Comuna.SelectedValue = est.IdComuna;
+            TXT_Direccion.Text = est.Direccion;
+            TXT_Telefono.Text = est.Telefono.ToString();
+            TXT_Email.Text = est.Email;
+            TXT_Contacto.Text = est.NombreContacto;
+
+            DG_Establecimiento.IsEnabled = true;
+            GrillaEstablecimientoLaboralId(id);
+        }
+
+        private bool CampoNombreBusqueda()
+        {
+            return val.CampoVacio(TXT_IdEstablecimiento.Text)
+                && !val.CampoVacio(TXT_NombreEstablecimiento.Text)
+                && CB_Region.SelectedIndex == -1
+                && CB_Comuna.SelectedIndex == -1;
+        }
+
+        private void MostrarNombre(string nombre)
+        {
+            est.NombreEstablecimiento = nombre;
+
+            if (!est.ReadEstablecimiento())
+            {
+                DG_Establecimiento.IsEnabled = false;
+                msc.MostrarError("Registro no encontrado en Base de Datos");
+                return;
+            }
+
+            msc.MostrarInformacion("Registro encontrado. Se desplegarán los campos.");
+
+            // Asignación de campos
+            TXT_IdEstablecimiento.Text = est.IdEstablecimiento.ToString();
+            TXT_NombreEstablecimiento.Text = est.NombreEstablecimiento;
+            CB_Region.SelectedValue = est.Region;
+            CB_Comuna.SelectedValue = est.IdComuna;
+            TXT_Direccion.Text = est.Direccion;
+            TXT_Telefono.Text = est.Telefono.ToString();
+            TXT_Email.Text = est.Email;
+            TXT_Contacto.Text = est.NombreContacto;
+
+            DG_Establecimiento.IsEnabled = true;
+            GrillaEstablecimientoLaboralDescripcion(nombre);
+        }
+
+        private bool CampoRegionBusqueda()
+        {
+            return val.CampoVacio(TXT_IdEstablecimiento.Text)
+                && val.CampoVacio(TXT_NombreEstablecimiento.Text)
+                && CB_Region.SelectedIndex != -1
+                && CB_Comuna.SelectedIndex == -1;
+        }
+
+        private void MostrarRegion(int id)
+        {
+            int cantidad = md.TotalEstablecimientosRegistradosPorRegion(id);
+            msc.MostrarInformacion($"Se desplegaran {cantidad} Registros encontrados en Grilla.\n" +
+                "Fabor selccionar del listado.");
+
+            LB_TotalRegistrados.Content = cantidad.ToString();
+            DG_Establecimiento.IsEnabled = true;
+            GrillaEstablecimientoLaboralRegion(id);
+        }
+
+        private bool CampoRegioncomuaBusqueda()
+        {
+            return val.CampoVacio(TXT_IdEstablecimiento.Text)
+                && val.CampoVacio(TXT_NombreEstablecimiento.Text)
+                && CB_Region.SelectedIndex != -1
+                && CB_Comuna.SelectedIndex != -1;
+        }
+
+        private void MostrarRegionComuna(string com)
+        {
+            int cantidad = md.TotalEstablecimientosRegistradosPorRegionComuna(com);
+            msc.MostrarInformacion($"Se desplegarán Registros {cantidad} encontrados en Grilla.\n" +
+                "Fabor seleccionar del listado.");
+
+            LB_TotalRegistrados.Content = cantidad.ToString();
+            DG_Establecimiento.IsEnabled = true;
+            GrillaEstablecimientoLaboralComuna(com);
         }
 
         private void BTN_Buscar_Click(object sender, RoutedEventArgs e)
         {
+            if (CamposVaciosBusqueda())
+            {
+                if(Confirmacion("Se desplegara el listado completo de registros de Establecimientos Laborales" +
+                    "\nDesea continuar"))
+                {
+                    DG_Establecimiento.IsEnabled = true;
+                    GrillaEstablecimientoLaboralCompleta();
+                }
+                else
+                {
+                    MostrarMensajeBusquedaInvalida();
+                    DG_Establecimiento.IsEnabled = false;
+                    TXT_IdEstablecimiento.Focus();
+                }
+            }
+            
+            if (CampoIdBusqueda())
+            {
+                int campoId = int.Parse(TXT_IdEstablecimiento.Text);
+                MostrarId(campoId);
+                return;
+            }
 
+            if (CampoNombreBusqueda())
+            {
+                string campoNombre = TXT_NombreEstablecimiento.Text;
+                MostrarNombre(campoNombre);
+                return;
+            }
+
+            if (CampoRegionBusqueda())
+            {
+                int cbRegion = (int)CB_Region.SelectedValue;
+                MostrarRegion(cbRegion);
+                return;
+            }
+
+            if (CampoRegioncomuaBusqueda())
+            {
+                int cbRegion = (int)CB_Region.SelectedValue;
+                string cbComuna = (string)CB_Comuna.SelectedValue;
+
+                MostrarRegionComuna(cbComuna);
+                return;
+            }
+        }
+
+        //BOTON: GRABAR Y ACTUALIZAR
+        private bool ValidarEntradas()
+        {
+            bool hayCampoVavio = val.CampoVacio(TXT_IdEstablecimiento.Text)
+                || val.CampoVacio(TXT_NombreEstablecimiento.Text)
+                || CB_Region.SelectedIndex == -1
+                || CB_Comuna.SelectedIndex == -1
+                || val.CampoVacio(TXT_Direccion.Text)
+                || val.CampoVacio(TXT_Telefono.Text)
+                || val.CampoVacio(TXT_Email.Text)
+                || val.CampoVacio(TXT_Contacto.Text);
+
+            if (hayCampoVavio)
+            {
+                msc.MostrarError("Todos los campos son obligatorios\n" +
+                    "Si no cuenta con datos como Dirección completar con NO HAY REGISTRO\n" +
+                    "Telefono completar con 0\n" +
+                    "Email completar con REGISTRAR@EMAIL.XX\n" +
+                    "Contacto completar con NO HAY REGISTRO");
+                TXT_IdEstablecimiento.Focus();
+                return false;
+            }
+
+            return true;
+        }
+
+        private void MostrarErrorYFoco(string mensaje, Control control)
+        {
+            msc.MostrarError(mensaje);
+            control.Focus();
         }
 
         private void BTN_Grabar_Click(object sender, RoutedEventArgs e)
         {
+            if (!ValidarEntradas())
+                return;
+
+            est.IdEstablecimiento = int.Parse(TXT_IdEstablecimiento.Text);            
+            if (est.ReadId())
+            {
+                MostrarErrorYFoco("Número de Registro ya existe en la base de datos\nRevisar datos ingresados", TXT_IdEstablecimiento);
+                return;
+            }
+
+            est.NombreEstablecimiento = TXT_NombreEstablecimiento.Text.ToUpper();
+            if (est.ReadEstablecimiento())
+            {
+                MostrarErrorYFoco("Nombre de Establecimiento Laboral ya existe en la base de datos\nRevisar datos ingresados", TXT_NombreEstablecimiento);
+                return;
+            }
+
+            est.IdEstablecimiento = int.Parse(TXT_IdEstablecimiento.Text);
+            est.NombreEstablecimiento = TXT_NombreEstablecimiento.Text.ToUpper();
+            est.IdComuna = (string)CB_Comuna.SelectedValue;
+            est.Direccion = TXT_Direccion.Text.ToUpper();
+            est.Telefono = int.Parse(TXT_Telefono.Text);
+            est.Email = TXT_Email.Text.ToUpper();
+            est.NombreContacto = TXT_Contacto.Text.ToUpper();
+            est.IdUsuario = idUsuario;
+            est.Region = (int)CB_Region.SelectedValue;
+
+            if (!est.Create())
+            {
+                msc.MostrarError("No se logró realizar el registro en la base de datos\nComunicarse con el administrador");
+                Limpiar();
+                return;
+            }
+
+            msc.MostrarInformacion("Registro exitoso en la base de datos");
+            Limpiar();
 
         }
 
         private void BTN_Actualizar_Click(object sender, RoutedEventArgs e)
         {
+            if (!ValidarEntradas())
+                return;
 
+            est.IdEstablecimiento = int.Parse(TXT_IdEstablecimiento.Text);
+            if (!est.ReadId())
+            {
+                MostrarErrorYFoco("No se encontró el registro a actualizar\nVerifique el Número de Registro ingresado", TXT_IdEstablecimiento);
+                return;
+            }
+
+
+            if (!Confirmacion("Desea Actualizar este Registro?"))
+                return;
+
+            est.IdEstablecimiento = int.Parse(TXT_IdEstablecimiento.Text);
+            est.NombreEstablecimiento = TXT_NombreEstablecimiento.Text.ToUpper();
+            est.IdComuna = (string)CB_Comuna.SelectedValue;
+            est.Direccion = TXT_Direccion.Text.ToUpper();
+            est.Telefono = int.Parse(TXT_Telefono.Text);
+            est.Email = TXT_Email.Text.ToUpper();
+            est.NombreContacto = TXT_Contacto.Text.ToUpper();
+            est.IdUsuario = idUsuario;
+            est.Region = (int)CB_Region.SelectedValue;
+
+            if (!est.Update())
+            {
+                msc.MostrarError("No se logró realizar la Actualización del registro en la base de datos\nComunicarse con el administrador");
+                Limpiar();
+                return;
+            }
+
+            msc.MostrarInformacion("Actualización de Registro exitoso en la base de datos");
+            Limpiar();
         }
 
+        //BOTON: ELIMINAR
         private void BTN_Eliminar_Click(object sender, RoutedEventArgs e)
         {
+            if (!ValidarEntradas())
+                return;
+
+            est.IdEstablecimiento = int.Parse(TXT_IdEstablecimiento.Text);
+            if (!est.ReadId())
+            {
+                MostrarErrorYFoco("No se encontró el registro a eliminar\nVerifique el Número de Registro ingresado", TXT_IdEstablecimiento);
+                return;
+            }
+
+            if (Confirmacion("¿Desea Eliminar este registro?"))
+            {
+                string idReg = TXT_IdEstablecimiento.Text;
+                View_ConfirmaEliminar vce = new View_ConfirmaEliminar(idUsuario, idReg, "Establecimiento");
+                vce.ShowDialog();
+                Limpiar();
+                return;
+            }
+
+            Limpiar();
+
 
         }
 

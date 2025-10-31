@@ -14,7 +14,7 @@ namespace RCSTecMed_Controll
         public string NombreEstablecimiento { get; set; }
         public string IdComuna { get; set; }
         public string Direccion { get; set; }
-        public Nullable<int> Telefono { get; set; }
+        public int Telefono { get; set; }
         public string Email { get; set; }
         public string NombreContacto { get; set; }
         public int IdUsuario { get; set; }
@@ -35,7 +35,7 @@ namespace RCSTecMed_Controll
             NombreEstablecimiento = string.Empty;
             IdComuna = string.Empty;
             Direccion = string.Empty;
-            Telefono = null;
+            Telefono = 0;
             Email = string.Empty;
             NombreContacto = string.Empty;
             IdUsuario = 0;
@@ -274,6 +274,37 @@ namespace RCSTecMed_Controll
             }
         }
 
+        public List<Controll_ESTABLECIMIENTO> ListaEstablecimientoPorRegionComuna(int idRegion, string comuna) //MUESTRA LISTA DE REGISTROS DE LA BASE DE DATOS ORDENADA 
+        {
+            RCSTecMed_Entities db = new RCSTecMed_Entities();
+            try
+            {
+                List<ESTABLECIMIENTO> listaDatos = db.ESTABLECIMIENTO.Where(x => x.Region == idRegion && x.IdComuna == comuna).ToList<ESTABLECIMIENTO>();
+                List<Controll_ESTABLECIMIENTO> listaEstablecimiento = GenerarLista(listaDatos);
+                listaEstablecimiento = listaEstablecimiento.OrderBy(x => x.NombreEstablecimiento).ToList();
+                return listaEstablecimiento;
+            }
+            catch (Exception)
+            {
+                return new List<Controll_ESTABLECIMIENTO>();
+            }
+        }
+
+        public List<Controll_ESTABLECIMIENTO> ListaLimpiarGrilla() //MUESTRA LISTA DE REGISTROS DE LA BASE DE DATOS ORDENADA 
+        {
+            RCSTecMed_Entities db = new RCSTecMed_Entities();
+            try
+            {
+                List<ESTABLECIMIENTO> listaDatos = db.ESTABLECIMIENTO.Where(x => x.IdEstablecimiento == 0).ToList<ESTABLECIMIENTO>();
+                List<Controll_ESTABLECIMIENTO> listaEstablecimiento = GenerarLista(listaDatos);
+                listaEstablecimiento = listaEstablecimiento.OrderBy(x => x.NombreEstablecimiento).ToList();
+                return listaEstablecimiento;
+            }
+            catch (Exception)
+            {
+                return new List<Controll_ESTABLECIMIENTO>();
+            }
+        }
 
         private List<Controll_ESTABLECIMIENTO> GenerarLista(List<ESTABLECIMIENTO> dataList) //GENERA LISTA DE REGISTROS DE LA BASE DE DATOS A MOSTRAR
         {

@@ -26,12 +26,12 @@ namespace RCSTecMed_View
         private readonly Mensajes_Controll msc = new Mensajes_Controll();
         private readonly Controll_CERTIFICACION cer = new Controll_CERTIFICACION();
 
-        private int idUsuario { get; set; }
+        private int IdUsuario { get; set; }
 
         public TipoCertificacion_UserControl(int idUser)
         {
             InitializeComponent();
-            idUsuario = idUser;
+            IdUsuario = idUser;
 
             Limpiar();
         }
@@ -156,12 +156,11 @@ namespace RCSTecMed_View
             if (DG_TipoCertificacion.SelectedItems.Count == 0)
                 return;
 
-            var tc = DG_TipoCertificacion.SelectedItems[0] as Controll_CERTIFICACION;
-            if (tc == null)
-                return;
-
-            TXT_IdTipoCertificacion.Text = tc.IdCertificacion.ToString();
-            TXT_TipoCertificacion.Text = tc.DescripcionCertificacion;
+            if (DG_TipoCertificacion.SelectedItems[0] is Controll_CERTIFICACION tc)
+            {
+                TXT_IdTipoCertificacion.Text = tc.IdCertificacion.ToString();
+                TXT_TipoCertificacion.Text = tc.DescripcionCertificacion;
+            }
         }
 
         private void GrillaTipoCertificacionPorId(int id)
@@ -193,8 +192,8 @@ namespace RCSTecMed_View
         private void MostrarMensajeBusquedaInvalida()
         {
             msc.MostrarError("Para Buscar tiene las siguientes opciones:" +
-                "\n1. Ingresar un Número de Registrado y hacer click en botón BUSCAR" +
-                "\n2. Ingresar una Descripcion de Tipo de Certificación y hacer click en botón BUSCAR" +
+                "\n1. Ingresar un Número de Registro y hacer click en botón BUSCAR" +
+                "\n2. Ingresar una Descripción de Tipo de Certificación y hacer click en botón BUSCAR" +
                 "\n3. Seleccionar un Registro desde el Listado de la Grilla");
         }
 
@@ -285,7 +284,7 @@ namespace RCSTecMed_View
         {
             cer.IdCertificacion = int.Parse(TXT_IdTipoCertificacion.Text);
             cer.DescripcionCertificacion = TXT_TipoCertificacion.Text.ToUpper();
-            cer.IdUsuario = idUsuario;
+            cer.IdUsuario = IdUsuario;
 
             if (!ValidarEntradas())
                 return;
@@ -315,14 +314,11 @@ namespace RCSTecMed_View
         }
 
         private void BTN_Actualizar_Click(object sender, RoutedEventArgs e)
-        {
-            cer.IdCertificacion = int.Parse(TXT_IdTipoCertificacion.Text);
-            cer.DescripcionCertificacion = TXT_TipoCertificacion.Text.ToUpper();
-            cer.IdUsuario = idUsuario;
-
+        {            
             if (!ValidarEntradas())
                 return;
 
+            cer.IdCertificacion = int.Parse(TXT_IdTipoCertificacion.Text);
             if (!cer.ReadId())
             {
                 MostrarErrorYFoco("No se encontró el registro a actualizar\nVerifique el Número de Registro ingresado", TXT_IdTipoCertificacion);
@@ -331,6 +327,10 @@ namespace RCSTecMed_View
 
             if (!Confirmacion("¿Desea actualizar este registro?"))
                 return;
+
+            cer.IdCertificacion = int.Parse(TXT_IdTipoCertificacion.Text);
+            cer.DescripcionCertificacion = TXT_TipoCertificacion.Text.ToUpper();
+            cer.IdUsuario = IdUsuario;
 
             if (!cer.Update())
             {
@@ -360,7 +360,7 @@ namespace RCSTecMed_View
             if (Confirmacion("¿Desea Eliminar este registro?"))
             {
                 string idReg = TXT_IdTipoCertificacion.Text;
-                View_ConfirmaEliminar vce = new View_ConfirmaEliminar(idUsuario, idReg, "TipoCertificacion");
+                View_ConfirmaEliminar vce = new View_ConfirmaEliminar(IdUsuario, idReg, "TipoCertificacion");
                 vce.ShowDialog();
                 Limpiar();
                 return;
@@ -380,16 +380,12 @@ namespace RCSTecMed_View
         private void BTN_Home_Click(object sender, RoutedEventArgs e)
         {
             // Buscar el TabControl en la ventana contenedora
-            var parentWindow = Window.GetWindow(this);
-            if (parentWindow != null)
+            if (Window.GetWindow(this) is View_CompletarDatosRegistroSocio mdSec)
             {
-                var mdSec = parentWindow as View_CompletarDatosRegistroSocio;
-                if (mdSec != null)
-                {
-                    // Activar la pestaña "Home"
-                    mdSec.MainTabControl.SelectedItem = mdSec.TAB_Home;
-                }
+                // Activar la pestaña "Home"
+                mdSec.MainTabControl.SelectedItem = mdSec.TAB_Home;
             }
+
 
         }
     }

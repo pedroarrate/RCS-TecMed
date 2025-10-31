@@ -22,14 +22,14 @@ namespace RCSTecMed_View
     {        
         private readonly MostrarDatos_Controll md = new MostrarDatos_Controll();
 
-        private int idUsuario {  get; set; }
+        private int IdUsuario {  get; set; }
         public View_CompletarDatosRegistroSocio(int idUser)
         {
             InitializeComponent();
             LB_Fecha.Content = DateTime.Now.ToString("dd-MM-yyyy");
             LB_HoraConexion.Content = DateTime.Now.ToString("T");
             LB_Usuario.Content = md.MostrarUsuario(idUser);
-            idUsuario = idUser;
+            IdUsuario = idUser;
         }
 
         private void MainTabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -45,23 +45,23 @@ namespace RCSTecMed_View
                         switch (selectedTab.Name)
                         {
                             case "TAB_CentroAcademico":
-                                selectedTab.Content = new CentroAcademico_UserControl(idUsuario);
+                                selectedTab.Content = new CentroAcademico_UserControl(IdUsuario);
                                 break;
 
                             case "TAB_TipoCertificacion":
-                                selectedTab.Content = new TipoCertificacion_UserControl(idUsuario);
+                                selectedTab.Content = new TipoCertificacion_UserControl(IdUsuario);
                                 break;
 
                             case "TAB_EstablecimientoLaboral":
-                                selectedTab.Content = new EstablecimientoLaboral_UserControl(idUsuario);
+                                selectedTab.Content = new EstablecimientoLaboral_UserControl(IdUsuario);
                                 break;
 
                             case "TAB_FormaPago":
-                                selectedTab.Content = new FormaPago_UserControl(idUsuario);
+                                selectedTab.Content = new FormaPago_UserControl(IdUsuario);
                                 break;
 
                             case "TAB_EstimadoPago":
-                                selectedTab.Content = new EstaimadoPago_UserControl(idUsuario);
+                                selectedTab.Content = new EstaimadoPago_UserControl(IdUsuario);
                                 break;
 
                             case "TAB_Salir":

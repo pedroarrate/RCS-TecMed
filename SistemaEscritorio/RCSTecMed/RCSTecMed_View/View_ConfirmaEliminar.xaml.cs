@@ -24,16 +24,16 @@ namespace RCSTecMed_View
         private readonly Mensajes_Controll msc = new Mensajes_Controll();
         private readonly Controll_USUARIO us = new Controll_USUARIO();
 
-        private int idUsuario {  get; set; }
-        private string idRegistro { get; set; }
-        private string nombreTabla {  get; set; }
+        private int IdUsuario {  get; set; }
+        private string IdRegistro { get; set; }
+        private string NombreTabla {  get; set; }
 
-        public View_ConfirmaEliminar(int idUser, string idReg, string tabla)
+        public View_ConfirmaEliminar(int IdUser, string IdReg, string Tabla)
         {
             InitializeComponent();
-            idUsuario = idUser;
-            idRegistro = idReg;
-            nombreTabla = tabla;
+            IdUsuario = IdUser;
+            IdRegistro = IdReg;
+            NombreTabla = Tabla;
             Limpiar();
         }
 
@@ -45,6 +45,12 @@ namespace RCSTecMed_View
             BTN_ConfirmaEliminar.IsEnabled = false;
 
             PB_Contraseña1.Focus();
+        }
+
+        private void VerMensajeError()
+        {
+            msc.MostrarError("No se logró eliminar registro en la base de datos\nComunicarse con el administrador");
+            Limpiar();
         }
 
         private bool ValidaIngresPass(string pass, Control control)
@@ -131,8 +137,7 @@ namespace RCSTecMed_View
                     var cca= new Controll_CENTROACADEMICO() { IdCentroAcademico = int.Parse(id) };
                     if (!cca.Delete())
                     {
-                        msc.MostrarError("No se logró eliminar registro en la base de datos\nComunicarse con el administrador");
-                        Limpiar();
+                        VerMensajeError();
                         return false;
                     }
                     return true;
@@ -141,8 +146,7 @@ namespace RCSTecMed_View
                     var cer = new Controll_CERTIFICACION() { IdCertificacion = int.Parse(id) };
                     if (!cer.Delete())
                     {
-                        msc.MostrarError("No se logró eliminar registro en la base de datos\nComunicarse con el administrador");
-                        Limpiar();
+                        VerMensajeError();
                         return false;
                     }
                     return true;
@@ -151,8 +155,25 @@ namespace RCSTecMed_View
                     var est = new Controll_ESTABLECIMIENTO() { IdEstablecimiento = int.Parse(id) };
                     if (!est.Delete())
                     {
-                        msc.MostrarError("No se logró eliminar registro en la base de datos\nComunicarse con el administrador");
-                        Limpiar();
+                        VerMensajeError();
+                        return false;
+                    }
+                    return true;
+
+                case "FormaPago":
+                    var fp = new Controll_FORMAPAGO() { IdFormaPagoCuota = int.Parse(id) };
+                    if (!fp.Delete())
+                    {
+                        VerMensajeError();
+                        return false;
+                    }
+                    return true;
+
+                case "EstimadoPago":
+                    var ep = new Controll_ESTIMADOPAGO() { IdEstimadoPago = int.Parse(id) };
+                    if (!ep.Delete())
+                    {
+                        VerMensajeError();
                         return false;
                     }
                     return true;
@@ -169,13 +190,13 @@ namespace RCSTecMed_View
         {
             string pass = PB_Contraseña2.Password.ToString();
 
-            if (!ValidarUsuario(idUsuario))
+            if (!ValidarUsuario(IdUsuario))
                 return;
 
             if (!ValidarContraseña(us.Password, pass))
                 return;
 
-            if (!EliminarRegistro(nombreTabla, idRegistro))
+            if (!EliminarRegistro(NombreTabla, IdRegistro))
                 return;
 
             msc.MostrarInformacion("Registro Eliminado de Base de Datos");

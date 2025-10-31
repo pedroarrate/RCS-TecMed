@@ -18,6 +18,7 @@ namespace RCSTecMed_Model
         public REGION()
         {
             this.COMUNA = new HashSet<COMUNA>();
+            this.ESTABLECIMIENTO = new HashSet<ESTABLECIMIENTO>();
         }
     
         public int IdRegion { get; set; }
@@ -26,5 +27,7 @@ namespace RCSTecMed_Model
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<COMUNA> COMUNA { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ESTABLECIMIENTO> ESTABLECIMIENTO { get; set; }
     }
 }

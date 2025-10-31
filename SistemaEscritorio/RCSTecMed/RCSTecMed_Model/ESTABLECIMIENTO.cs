@@ -24,14 +24,15 @@ namespace RCSTecMed_Model
         public string NombreEstablecimiento { get; set; }
         public string IdComuna { get; set; }
         public string Direccion { get; set; }
-        public Nullable<int> Telefono { get; set; }
+        public int Telefono { get; set; }
         public string Email { get; set; }
         public string NombreContacto { get; set; }
         public int IdUsuario { get; set; }
-        public Nullable<int> Region { get; set; }
+        public int Region { get; set; }
     
         public virtual COMUNA COMUNA { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ESTABLECIMIENTO_ACTUAL> ESTABLECIMIENTO_ACTUAL { get; set; }
+        public virtual REGION REGION1 { get; set; }
     }
 }
