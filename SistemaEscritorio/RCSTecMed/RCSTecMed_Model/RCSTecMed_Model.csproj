@@ -64,6 +64,9 @@
     <Compile Include="CERTIFICACION.cs">
       <DependentUpon>Model_RCSTecMed.tt</DependentUpon>
     </Compile>
+    <Compile Include="CERTIFICACIONES.cs">
+      <DependentUpon>Model_RCSTecMed.tt</DependentUpon>
+    </Compile>
     <Compile Include="COMUNA.cs">
       <DependentUpon>Model_RCSTecMed.tt</DependentUpon>
     </Compile>

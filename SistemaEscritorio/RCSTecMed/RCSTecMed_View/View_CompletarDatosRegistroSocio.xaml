@@ -87,6 +87,8 @@
                     <!-- Registro de Tipo Certificacion -->
                     <TabItem x:Name="TAB_TipoCertificacion" Header="Tipo de Certificación"/>
                     <!-- Registro de Establecimiento Laboral -->
+                    <TabItem x:Name="TAB_NombreCertificacion" Header="Nombre de Certificación"/>
+                    <!-- Registro de Establecimiento Laboral -->
                     <TabItem x:Name="TAB_EstablecimientoLaboral" Header="Establecimiento Laboral"/>
                     <!-- Registro de Forma de Pago -->
                     <TabItem x:Name="TAB_FormaPago" Header="Forma de Pago"/>

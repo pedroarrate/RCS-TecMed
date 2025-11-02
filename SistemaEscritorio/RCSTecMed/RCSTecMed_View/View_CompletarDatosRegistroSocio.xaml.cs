@@ -52,6 +52,10 @@ namespace RCSTecMed_View
                                 selectedTab.Content = new TipoCertificacion_UserControl(IdUsuario);
                                 break;
 
+                            case "TAB_NombreCertificacion":
+                                selectedTab.Content = new NombreCertificacion_UserControl(IdUsuario);
+                                break;
+
                             case "TAB_EstablecimientoLaboral":
                                 selectedTab.Content = new EstablecimientoLaboral_UserControl(IdUsuario);
                                 break;

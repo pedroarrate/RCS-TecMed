@@ -142,7 +142,7 @@
                     <TextBox x:Name="TXT_NotaCertificacion" Height="20" Width="100" FontFamily="Arial" FontSize="15" Style="{StaticResource WhiteTextBoxStyle}" Background="Transparent"
                              Foreground="Azure" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" 
                              Margin="640,25,0,0" KeyDown="TXT_NotaCertificacion_KeyDown"/>
-                    <Label Content="Nota Certificación" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="10" FontWeight="Bold" Foreground="White" Margin="760,5,0,0"/>
+                    <Label Content="Horas Efectuadas" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="10" FontWeight="Bold" Foreground="White" Margin="760,5,0,0"/>
                     <TextBox x:Name="TXT_HorasCertificacion" Height="20" Width="100" FontFamily="Arial" FontSize="15" Style="{StaticResource WhiteTextBoxStyle}" Background="Transparent"
                              Foreground="Azure" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" 
                              Margin="760,25,0,0" KeyDown="TXT_HorasCertificacion_KeyDown"/>

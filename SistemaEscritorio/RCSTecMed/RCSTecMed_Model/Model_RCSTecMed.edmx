@@ -14,7 +14,7 @@
           <Property Name="IdCertificacion" Type="int" Nullable="false" />
           <Property Name="Fecha" Type="date" Nullable="false" />
           <Property Name="IdCentroAcademico" Type="int" Nullable="false" />
-          <Property Name="DescripcionAcademico" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="IdCertificaciones" Type="int" Nullable="false" />
           <Property Name="FolioRegistroAcademico" Type="nvarchar" MaxLength="100" />
           <Property Name="IdUsuario" Type="int" Nullable="false" />
           <Property Name="Nota" Type="numeric" Precision="1" Scale="1" />
@@ -36,6 +36,14 @@
           </Key>
           <Property Name="IdCertificacion" Type="int" Nullable="false" />
           <Property Name="DescripcionCertificacion" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="IdUsuario" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CERTIFICACIONES">
+          <Key>
+            <PropertyRef Name="IdCertificaciones" />
+          </Key>
+          <Property Name="IdCertificaciones" Type="int" Nullable="false" />
+          <Property Name="NombreCertificacion" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="IdUsuario" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="COMUNA">
@@ -142,14 +150,15 @@
           <Property Name="Nombres" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="FechaNacimiento" Type="date" Nullable="false" />
           <Property Name="Sexo" Type="nvarchar" MaxLength="10" Nullable="false" />
-          <Property Name="Nacionalidad" Type="nvarchar" MaxLength="20" Nullable="false" />
-          <Property Name="Institucion" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="IdNacionalidad" Type="char" MaxLength="3" Nullable="false" />
+          <Property Name="IdCentroAcademico" Type="int" Nullable="false" />
+          <Property Name="IdCertificaciones" Type="int" Nullable="false" />
           <Property Name="FechaAntecedente" Type="date" Nullable="false" />
           <Property Name="Registro" Type="int" Nullable="false" />
-          <Property Name="TipoInstitucion" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="TipoInstitucion" Type="nvarchar" MaxLength="30" Nullable="false" />
           <Property Name="FechaInscripcion" Type="date" Nullable="false" />
-          <Property Name="NombreTitulo" Type="nvarchar" MaxLength="20" Nullable="false" />
-          <Property Name="RegionTrabajo" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="IdCertificacion" Type="int" Nullable="false" />
+          <Property Name="IdRegion" Type="int" Nullable="false" />
           <Property Name="Mencion" Type="nvarchar" MaxLength="150" />
           <Property Name="UniversidadExtranjera" Type="nvarchar" MaxLength="50" />
           <Property Name="Pais" Type="nvarchar" MaxLength="20" />
@@ -239,6 +248,18 @@
             </Principal>
             <Dependent Role="ACADEMICO">
               <PropertyRef Name="IdCertificacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ACADEMICO_CERTIFICACIONES">
+          <End Role="CERTIFICACIONES" Type="Self.CERTIFICACIONES" Multiplicity="1" />
+          <End Role="ACADEMICO" Type="Self.ACADEMICO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CERTIFICACIONES">
+              <PropertyRef Name="IdCertificaciones" />
+            </Principal>
+            <Dependent Role="ACADEMICO">
+              <PropertyRef Name="IdCertificaciones" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -462,6 +483,7 @@
           <EntitySet Name="ACADEMICO" EntityType="Self.ACADEMICO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CENTRO_ACADEMICO" EntityType="Self.CENTRO_ACADEMICO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CERTIFICACION" EntityType="Self.CERTIFICACION" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CERTIFICACIONES" EntityType="Self.CERTIFICACIONES" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="COMUNA" EntityType="Self.COMUNA" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ESTABLECIMIENTO" EntityType="Self.ESTABLECIMIENTO" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ESTABLECIMIENTO_ACTUAL" EntityType="Self.ESTABLECIMIENTO_ACTUAL" Schema="dbo" store:Type="Tables" />
@@ -484,6 +506,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_ACADEMICO_CERTIDICACION" Association="Self.FK_ACADEMICO_CERTIDICACION">
             <End Role="CERTIFICACION" EntitySet="CERTIFICACION" />
+            <End Role="ACADEMICO" EntitySet="ACADEMICO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ACADEMICO_CERTIFICACIONES" Association="Self.FK_ACADEMICO_CERTIFICACIONES">
+            <End Role="CERTIFICACIONES" EntitySet="CERTIFICACIONES" />
             <End Role="ACADEMICO" EntitySet="ACADEMICO" />
           </AssociationSet>
           <AssociationSet Name="FK_ACADEMICO_SOCIO" Association="Self.FK_ACADEMICO_SOCIO">
@@ -647,31 +673,6 @@
           <NavigationProperty Name="COMUNA" Relationship="Self.FK_COMUNA_REGION" FromRole="REGION" ToRole="COMUNA" />
           <NavigationProperty Name="ESTABLECIMIENTO" Relationship="RCSTecMed_Model.FK_ESTABLECIMIENTO_REGION" FromRole="REGION" ToRole="ESTABLECIMIENTO" />
         </EntityType>
-        <EntityType Name="REGISTRO_TECMED">
-          <Key>
-            <PropertyRef Name="Rut" />
-          </Key>
-          <Property Name="Rut" Type="Int32" Nullable="false" />
-          <Property Name="Dv" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
-          <Property Name="ApellidoPaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="ApellidoMaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Nombres" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="FechaNacimiento" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Sexo" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Nacionalidad" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Institucion" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="FechaAntecedente" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Registro" Type="Int32" Nullable="false" />
-          <Property Name="TipoInstitucion" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="FechaInscripcion" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="NombreTitulo" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="RegionTrabajo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Mencion" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="UniversidadExtranjera" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Pais" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="Especialista" Type="String" MaxLength="2" FixedLength="true" Unicode="false" Nullable="false" />
-          <Property Name="IdUsuario" Type="Int32" Nullable="false" />
-        </EntityType>
         <EntityType Name="ROL_USUARIO">
           <Key>
             <PropertyRef Name="IdRol" />
@@ -707,11 +708,11 @@
           <NavigationProperty Name="NACIONALIDAD" Relationship="Self.FK_SOCIO_NACIONALIDAD" FromRole="SOCIO" ToRole="NACIONALIDAD" />
           <Property Name="IdEstadoSocio" Type="Int32" Nullable="false" />
           <NavigationProperty Name="ESTADO_SOCIO" Relationship="RCSTecMed_Model.FK_SOCIO_ESTADO_SOCIO" FromRole="SOCIO" ToRole="ESTADO_SOCIO" />
-          <NavigationProperty Name="ACADEMICO" Relationship="RCSTecMed_Model.FK_ACADEMICO_SOCIO" FromRole="SOCIO" ToRole="ACADEMICO" />
           <Property Name="FolioSuperintendencia" Type="Int32" />
           <Property Name="IdEstimadoPago" Type="Int32" Nullable="false" />
           <NavigationProperty Name="FORMAPAGO" Relationship="RCSTecMed_Model.FK_SOCIO_FORMAPAGO" FromRole="SOCIO" ToRole="FORMAPAGO" />
           <NavigationProperty Name="ESTIMADOPAGO" Relationship="RCSTecMed_Model.FK_SOCIO_ESTIMADOPAGO" FromRole="SOCIO" ToRole="ESTIMADOPAGO" />
+          <NavigationProperty Name="ACADEMICO" Relationship="RCSTecMed_Model.FK_ACADEMICO_SOCIO" FromRole="SOCIO" ToRole="ACADEMICO" />
         </EntityType>
         <EntityType Name="USUARIO">
           <Key>
@@ -903,7 +904,6 @@
           <EntitySet Name="HISTORICO_PAGO" EntityType="Self.HISTORICO_PAGO" />
           <EntitySet Name="NACIONALIDAD" EntityType="Self.NACIONALIDAD" />
           <EntitySet Name="REGION" EntityType="Self.REGION" />
-          <EntitySet Name="REGISTRO_TECMED" EntityType="Self.REGISTRO_TECMED" />
           <EntitySet Name="ROL_USUARIO" EntityType="Self.ROL_USUARIO" />
           <EntitySet Name="SOCIO" EntityType="Self.SOCIO" />
           <EntitySet Name="USUARIO" EntityType="Self.USUARIO" />
@@ -962,21 +962,8 @@
             <End Role="ESTADO_SOCIO" EntitySet="ESTADO_SOCIO" />
             <End Role="SOCIO" EntitySet="SOCIO" />
           </AssociationSet>
-          <EntitySet Name="ACADEMICO" EntityType="RCSTecMed_Model.ACADEMICO" />
           <EntitySet Name="CENTRO_ACADEMICO" EntityType="RCSTecMed_Model.CENTRO_ACADEMICO" />
-          <AssociationSet Name="FK_ACADEMICO_CENTRO_ACADEMICO" Association="RCSTecMed_Model.FK_ACADEMICO_CENTRO_ACADEMICO">
-            <End Role="CENTRO_ACADEMICO" EntitySet="CENTRO_ACADEMICO" />
-            <End Role="ACADEMICO" EntitySet="ACADEMICO" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ACADEMICO_SOCIO" Association="RCSTecMed_Model.FK_ACADEMICO_SOCIO">
-            <End Role="SOCIO" EntitySet="SOCIO" />
-            <End Role="ACADEMICO" EntitySet="ACADEMICO" />
-          </AssociationSet>
           <EntitySet Name="CERTIFICACION" EntityType="RCSTecMed_Model.CERTIFICACION" />
-          <AssociationSet Name="FK_ACADEMICO_CERTIDICACION" Association="RCSTecMed_Model.FK_ACADEMICO_CERTIDICACION">
-            <End Role="CERTIFICACION" EntitySet="CERTIFICACION" />
-            <End Role="ACADEMICO" EntitySet="ACADEMICO" />
-          </AssociationSet>
           <EntitySet Name="FORMAPAGO" EntityType="RCSTecMed_Model.FORMAPAGO" />
           <AssociationSet Name="FK_HISTORICO_PAGO_FORMAPAGO" Association="RCSTecMed_Model.FK_HISTORICO_PAGO_FORMAPAGO">
             <End Role="FORMAPAGO" EntitySet="FORMAPAGO" />
@@ -994,6 +981,25 @@
           <AssociationSet Name="FK_ESTABLECIMIENTO_REGION" Association="RCSTecMed_Model.FK_ESTABLECIMIENTO_REGION">
             <End Role="REGION" EntitySet="REGION" />
             <End Role="ESTABLECIMIENTO" EntitySet="ESTABLECIMIENTO" />
+          </AssociationSet>
+          <EntitySet Name="REGISTRO_TECMED" EntityType="RCSTecMed_Model.REGISTRO_TECMED" />
+          <EntitySet Name="ACADEMICO" EntityType="RCSTecMed_Model.ACADEMICO" />
+          <EntitySet Name="CERTIFICACIONES" EntityType="RCSTecMed_Model.CERTIFICACIONES" />
+          <AssociationSet Name="FK_ACADEMICO_CENTRO_ACADEMICO" Association="RCSTecMed_Model.FK_ACADEMICO_CENTRO_ACADEMICO">
+            <End Role="CENTRO_ACADEMICO" EntitySet="CENTRO_ACADEMICO" />
+            <End Role="ACADEMICO" EntitySet="ACADEMICO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ACADEMICO_CERTIDICACION" Association="RCSTecMed_Model.FK_ACADEMICO_CERTIDICACION">
+            <End Role="CERTIFICACION" EntitySet="CERTIFICACION" />
+            <End Role="ACADEMICO" EntitySet="ACADEMICO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ACADEMICO_CERTIFICACIONES" Association="RCSTecMed_Model.FK_ACADEMICO_CERTIFICACIONES">
+            <End Role="CERTIFICACIONES" EntitySet="CERTIFICACIONES" />
+            <End Role="ACADEMICO" EntitySet="ACADEMICO" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ACADEMICO_SOCIO" Association="RCSTecMed_Model.FK_ACADEMICO_SOCIO">
+            <End Role="SOCIO" EntitySet="SOCIO" />
+            <End Role="ACADEMICO" EntitySet="ACADEMICO" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="ESTADO_SOCIO">
@@ -1016,24 +1022,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="ACADEMICO">
-          <Key>
-            <PropertyRef Name="IdAcademcico" />
-          </Key>
-          <Property Name="IdAcademcico" Type="Int32" Nullable="false" />
-          <Property Name="Rut" Type="Int32" Nullable="false" />
-          <Property Name="IdCertificacion" Type="Int32" Nullable="false" />
-          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="IdCentroAcademico" Type="Int32" Nullable="false" />
-          <Property Name="DescripcionAcademico" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="FolioRegistroAcademico" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="IdUsuario" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="CENTRO_ACADEMICO" Relationship="RCSTecMed_Model.FK_ACADEMICO_CENTRO_ACADEMICO" FromRole="ACADEMICO" ToRole="CENTRO_ACADEMICO" />
-          <NavigationProperty Name="SOCIO" Relationship="RCSTecMed_Model.FK_ACADEMICO_SOCIO" FromRole="ACADEMICO" ToRole="SOCIO" />
-          <NavigationProperty Name="CERTIFICACION" Relationship="RCSTecMed_Model.FK_ACADEMICO_CERTIDICACION" FromRole="ACADEMICO" ToRole="CERTIFICACION" />
-          <Property Name="Nota" Type="Decimal" Precision="1" Scale="1" />
-          <Property Name="Horas" Type="Int32" />
-        </EntityType>
         <EntityType Name="CENTRO_ACADEMICO">
           <Key>
             <PropertyRef Name="IdCentroAcademico" />
@@ -1045,30 +1033,6 @@
           <Property Name="IdUsuario" Type="Int32" Nullable="false" />
           <NavigationProperty Name="ACADEMICO" Relationship="RCSTecMed_Model.FK_ACADEMICO_CENTRO_ACADEMICO" FromRole="CENTRO_ACADEMICO" ToRole="ACADEMICO" />
         </EntityType>
-        <Association Name="FK_ACADEMICO_CENTRO_ACADEMICO">
-          <End Type="RCSTecMed_Model.CENTRO_ACADEMICO" Role="CENTRO_ACADEMICO" Multiplicity="1" />
-          <End Type="RCSTecMed_Model.ACADEMICO" Role="ACADEMICO" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CENTRO_ACADEMICO">
-              <PropertyRef Name="IdCentroAcademico" />
-            </Principal>
-            <Dependent Role="ACADEMICO">
-              <PropertyRef Name="IdCentroAcademico" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ACADEMICO_SOCIO">
-          <End Type="RCSTecMed_Model.SOCIO" Role="SOCIO" Multiplicity="1" />
-          <End Type="RCSTecMed_Model.ACADEMICO" Role="ACADEMICO" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SOCIO">
-              <PropertyRef Name="Rut" />
-            </Principal>
-            <Dependent Role="ACADEMICO">
-              <PropertyRef Name="Rut" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="CERTIFICACION">
           <Key>
             <PropertyRef Name="IdCertificacion" />
@@ -1078,18 +1042,6 @@
           <Property Name="IdUsuario" Type="Int32" Nullable="false" />
           <NavigationProperty Name="ACADEMICO" Relationship="RCSTecMed_Model.FK_ACADEMICO_CERTIDICACION" FromRole="CERTIFICACION" ToRole="ACADEMICO" />
         </EntityType>
-        <Association Name="FK_ACADEMICO_CERTIDICACION">
-          <End Type="RCSTecMed_Model.CERTIFICACION" Role="CERTIFICACION" Multiplicity="1" />
-          <End Type="RCSTecMed_Model.ACADEMICO" Role="ACADEMICO" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CERTIFICACION">
-              <PropertyRef Name="IdCertificacion" />
-            </Principal>
-            <Dependent Role="ACADEMICO">
-              <PropertyRef Name="IdCertificacion" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="FORMAPAGO">
           <Key>
             <PropertyRef Name="IdFormaPagoCuota" />
@@ -1154,6 +1106,108 @@
             </Principal>
             <Dependent Role="ESTABLECIMIENTO">
               <PropertyRef Name="Region" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="REGISTRO_TECMED">
+          <Key>
+            <PropertyRef Name="Rut" />
+          </Key>
+          <Property Name="Rut" Type="Int32" Nullable="false" />
+          <Property Name="Dv" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="ApellidoPaterno" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ApellidoMaterno" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Nombres" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FechaNacimiento" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Sexo" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="IdNacionalidad" Type="String" Nullable="false" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Name="IdCentroAcademico" Type="Int32" Nullable="false" />
+          <Property Name="FechaAntecedente" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Registro" Type="Int32" Nullable="false" />
+          <Property Name="TipoInstitucion" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="FechaInscripcion" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="IdCertificacion" Type="Int32" Nullable="false" />
+          <Property Name="IdRegion" Type="Int32" Nullable="false" />
+          <Property Name="Mencion" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="UniversidadExtranjera" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Pais" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Especialista" Type="String" Nullable="false" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="IdUsuario" Type="Int32" Nullable="false" />
+          <Property Name="IdCertificaciones" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ACADEMICO">
+          <Key>
+            <PropertyRef Name="IdAcademcico" />
+          </Key>
+          <Property Name="IdAcademcico" Type="Int32" Nullable="false" />
+          <Property Name="Rut" Type="Int32" Nullable="false" />
+          <Property Name="IdCertificacion" Type="Int32" Nullable="false" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="IdCentroAcademico" Type="Int32" Nullable="false" />
+          <Property Name="IdCertificaciones" Type="Int32" Nullable="false" />
+          <Property Name="FolioRegistroAcademico" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="IdUsuario" Type="Int32" Nullable="false" />
+          <Property Name="Nota" Type="Decimal" Precision="1" Scale="1" />
+          <Property Name="Horas" Type="Int32" />
+          <NavigationProperty Name="CENTRO_ACADEMICO" Relationship="RCSTecMed_Model.FK_ACADEMICO_CENTRO_ACADEMICO" FromRole="ACADEMICO" ToRole="CENTRO_ACADEMICO" />
+          <NavigationProperty Name="CERTIFICACION" Relationship="RCSTecMed_Model.FK_ACADEMICO_CERTIDICACION" FromRole="ACADEMICO" ToRole="CERTIFICACION" />
+          <NavigationProperty Name="CERTIFICACIONES" Relationship="RCSTecMed_Model.FK_ACADEMICO_CERTIFICACIONES" FromRole="ACADEMICO" ToRole="CERTIFICACIONES" />
+          <NavigationProperty Name="SOCIO" Relationship="RCSTecMed_Model.FK_ACADEMICO_SOCIO" FromRole="ACADEMICO" ToRole="SOCIO" />
+        </EntityType>
+        <EntityType Name="CERTIFICACIONES">
+          <Key>
+            <PropertyRef Name="IdCertificaciones" />
+          </Key>
+          <Property Name="IdCertificaciones" Type="Int32" Nullable="false" />
+          <Property Name="NombreCertificacion" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="IdUsuario" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ACADEMICO" Relationship="RCSTecMed_Model.FK_ACADEMICO_CERTIFICACIONES" FromRole="CERTIFICACIONES" ToRole="ACADEMICO" />
+        </EntityType>
+        <Association Name="FK_ACADEMICO_CENTRO_ACADEMICO">
+          <End Type="RCSTecMed_Model.CENTRO_ACADEMICO" Role="CENTRO_ACADEMICO" Multiplicity="1" />
+          <End Type="RCSTecMed_Model.ACADEMICO" Role="ACADEMICO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CENTRO_ACADEMICO">
+              <PropertyRef Name="IdCentroAcademico" />
+            </Principal>
+            <Dependent Role="ACADEMICO">
+              <PropertyRef Name="IdCentroAcademico" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ACADEMICO_CERTIDICACION">
+          <End Type="RCSTecMed_Model.CERTIFICACION" Role="CERTIFICACION" Multiplicity="1" />
+          <End Type="RCSTecMed_Model.ACADEMICO" Role="ACADEMICO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CERTIFICACION">
+              <PropertyRef Name="IdCertificacion" />
+            </Principal>
+            <Dependent Role="ACADEMICO">
+              <PropertyRef Name="IdCertificacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ACADEMICO_CERTIFICACIONES">
+          <End Type="RCSTecMed_Model.CERTIFICACIONES" Role="CERTIFICACIONES" Multiplicity="1" />
+          <End Type="RCSTecMed_Model.ACADEMICO" Role="ACADEMICO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CERTIFICACIONES">
+              <PropertyRef Name="IdCertificaciones" />
+            </Principal>
+            <Dependent Role="ACADEMICO">
+              <PropertyRef Name="IdCertificaciones" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ACADEMICO_SOCIO">
+          <End Type="RCSTecMed_Model.SOCIO" Role="SOCIO" Multiplicity="1" />
+          <End Type="RCSTecMed_Model.ACADEMICO" Role="ACADEMICO" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SOCIO">
+              <PropertyRef Name="Rut" />
+            </Principal>
+            <Dependent Role="ACADEMICO">
+              <PropertyRef Name="Rut" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1240,32 +1294,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="REGISTRO_TECMED">
-            <EntityTypeMapping TypeName="RCSTecMed_Model.REGISTRO_TECMED">
-              <MappingFragment StoreEntitySet="REGISTRO_TECMED">
-                <ScalarProperty Name="Rut" ColumnName="Rut" />
-                <ScalarProperty Name="Dv" ColumnName="Dv" />
-                <ScalarProperty Name="ApellidoPaterno" ColumnName="ApellidoPaterno" />
-                <ScalarProperty Name="ApellidoMaterno" ColumnName="ApellidoMaterno" />
-                <ScalarProperty Name="Nombres" ColumnName="Nombres" />
-                <ScalarProperty Name="FechaNacimiento" ColumnName="FechaNacimiento" />
-                <ScalarProperty Name="Sexo" ColumnName="Sexo" />
-                <ScalarProperty Name="Nacionalidad" ColumnName="Nacionalidad" />
-                <ScalarProperty Name="Institucion" ColumnName="Institucion" />
-                <ScalarProperty Name="FechaAntecedente" ColumnName="FechaAntecedente" />
-                <ScalarProperty Name="Registro" ColumnName="Registro" />
-                <ScalarProperty Name="TipoInstitucion" ColumnName="TipoInstitucion" />
-                <ScalarProperty Name="FechaInscripcion" ColumnName="FechaInscripcion" />
-                <ScalarProperty Name="NombreTitulo" ColumnName="NombreTitulo" />
-                <ScalarProperty Name="RegionTrabajo" ColumnName="RegionTrabajo" />
-                <ScalarProperty Name="Mencion" ColumnName="Mencion" />
-                <ScalarProperty Name="UniversidadExtranjera" ColumnName="UniversidadExtranjera" />
-                <ScalarProperty Name="Pais" ColumnName="Pais" />
-                <ScalarProperty Name="Especialista" ColumnName="Especialista" />
-                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="ROL_USUARIO">
             <EntityTypeMapping TypeName="RCSTecMed_Model.ROL_USUARIO">
               <MappingFragment StoreEntitySet="ROL_USUARIO">
@@ -1341,22 +1369,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ACADEMICO">
-            <EntityTypeMapping TypeName="RCSTecMed_Model.ACADEMICO">
-              <MappingFragment StoreEntitySet="ACADEMICO">
-                <ScalarProperty Name="Horas" ColumnName="Horas" />
-                <ScalarProperty Name="Nota" ColumnName="Nota" />
-                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
-                <ScalarProperty Name="FolioRegistroAcademico" ColumnName="FolioRegistroAcademico" />
-                <ScalarProperty Name="DescripcionAcademico" ColumnName="DescripcionAcademico" />
-                <ScalarProperty Name="IdCentroAcademico" ColumnName="IdCentroAcademico" />
-                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
-                <ScalarProperty Name="IdCertificacion" ColumnName="IdCertificacion" />
-                <ScalarProperty Name="Rut" ColumnName="Rut" />
-                <ScalarProperty Name="IdAcademcico" ColumnName="IdAcademcico" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="CENTRO_ACADEMICO">
             <EntityTypeMapping TypeName="RCSTecMed_Model.CENTRO_ACADEMICO">
               <MappingFragment StoreEntitySet="CENTRO_ACADEMICO">
@@ -1392,6 +1404,58 @@
                 <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
                 <ScalarProperty Name="DescripcionEstimadoPago" ColumnName="DescripcionEstimadoPago" />
                 <ScalarProperty Name="IdEstimadoPago" ColumnName="IdEstimadoPago" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="REGISTRO_TECMED">
+            <EntityTypeMapping TypeName="RCSTecMed_Model.REGISTRO_TECMED">
+              <MappingFragment StoreEntitySet="REGISTRO_TECMED">
+                <ScalarProperty Name="IdCertificaciones" ColumnName="IdCertificaciones" />
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="Especialista" ColumnName="Especialista" />
+                <ScalarProperty Name="Pais" ColumnName="Pais" />
+                <ScalarProperty Name="UniversidadExtranjera" ColumnName="UniversidadExtranjera" />
+                <ScalarProperty Name="Mencion" ColumnName="Mencion" />
+                <ScalarProperty Name="IdRegion" ColumnName="IdRegion" />
+                <ScalarProperty Name="IdCertificacion" ColumnName="IdCertificacion" />
+                <ScalarProperty Name="FechaInscripcion" ColumnName="FechaInscripcion" />
+                <ScalarProperty Name="TipoInstitucion" ColumnName="TipoInstitucion" />
+                <ScalarProperty Name="Registro" ColumnName="Registro" />
+                <ScalarProperty Name="FechaAntecedente" ColumnName="FechaAntecedente" />
+                <ScalarProperty Name="IdCentroAcademico" ColumnName="IdCentroAcademico" />
+                <ScalarProperty Name="IdNacionalidad" ColumnName="IdNacionalidad" />
+                <ScalarProperty Name="Sexo" ColumnName="Sexo" />
+                <ScalarProperty Name="FechaNacimiento" ColumnName="FechaNacimiento" />
+                <ScalarProperty Name="Nombres" ColumnName="Nombres" />
+                <ScalarProperty Name="ApellidoMaterno" ColumnName="ApellidoMaterno" />
+                <ScalarProperty Name="ApellidoPaterno" ColumnName="ApellidoPaterno" />
+                <ScalarProperty Name="Dv" ColumnName="Dv" />
+                <ScalarProperty Name="Rut" ColumnName="Rut" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ACADEMICO">
+            <EntityTypeMapping TypeName="RCSTecMed_Model.ACADEMICO">
+              <MappingFragment StoreEntitySet="ACADEMICO">
+                <ScalarProperty Name="Horas" ColumnName="Horas" />
+                <ScalarProperty Name="Nota" ColumnName="Nota" />
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="FolioRegistroAcademico" ColumnName="FolioRegistroAcademico" />
+                <ScalarProperty Name="IdCertificaciones" ColumnName="IdCertificaciones" />
+                <ScalarProperty Name="IdCentroAcademico" ColumnName="IdCentroAcademico" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="IdCertificacion" ColumnName="IdCertificacion" />
+                <ScalarProperty Name="Rut" ColumnName="Rut" />
+                <ScalarProperty Name="IdAcademcico" ColumnName="IdAcademcico" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CERTIFICACIONES">
+            <EntityTypeMapping TypeName="RCSTecMed_Model.CERTIFICACIONES">
+              <MappingFragment StoreEntitySet="CERTIFICACIONES">
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="NombreCertificacion" ColumnName="NombreCertificacion" />
+                <ScalarProperty Name="IdCertificaciones" ColumnName="IdCertificaciones" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

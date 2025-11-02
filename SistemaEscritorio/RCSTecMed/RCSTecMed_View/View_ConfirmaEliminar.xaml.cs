@@ -178,6 +178,15 @@ namespace RCSTecMed_View
                     }
                     return true;
 
+                case "NombreCertificacion":
+                    var ncer = new Controll_CERTIFICACIONES() { IdCertificaciones = int.Parse(id) };
+                    if (!ncer.Delete())
+                    {
+                        VerMensajeError();
+                        return false;
+                    }
+                    return true;
+
                 default:
                     msc.MostrarError("Tabla no reconocida para eliminación");
                     return false;

@@ -15,7 +15,7 @@ namespace RCSTecMed_Controll
         public int IdCertificacion { get; set; }
         public DateTime Fecha { get; set; }
         public int IdCentroAcademico { get; set; }
-        public string DescripcionAcademico { get; set; }
+        public int IdCertificaciones { get; set; }
         public string FolioRegistroAcademico { get; set; }
         public int IdUsuario { get; set; }
         public Nullable<decimal> Nota { get; set; }
@@ -29,6 +29,8 @@ namespace RCSTecMed_Controll
         public string _descCertificacion { get { return DescripcionCertificacion; } }
         string DescripcionCentroAcademico;
         public string _descCentroAcademico { get { return DescripcionCentroAcademico; } }
+        string DescripcionCertificaciones;
+        public string _descCertificaciones { get { return DescripcionCertificaciones; } }
         string NombreUsuario;
         public string _nombreUsuario { get { return NombreUsuario; } }
 
@@ -40,7 +42,7 @@ namespace RCSTecMed_Controll
             IdCertificacion = 0;
             Fecha = DateTime.Today;
             IdCentroAcademico = 0;
-            DescripcionAcademico = string.Empty;
+            IdCertificaciones = 0;
             FolioRegistroAcademico = string.Empty;
             IdUsuario = 0;
             Nota = null;
@@ -51,6 +53,7 @@ namespace RCSTecMed_Controll
             NombreSocio = string.Empty;
             DescripcionCertificacion = string.Empty;
             DescripcionCentroAcademico = string.Empty;
+            DescripcionCertificaciones = string.Empty;
             NombreUsuario = string.Empty;
         }
 
@@ -73,6 +76,12 @@ namespace RCSTecMed_Controll
         {
             var ca = new Controll_CENTROACADEMICO { IdCentroAcademico = IdCentroAcademico };
             DescripcionCentroAcademico = ca.ReadId() ? ca.NombreCentroAcademico ?? string.Empty : string.Empty;
+        }
+
+        private void ObtenerDescCerificaciones()
+        {
+            var cer = new Controll_CERTIFICACIONES { IdCertificaciones = IdCertificaciones };
+            DescripcionCertificaciones = cer.ReadId() ? cer.NombreCertificacion ?? string.Empty : string.Empty;
         }
 
         private void ObtenerUsuario()
@@ -114,6 +123,7 @@ namespace RCSTecMed_Controll
                     ObtenerNombreSocio();
                     ObtenerCertificacion();
                     ObtenerCentroAcademico();
+                    ObtenerDescCerificaciones();
                     ObtenerUsuario();
                     return true;
                 }
@@ -138,6 +148,7 @@ namespace RCSTecMed_Controll
                     ObtenerNombreSocio();
                     ObtenerCertificacion();
                     ObtenerCentroAcademico();
+                    ObtenerDescCerificaciones();
                     ObtenerUsuario();
                     return true;
                 }
@@ -233,6 +244,7 @@ namespace RCSTecMed_Controll
                 ac.ObtenerNombreSocio();                
                 ac.ObtenerCertificacion();
                 ac.ObtenerCentroAcademico();
+                ac.ObtenerDescCerificaciones();
                 ac.ObtenerUsuario();
                 listaAcademico.Add(ac);
             }

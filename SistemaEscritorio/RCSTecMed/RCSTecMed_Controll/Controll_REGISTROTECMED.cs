@@ -1,15 +1,17 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using RCSTecMed_Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using RCSTecMed_Model;
+using System.Windows.Documents;
 
 namespace RCSTecMed_Controll
 {
     public class Controll_REGISTROTECMED
     {
-        /*ATRIBUTOS DE LA CLASE*/
+        /*ATRIBUSTOS DE LA CLASE*/
         public int Rut { get; set; }
         public string Dv { get; set; }
         public string ApellidoPaterno { get; set; }
@@ -17,14 +19,15 @@ namespace RCSTecMed_Controll
         public string Nombres { get; set; }
         public DateTime FechaNacimiento { get; set; }
         public string Sexo { get; set; }
-        public string Nacionalidad { get; set; }
-        public string Institucion { get; set; }
+        public string IdNacionalidad { get; set; }
+        public int IdCentroAcademico { get; set; }
+        public int IdCertificaciones { get; set; }
         public DateTime FechaAntecedente { get; set; }
         public int Registro { get; set; }
         public string TipoInstitucion { get; set; }
         public DateTime FechaInscripcion { get; set; }
-        public string NombreTitulo { get; set; }
-        public string RegionTrabajo { get; set; }
+        public int IdCertificacion { get; set; }
+        public int IdRegion { get; set; }
         public string Mencion { get; set; }
         public string UniversidadExtranjera { get; set; }
         public string Pais { get; set; }
@@ -35,12 +38,22 @@ namespace RCSTecMed_Controll
         public string FechaNacimientoMostrar { get; set; }
         public string FechaAntecedenteMostrar { get; set; }
         public string FechaInscripcionMostrar { get; set; }
-        string NombreUsuario;
-        public string _nombreUsuario { get { return NombreUsuario; } }
+        string NacionalidadAfiliado;
+        public string AfiliadoNacionalidad { get { return NacionalidadAfiliado; } }
+        string CentroAcademico;
+        public string AcedemicoCentro { get { return CentroAcademico; } }
+        string NombreCertificacion;
+        public string CertificacionNombre { get { return NombreCertificacion; } }
+        string CertificacionAfiliado;
+        public string AfiliadoCertificacion { get { return CertificacionAfiliado; } }
+        string RegionAfiliado;
+        public string AfiliadoRegion { get { return RegionAfiliado; } }
+        string UsuarioRegistra;
+        public string RegistraUsuario { get { return UsuarioRegistra; } }
 
-        private void Init() //INICIALIZACION DE LA CLASE
+        private void Init() //INICIALIZACION DE LOS ATRIBUTOS
         {
-            /*ATRIBUTOS DE LA CLASE*/
+            /*ATRIBUSTOS DE LA CLASE*/
             Rut = 0;
             Dv = string.Empty;
             ApellidoPaterno = string.Empty;
@@ -48,14 +61,15 @@ namespace RCSTecMed_Controll
             Nombres = string.Empty;
             FechaNacimiento = DateTime.Today;
             Sexo = string.Empty;
-            Nacionalidad = string.Empty;
-            Institucion = string.Empty;
+            IdNacionalidad = string.Empty;
+            IdCentroAcademico = 0;
+            IdCertificaciones = 0;
             FechaAntecedente = DateTime.Today;
             Registro = 0;
             TipoInstitucion = string.Empty;
             FechaInscripcion = DateTime.Today;
-            NombreTitulo = string.Empty;
-            RegionTrabajo = string.Empty;
+            IdCertificacion = 0;
+            IdRegion = 0;
             Mencion = string.Empty;
             UniversidadExtranjera = string.Empty;
             Pais = string.Empty;
@@ -66,29 +80,63 @@ namespace RCSTecMed_Controll
             FechaNacimientoMostrar = string.Empty;
             FechaAntecedenteMostrar = string.Empty;
             FechaInscripcionMostrar = string.Empty;
-            NombreUsuario = string.Empty;
+            NacionalidadAfiliado = string.Empty;
+            CentroAcademico = string.Empty;
+            NombreCertificacion = string.Empty;
+            CertificacionAfiliado = string.Empty;
+            RegionAfiliado = string.Empty;
+            UsuarioRegistra = string.Empty;
         }
 
         public Controll_REGISTROTECMED() { Init(); } //CONSTRUCTOR DE LA CLASE
 
-        /*METODOS DE LLAMADA COMPLEMENTARIOS*/
+        //METODOS DE LLAMADA COMPLEMENTARIOS
+        private void ObtenerNacionalidad()
+        {
+            var nac = new Controll_NACIONALIDAD { IdNacionalidad = IdNacionalidad };
+            NacionalidadAfiliado = nac.ReadId() ? nac.NombreNacionalidad ?? string.Empty : string.Empty;
+        }
+
+        private void ObtenerCentroAcademico()
+        {
+            var ca = new Controll_CENTROACADEMICO { IdCentroAcademico = IdCentroAcademico };
+            CentroAcademico = ca.ReadId() ? ca.NombreCentroAcademico ?? string.Empty : string.Empty;
+        }
+
+        private void ObtenerNombreCertificacion()
+        {
+            var cer = new Controll_CERTIFICACIONES { IdCertificaciones = IdCertificaciones };
+            NombreCertificacion = cer.ReadId() ? cer.NombreCertificacion ?? string.Empty : string.Empty;
+        }
+
+        private void ObtenerCertificacion()
+        {
+            var cer = new Controll_CERTIFICACION { IdCertificacion = IdCertificacion };
+            CertificacionAfiliado = cer.ReadId() ? cer.DescripcionCertificacion ?? string.Empty : string.Empty;
+        }
+
+        private void ObtenerRegion()
+        {
+            var reg = new Controll_REGION { IdRegion = IdRegion };
+            RegionAfiliado = reg.ReadId() ? reg.NombreRegion ?? string.Empty : string.Empty;
+        }
+
         private void ObtenerUsuario()
         {
             var us = new Controll_USUARIO { IdUsuario = IdUsuario };
-            NombreUsuario = us.ReadId() ? us.UserName ?? string.Empty : string.Empty;
+            UsuarioRegistra = us.ReadId() ? us.UserName ?? string.Empty : string.Empty;
         }
 
-        /*METODOS DE CRUD*/
+        //METODOS DE CRUD
         public bool Create() //CREA REGISTRO QUE SE GRABA EN LA BASE DE DATOS
         {
             using (RCSTecMed_Entities db = new RCSTecMed_Entities())
             {
-                REGISTRO_TECMED rtm = new REGISTRO_TECMED();
+                REGISTRO_TECMED rt = new REGISTRO_TECMED();
                 try
                 {
-                    CommonDB.Synchronize(this, rtm);
-                    db.REGISTRO_TECMED.Add(rtm);
-                    db.SaveChanges();
+                    CommonDB.Synchronize(this, rt);
+                    db.REGISTRO_TECMED.Add(rt);
                     return true;
                 }
                 catch (Exception)
@@ -104,12 +152,19 @@ namespace RCSTecMed_Controll
             {
                 try
                 {
-                    REGISTRO_TECMED rtm = db.REGISTRO_TECMED.FirstOrDefault(x => x.Rut == Rut);
-                    if (rtm == null)
+                    REGISTRO_TECMED rt = db.REGISTRO_TECMED.FirstOrDefault(x => x.Rut == Rut);
+                    if (rt == null)
                         return false;
 
-                    CommonDB.Synchronize(rtm, this);
+                    CommonDB.Synchronize(rt, this);
+
+                    ObtenerNacionalidad();
+                    ObtenerCentroAcademico();
+                    ObtenerNombreCertificacion();
+                    ObtenerCertificacion();
+                    ObtenerRegion();
                     ObtenerUsuario();
+
                     return true;
                 }
                 catch (Exception)
@@ -119,18 +174,25 @@ namespace RCSTecMed_Controll
             }
         }
 
-        public bool ReadApellido() //BUSCA UN REGISTRO GRABADO EN LA BASE DE DATOS A TRAVEZ DE LA DESCRIPCION O NOMBRE DE ESTE
+        public bool ReadApPaterno() //BUSCA UN REGISTRO GRABADO EN LA BASE DE DATOS A TRAVEZ DEL ID
         {
             using (RCSTecMed_Entities db = new RCSTecMed_Entities())
             {
                 try
                 {
-                    REGISTRO_TECMED rtm = db.REGISTRO_TECMED.First(x => x.ApellidoPaterno == ApellidoPaterno);
-                    if (rtm == null)
+                    REGISTRO_TECMED rt = db.REGISTRO_TECMED.FirstOrDefault(x => x.ApellidoPaterno == ApellidoPaterno);
+                    if (rt == null)
                         return false;
 
-                    CommonDB.Synchronize(rtm, this);
+                    CommonDB.Synchronize(rt, this);
+
+                    ObtenerNacionalidad();
+                    ObtenerCentroAcademico();
+                    ObtenerNombreCertificacion();
+                    ObtenerCertificacion();
+                    ObtenerRegion();
                     ObtenerUsuario();
+
                     return true;
                 }
                 catch (Exception)
@@ -146,11 +208,11 @@ namespace RCSTecMed_Controll
             {
                 try
                 {
-                    REGISTRO_TECMED rtm = db.REGISTRO_TECMED.FirstOrDefault(x => x.Rut == Rut);
-                    if (rtm == null)
+                    REGISTRO_TECMED rt = db.REGISTRO_TECMED.FirstOrDefault(x => x.Rut == Rut);
+                    if (rt == null)
                         return false;
 
-                    CommonDB.Synchronize(this, rtm);
+                    CommonDB.Synchronize(this, rt);
                     db.SaveChanges();
                     return true;
                 }
@@ -167,11 +229,11 @@ namespace RCSTecMed_Controll
             {
                 try
                 {
-                    REGISTRO_TECMED rtm = db.REGISTRO_TECMED.FirstOrDefault(x => x.Rut == Rut);
-                    if (rtm == null)
+                    REGISTRO_TECMED rt = db.REGISTRO_TECMED.FirstOrDefault(x => x.Rut == Rut);
+                    if (rt == null)
                         return false;
 
-                    db.REGISTRO_TECMED.Remove(rtm);
+                    db.REGISTRO_TECMED.Remove(rt);
                     db.SaveChanges();
                     return true;
                 }
@@ -198,23 +260,7 @@ namespace RCSTecMed_Controll
             }
         }
 
-        public List<Controll_REGISTROTECMED> ReadAllOrdenadoRut() //MUESTRA LISTA DE REGISTROS DE LA BASE DE DATOS ORDENADA 
-        {
-            RCSTecMed_Entities db = new RCSTecMed_Entities();
-            try
-            {
-                List<REGISTRO_TECMED> listaDatos = db.REGISTRO_TECMED.ToList<REGISTRO_TECMED>();
-                List<Controll_REGISTROTECMED> listaRegTecMed = GenerarLista(listaDatos);
-                listaRegTecMed = listaRegTecMed.OrderBy(x => x.Rut).ToList();
-                return listaRegTecMed;
-            }
-            catch (Exception)
-            {
-                return new List<Controll_REGISTROTECMED>();
-            }
-        }
-
-        public List<Controll_REGISTROTECMED> ReadAllOrdenadoApellido() //MUESTRA LISTA DE REGISTROS DE LA BASE DE DATOS ORDENADA 
+        public List<Controll_REGISTROTECMED> ListaRegTecMedOrdenado() //MUESTRA LISTA DE REGISTROS DE LA BASE DE DATOS ORDENADA POR DESCRIPCION
         {
             RCSTecMed_Entities db = new RCSTecMed_Entities();
             try
@@ -230,6 +276,7 @@ namespace RCSTecMed_Controll
             }
         }
 
+        
         private List<Controll_REGISTROTECMED> GenerarLista(List<REGISTRO_TECMED> dataList) //GENERA LISTA DE REGISTROS DE LA BASE DE DATOS A MOSTRAR
         {
             List<Controll_REGISTROTECMED> listaRegTecMed = new List<Controll_REGISTROTECMED>();
@@ -237,15 +284,18 @@ namespace RCSTecMed_Controll
             {
                 Controll_REGISTROTECMED rtm = new Controll_REGISTROTECMED();
                 CommonDB.Synchronize(data, rtm);
-                rtm.FechaNacimientoMostrar = data.FechaNacimiento.ToString("dd-MM-yyyy");
-                rtm.FechaAntecedenteMostrar = data.FechaAntecedente.ToString("dd-MM-yyyy");
-                rtm.FechaInscripcionMostrar = data.FechaInscripcion.ToString("dd-MM-yyyy");
+
+                rtm.ObtenerNacionalidad();
+                rtm.ObtenerCentroAcademico();
+                rtm.ObtenerNombreCertificacion();
+                rtm.ObtenerCertificacion();
+                rtm.ObtenerRegion();
                 rtm.ObtenerUsuario();
+
                 listaRegTecMed.Add(rtm);
             }
             return listaRegTecMed;
         }
-
 
     }
 }

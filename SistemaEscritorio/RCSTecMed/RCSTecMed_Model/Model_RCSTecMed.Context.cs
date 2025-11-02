@@ -32,17 +32,18 @@ namespace RCSTecMed_Model
         public virtual DbSet<HISTORICO_PAGO> HISTORICO_PAGO { get; set; }
         public virtual DbSet<NACIONALIDAD> NACIONALIDAD { get; set; }
         public virtual DbSet<REGION> REGION { get; set; }
-        public virtual DbSet<REGISTRO_TECMED> REGISTRO_TECMED { get; set; }
         public virtual DbSet<ROL_USUARIO> ROL_USUARIO { get; set; }
         public virtual DbSet<SOCIO> SOCIO { get; set; }
         public virtual DbSet<USUARIO> USUARIO { get; set; }
         public virtual DbSet<USUARIO_DESK> USUARIO_DESK { get; set; }
         public virtual DbSet<USUARIO_WEB> USUARIO_WEB { get; set; }
         public virtual DbSet<ESTADO_SOCIO> ESTADO_SOCIO { get; set; }
-        public virtual DbSet<ACADEMICO> ACADEMICO { get; set; }
         public virtual DbSet<CENTRO_ACADEMICO> CENTRO_ACADEMICO { get; set; }
         public virtual DbSet<CERTIFICACION> CERTIFICACION { get; set; }
         public virtual DbSet<FORMAPAGO> FORMAPAGO { get; set; }
         public virtual DbSet<ESTIMADOPAGO> ESTIMADOPAGO { get; set; }
+        public virtual DbSet<REGISTRO_TECMED> REGISTRO_TECMED { get; set; }
+        public virtual DbSet<ACADEMICO> ACADEMICO { get; set; }
+        public virtual DbSet<CERTIFICACIONES> CERTIFICACIONES { get; set; }
     }
 }

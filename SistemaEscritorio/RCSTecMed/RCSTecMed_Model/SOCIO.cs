@@ -49,9 +49,9 @@ namespace RCSTecMed_Model
         public virtual ICollection<HISTORICO_PAGO> HISTORICO_PAGO { get; set; }
         public virtual NACIONALIDAD NACIONALIDAD { get; set; }
         public virtual ESTADO_SOCIO ESTADO_SOCIO { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ACADEMICO> ACADEMICO { get; set; }
         public virtual FORMAPAGO FORMAPAGO { get; set; }
         public virtual ESTIMADOPAGO ESTIMADOPAGO { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ACADEMICO> ACADEMICO { get; set; }
     }
 }

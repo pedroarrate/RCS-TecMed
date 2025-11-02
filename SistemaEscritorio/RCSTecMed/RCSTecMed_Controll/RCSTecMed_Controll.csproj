@@ -59,6 +59,7 @@
     <Compile Include="Controll_ACADEMICO.cs" />
     <Compile Include="Controll_CENTROACADEMICO.cs" />
     <Compile Include="Controll_CERTIFICACION.cs" />
+    <Compile Include="Controll_CERTIFICACIONES.cs" />
     <Compile Include="Controll_COMUNA.cs" />
     <Compile Include="Controll_ESTABLECIMIENTO.cs" />
     <Compile Include="Controll_ESTABLECIMIENTOACTUAL.cs" />

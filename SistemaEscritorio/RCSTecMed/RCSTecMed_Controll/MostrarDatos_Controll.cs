@@ -61,5 +61,10 @@ namespace RCSTecMed_Controll
         {
             return db.ESTIMADOPAGO.Count();
         }
+
+        public int TotalNombreCertificaciones()
+        {
+            return db.CERTIFICACIONES.Count();
+        }
     }
 }

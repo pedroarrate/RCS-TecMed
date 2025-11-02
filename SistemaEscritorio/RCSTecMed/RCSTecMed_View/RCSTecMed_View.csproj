@@ -90,6 +90,9 @@
     <Compile Include="LugarTrabajo_UserControl.xaml.cs">
       <DependentUpon>LugarTrabajo_UserControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="NombreCertificacion_UserControl.xaml.cs">
+      <DependentUpon>NombreCertificacion_UserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="RegistroSocio_UserControl.xaml.cs">
       <DependentUpon>RegistroSocio_UserControl.xaml</DependentUpon>
     </Compile>
@@ -158,6 +161,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="NombreCertificacion_UserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="RegistroSocio_UserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

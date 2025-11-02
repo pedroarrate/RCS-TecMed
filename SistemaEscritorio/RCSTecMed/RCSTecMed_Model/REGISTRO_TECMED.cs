@@ -21,18 +21,19 @@ namespace RCSTecMed_Model
         public string Nombres { get; set; }
         public System.DateTime FechaNacimiento { get; set; }
         public string Sexo { get; set; }
-        public string Nacionalidad { get; set; }
-        public string Institucion { get; set; }
+        public string IdNacionalidad { get; set; }
+        public int IdCentroAcademico { get; set; }
         public System.DateTime FechaAntecedente { get; set; }
         public int Registro { get; set; }
         public string TipoInstitucion { get; set; }
         public System.DateTime FechaInscripcion { get; set; }
-        public string NombreTitulo { get; set; }
-        public string RegionTrabajo { get; set; }
+        public int IdCertificacion { get; set; }
+        public int IdRegion { get; set; }
         public string Mencion { get; set; }
         public string UniversidadExtranjera { get; set; }
         public string Pais { get; set; }
         public string Especialista { get; set; }
         public int IdUsuario { get; set; }
+        public int IdCertificaciones { get; set; }
     }
 }
