@@ -342,9 +342,9 @@ namespace RCSTecMed_Controll
             return listaSocio;
         }
 
-    }
 
-    public int AsignarFolioRegistro() //GENERA AUTOMATICAMENTE ID O CODIGO DE REGISTRO
+
+        public int AsignarFolioRegistro() //GENERA AUTOMATICAMENTE ID O CODIGO DE REGISTRO
         {
             using (RCSTecMed_Entities db = new RCSTecMed_Entities())
             {
@@ -357,3 +357,4 @@ namespace RCSTecMed_Controll
             }
         }
     }
+}

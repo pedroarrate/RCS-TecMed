@@ -132,6 +132,29 @@ namespace RCSTecMed_Controll
             }
         }
 
+        public bool ReadRutFechaHastaNull(int rut) //BUSCA UN REGISTRO GRABADO EN LA BASE DE DATOS A TRAVEZ DEL ID
+        {
+            using (RCSTecMed_Entities db = new RCSTecMed_Entities())
+            {
+                try
+                {
+                    ESTABLECIMIENTO_ACTUAL ea = db.ESTABLECIMIENTO_ACTUAL.FirstOrDefault(x => x.Rut == rut && x.FechaHasta == null);
+                    if (ea == null)
+                        return false;
+
+                    CommonDB.Synchronize(ea, this);
+                    ObtenerNombreEstablecimiento();
+                    ObtenerNombreSocio();
+                    ObtenerUsuario();
+                    return true;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            }
+        }
+
         public bool Update() //ACTUALIZA UN REGISTRO EN LA BASE DE DATOS
         {
             using (RCSTecMed_Entities db = new RCSTecMed_Entities())

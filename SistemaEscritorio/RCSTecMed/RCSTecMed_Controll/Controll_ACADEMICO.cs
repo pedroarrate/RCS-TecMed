@@ -134,6 +134,31 @@ namespace RCSTecMed_Controll
             }
         }
 
+        public bool ReadRut(int rut) //BUSCA UN REGISTRO GRABADO EN LA BASE DE DATOS A TRAVEZ DEL ID
+        {
+            using (RCSTecMed_Entities db = new RCSTecMed_Entities())
+            {
+                try
+                {
+                    ACADEMICO ac = db.ACADEMICO.FirstOrDefault(x => x.Rut == rut);
+                    if (ac == null)
+                        return false;
+
+                    CommonDB.Synchronize(ac, this);
+                    ObtenerNombreSocio();
+                    ObtenerCertificacion();
+                    ObtenerCentroAcademico();
+                    ObtenerDescCerificaciones();
+                    ObtenerUsuario();
+                    return true;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            }
+        }
+
         public bool ReadFolio() //BUSCA UN REGISTRO GRABADO EN LA BASE DE DATOS A TRAVEZ DE LA DESCRIPCION O NOMBRE DE ESTE
         {
             using (RCSTecMed_Entities db = new RCSTecMed_Entities())

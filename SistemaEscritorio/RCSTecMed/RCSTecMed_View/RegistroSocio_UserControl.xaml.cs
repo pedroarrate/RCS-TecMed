@@ -32,11 +32,11 @@ namespace RCSTecMed_View
         private readonly Controll_ACADEMICO aca = new Controll_ACADEMICO();
         private readonly Controll_ESTABLECIMIENTOACTUAL esta = new Controll_ESTABLECIMIENTOACTUAL();
 
-        private int idUser {  get; set; }
+        private int IdUser {  get; set; }
         public RegistroSocio_UserControl(int idUsuario)
         {
             InitializeComponent();
-            idUser = idUsuario;
+            IdUser = idUsuario;
             
             Limpiar();
         }
@@ -61,6 +61,7 @@ namespace RCSTecMed_View
             TXT_FonoFijo.Text = string.Empty;
             TXT_FonoMovil.Text = string.Empty;
             EstadoSocioComboBox();
+            DP_FechaRegistro.SelectedDate = DateTime.Today;
 
             //ANTECEDENTES ACADEMICOS
             TipoCertificacionComboBox();
@@ -501,30 +502,31 @@ namespace RCSTecMed_View
             {
                 if (soc.ReadId())
                 {
-                    ActivarEntradas();
                     BTN_Buscar.Focus();
                 }
                 else
                 {
                     if (rtm.ReadId())
                     {
-                        bool cargar = Confirmacion("RUT ingresado existe en registro de Superintendencia.\n¿Desea cargar los datos encontrados?");
-                        ActivarEntradas();
+                        bool cargar = Confirmacion("RUT ingresado existe en registro de Superintendencia.\n¿Desea cargar los datos encontrados?");                        
 
                         if (cargar)
                         {
                             CargarDatos(rtm);
+                            ActivarEntradas();
                             TXT_Domicilio.Focus();
                         }
                         else
                         {
+                            ActivarEntradas();
                             TXT_ApellidoPaterno.Focus();
                         }
                     }
                     else
                     {
-                        ActivarEntradas();
-                        TXT_ApellidoPaterno.Focus();
+                            ActivarEntradas();
+                            TXT_ApellidoPaterno.Focus();
+                       
                     }
                 }
                 
@@ -1095,7 +1097,7 @@ namespace RCSTecMed_View
         {
             try
             {
-                var vcds = new View_CompletarDatosRegistroSocio(idUser);
+                var vcds = new View_CompletarDatosRegistroSocio(IdUser);
                 vcds.ShowDialog();
                 Limpiar();
             }
@@ -1118,6 +1120,7 @@ namespace RCSTecMed_View
             TXT_ApellidoMaterno.Text = soc.ApellidoMaterno;
             TXT_Nombres.Text = soc.Nombres;
             DP_FechaNacimiento.SelectedDate = soc.FechaNacimiento;
+            DP_FechaRegistro.SelectedDate = soc.FechaRegistro;
 
             TXT_RegistroSuperintendencia.Text = soc.FolioSuperintendencia?.ToString() ?? string.Empty;
             CB_Nacionalidad.SelectedValue = soc.IdNacionalidad;
@@ -1132,9 +1135,9 @@ namespace RCSTecMed_View
 
         private void ExtraerAntecedentesAcedemicos(int rut)
         {
-            var ac = new Controll_ACADEMICO { Rut = rut };
+            var ac = new Controll_ACADEMICO();
 
-            if (!ac.ReadId())
+            if (!ac.ReadRut(rut))
                 return;
 
             CB_TipoCertificacion.SelectedValue = ac.IdCertificacion;
@@ -1149,12 +1152,12 @@ namespace RCSTecMed_View
 
         }
 
-        private void ExtraerAntecedentesLaborales(int rut, DateTime fecha)
+        private void ExtraerAntecedentesLaborales(int rut)
         {
             var lab = new Controll_ESTABLECIMIENTOACTUAL();
             var est = new Controll_ESTABLECIMIENTO();
 
-            if (!lab.ReadRutFechaRegistro(rut, fecha))
+            if (!lab.ReadRutFechaHastaNull(rut))
                 return;
 
             est.IdEstablecimiento = lab.IdEstablecimiento;
@@ -1179,6 +1182,28 @@ namespace RCSTecMed_View
             CB_FormaPago.SelectedValue = soc.IdFormaPagoCuota;
             CB_FechaAproxPago.SelectedValue = soc.IdEstimadoPago;
         }
+        
+        private void ActivarEntradasBusqueda()
+        {
+            //ANTECEDENTES PERSONALES
+            TXT_ApellidoPaterno.IsEnabled = true;
+            TXT_ApellidoMaterno.IsEnabled = true;
+            TXT_Nombres.IsEnabled = true;
+            DP_FechaNacimiento.IsEnabled = true;
+            TXT_RegistroSuperintendencia.IsEnabled = true;
+            CB_Nacionalidad.IsEnabled = true;
+            TXT_Domicilio.IsEnabled = true;
+            CB_Region.IsEnabled = true;
+            CB_Comuna.IsEnabled = false;
+            TXT_EMail.IsEnabled = true;
+            TXT_FonoFijo.IsEnabled = true;
+            TXT_FonoMovil.IsEnabled = true;
+            CB_EstadoSocio.IsEnabled = true;
+
+            //FORMA DE PAGO
+            CB_FormaPago.IsEnabled = true;
+            CB_FechaAproxPago.IsEnabled = true;
+        }
 
         private void MostrarDatosBusqueda(int rut)
         {
@@ -1192,7 +1217,7 @@ namespace RCSTecMed_View
             }
 
             ms.MostrarInformacion("RUT encontrado, se desplegaran los campos");
-            ActivarEntradas();
+            ActivarEntradasBusqueda();
 
             //ANTECEDENTES PERSONALES
             ExtraerDatosPersonales(rut);
@@ -1201,7 +1226,7 @@ namespace RCSTecMed_View
             ExtraerAntecedentesAcedemicos(rut);
 
             //ANTECEDENTES LABORALES
-            ExtraerAntecedentesLaborales(rut, soc.FechaRegistro);
+            ExtraerAntecedentesLaborales(rut);
 
             //FORMA DE PAGO
             ExtraerFormaPago(rut);
@@ -1249,7 +1274,7 @@ namespace RCSTecMed_View
             if (!VerificaRutyDv(rut, dv))
                 return;
 
-            int rt = int.Parse(rut);
+            int rt = val.ConvertirEnteroSeguro(rut);
             MostrarDatosBusqueda(rt);
         }
 
@@ -1297,20 +1322,17 @@ namespace RCSTecMed_View
             return true;
         }
 
-        private void BTN_Grabar_Click(object sender, RoutedEventArgs e)
+        private bool GrabarSocio(int rut) 
         {
-            if (!ValidarEntradas())
-                return;
+            soc.Rut = rut;
 
-            soc.Rut = int.Parse(TXT_Rut.Text);
             if (soc.ReadId())
             {
                 ms.MostrarError("RUT ya Existe en Base de Datos\nNo es posible Registrar");
                 TXT_Rut.Focus();
-                return;
+                return false;
             }
-            
-            soc.Dv = TXT_Dv.Text.ToUpper();
+
             soc.FolioRegistro = soc.AsignarFolioRegistro();
             soc.ApellidoPaterno = TXT_ApellidoPaterno.Text.ToUpper();
             soc.ApellidoMaterno = TXT_ApellidoMaterno.Text.ToUpper();
@@ -1319,12 +1341,12 @@ namespace RCSTecMed_View
             soc.Domicilio = TXT_Domicilio.Text.ToUpper();
             soc.IdComuna = (string)CB_Comuna.SelectedValue;
             soc.IdNacionalidad = (string)CB_Nacionalidad.SelectedValue;
-            soc.TelMovil = int.Parse(TXT_FonoMovil.Text);
-            soc.TelFijo = int.Parse(TXT_FonoFijo.Text);
+            soc.TelMovil = val.ConvertirEnteroSeguro(TXT_FonoMovil.Text);
+            soc.TelFijo = val.ConvertirEnteroSeguro(TXT_FonoFijo.Text);
             soc.Email = TXT_EMail.Text.ToUpper();
             soc.IdFormaPagoCuota = (int)CB_FormaPago.SelectedValue;
             soc.ObservacionPagocuota = CB_FechaAproxPago.Text.ToUpper();
-            soc.IdUsuario = idUser;
+            soc.IdUsuario = IdUser;
             soc.IdEstadoSocio = (int)CB_EstadoSocio.SelectedValue;
             if (val.CampoVacio(TXT_RegistroSuperintendencia.Text))
             {
@@ -1332,92 +1354,196 @@ namespace RCSTecMed_View
             }
             else
             {
-                soc.FolioSuperintendencia = int.Parse(TXT_RegistroSuperintendencia.Text);
+                soc.FolioSuperintendencia = val.ConvertirEnteroSeguro(TXT_RegistroSuperintendencia.Text);
             }
             soc.IdEstimadoPago = (int)CB_FechaAproxPago.SelectedValue;
-            soc.FechaRegistro = DateTime.Today;
+            soc.FechaRegistro = (DateTime)DP_FechaRegistro.SelectedDate;
 
-            if (soc.Create())
+            try
             {
-                aca.IdAcademcico = aca.AsignarId();
-                aca.Rut = int.Parse(TXT_Rut.Text);
-                aca.IdCertificacion = (int)CB_TipoCertificacion.SelectedValue;
-                aca.Fecha = (DateTime)DP_FechaCertificcion.SelectedDate;
-                aca.IdCentroAcademico = (int)CB_CentroAcademico.SelectedValue;
-                aca.IdCertificaciones = (int)CB_NombreCertificacion.SelectedValue;
-                aca.FolioRegistroAcademico = string.Empty;
-                aca.IdUsuario = idUser;
-                if (val.CampoVacio(TXT_NotaCertificacion.Text))
+                if (!soc.Create())
                 {
-                    aca.Nota = null;
-                }
-                else
-                {
-                    aca.Nota = val.ConvertirDecimalSeguro(TXT_NotaCertificacion.Text);
-                }
-
-                if (val.CampoVacio(TXT_HorasCertificacion.Text))
-                {
-                    aca.Horas = null;
-                }
-                else
-                {
-                    aca.Horas = int.Parse(TXT_HorasCertificacion.Text);
-                }
-                
-                if (aca.Create())
-                {
-                    int rut = int.Parse(TXT_Rut.Text);
-                    DateTime fecha = soc.FechaRegistro;
-                    if (esta.ReadRutFechaRegistro(rut, fecha))
-                    {
-                        int id = esta.IdEstablecimientoActual;
-                        esta.IdEstablecimientoActual = id;
-                        esta.FechaDesde = fecha;
-                        esta.FechaHasta = DateTime.Today;
-                        esta.IdUsuario = idUser;
-                        if (esta.Update())
-                        {
-                            esta.IdEstablecimientoActual = esta.AsignarId(); ;
-                            esta.IdEstablecimiento = (int)CB_EstablecimientoLaboral.SelectedValue;
-                            esta.Rut = rut;
-                            esta.FechaDesde = fecha;
-                            esta.FechaHasta = null;
-                            esta.IdUsuario = idUser;
-
-                            if (esta.Create())
-                            {
-                                ms.MostrarInformacion("Se Registran datos en las Siguientes Tablas:\n" +
-                                    "-Socios\n" +
-                                    "-Academico\n" +
-                                    "-Establecimiento Actal");
-                            }
-                        }
-                    }
-                    else
-                    {
-                        esta.IdEstablecimientoActual = esta.AsignarId(); ;
-                        esta.IdEstablecimiento = (int)CB_EstablecimientoLaboral.SelectedValue;
-                        esta.Rut = rut;
-                        esta.FechaDesde = fecha;
-                        esta.FechaHasta = null;
-                        esta.IdUsuario = idUser;
-
-                        if (esta.Create())
-                        {
-                            ms.MostrarInformacion("Se Registran datos en las Siguientes Tablas:\n" +
-                                "-Socios\n" +
-                                "-Academico\n" +
-                                "-Establecimiento Actal");
-                        }
-                    }   
+                    ms.MostrarError("No es posible Grabar Registro en BD\nComunicarse con Administrador");
+                    Limpiar();
+                    return false;
                 }
             }
+            catch (Exception ex)
+            {
+                ms.MostrarError($"Error en Base de datos: {ex.Message}");
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool GrabarAcademico()
+        {
+            aca.IdAcademcico = aca.AsignarId();
+            aca.Rut = val.ConvertirEnteroSeguro(TXT_Rut.Text);
+            aca.IdCertificacion = (int)CB_TipoCertificacion.SelectedValue;
+            aca.Fecha = (DateTime)DP_FechaCertificcion.SelectedDate;
+            aca.IdCentroAcademico = (int)CB_CentroAcademico.SelectedValue;
+            aca.IdCertificaciones = (int)CB_NombreCertificacion.SelectedValue;
+            aca.FolioRegistroAcademico = string.Empty;
+            aca.IdUsuario = IdUser;
+            if (val.CampoVacio(TXT_NotaCertificacion.Text))
+            {
+                aca.Nota = null;
+            }
+            else
+            {
+                aca.Nota = val.ConvertirDecimalSeguro(TXT_NotaCertificacion.Text);
+            }
+
+            if (val.CampoVacio(TXT_HorasCertificacion.Text))
+            {
+                aca.Horas = null;
+            }
+            else
+            {
+                aca.Horas = val.ConvertirEnteroSeguro(TXT_HorasCertificacion.Text);
+            }
+
+            try
+            {
+                if (!aca.Create())
+                {
+                    ms.MostrarError("No es posible Grabar Registro en BD\nComunicarse con Administrador");
+                    Limpiar();
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                ms.MostrarError($"Error en Base de datos: {ex.Message}");
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool GrabarEstablecimiento()
+        {
+            esta.IdEstablecimientoActual = esta.AsignarId();
+            esta.IdEstablecimiento = (int)CB_EstablecimientoLaboral.SelectedValue;
+            esta.Rut = val.ConvertirEnteroSeguro(TXT_Rut.Text);
+            esta.FechaDesde = (DateTime)DP_FechaRegistro.SelectedDate;
+            esta.FechaHasta = null;
+            esta.IdUsuario = IdUser;
+
+            try
+            {
+                if (!esta.Create())
+                {
+                    ms.MostrarError("No es posible Grabar Registro en BD\nComunicarse con Administrador");
+                    Limpiar();
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                ms.MostrarError($"Error en Base de datos: {ex.Message}");
+                return false;
+            }
+
+            return true;
+        }
+
+        private void BTN_Grabar_Click(object sender, RoutedEventArgs e) //BOTON GRABAR
+        {
+            if (!ValidarEntradas())
+                return;
+
+            int rut = int.Parse(TXT_Rut.Text);
+            soc.Rut = rut;
+            if (soc.ReadId())
+            {
+                ms.MostrarError("RUT ya Existe en Base de Datos\nNo es posible Registrar");
+                TXT_Rut.Focus();
+                return;
+            }
+
+            if (!GrabarSocio(rut))
+                return;
+
+            if (!GrabarAcademico())
+                return;
+
+            if (!GrabarEstablecimiento())
+                return;
+
+            ms.MostrarInformacion("Se Registran datos en las Siguientes Tablas:\n" +
+                "-Socios\n" +
+                "-Academico\n" +
+                "-Establecimiento Actual");
+
+            Limpiar();
+        }
+
+        private bool ActualizarSocio()
+        {
+
+            soc.Rut = val.ConvertirEnteroSeguro(TXT_Rut.Text);
+            soc.FolioRegistro = soc.AsignarFolioRegistro();
+            soc.ApellidoPaterno = TXT_ApellidoPaterno.Text.ToUpper();
+            soc.ApellidoMaterno = TXT_ApellidoMaterno.Text.ToUpper();
+            soc.Nombres = TXT_Nombres.Text.ToUpper();
+            soc.FechaNacimiento = (DateTime)DP_FechaNacimiento.SelectedDate;
+            soc.Domicilio = TXT_Domicilio.Text.ToUpper();
+            soc.IdComuna = (string)CB_Comuna.SelectedValue;
+            soc.IdNacionalidad = (string)CB_Nacionalidad.SelectedValue;
+            soc.TelMovil = val.ConvertirEnteroSeguro(TXT_FonoMovil.Text);
+            soc.TelFijo = val.ConvertirEnteroSeguro(TXT_FonoFijo.Text);
+            soc.Email = TXT_EMail.Text.ToUpper();
+            soc.IdFormaPagoCuota = (int)CB_FormaPago.SelectedValue;
+            soc.ObservacionPagocuota = CB_FechaAproxPago.Text.ToUpper();
+            soc.IdUsuario = IdUser;
+            soc.IdEstadoSocio = (int)CB_EstadoSocio.SelectedValue;
+            if (val.CampoVacio(TXT_RegistroSuperintendencia.Text))
+            {
+                soc.FolioSuperintendencia = null;
+            }
+            else
+            {
+                soc.FolioSuperintendencia = val.ConvertirEnteroSeguro(TXT_RegistroSuperintendencia.Text);
+            }
+            soc.IdEstimadoPago = (int)CB_FechaAproxPago.SelectedValue;
+            soc.FechaRegistro = (DateTime)DP_FechaRegistro.SelectedDate;
+
+            try
+            {
+                if (!soc.Update())
+                {
+                    ms.MostrarError("No es posible Actualizar Registro en BD\nComunicarse con Administrador");
+                    Limpiar();
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                ms.MostrarError($"Error en Base de datos: {ex.Message}");
+                return false;
+            }
+
+            return true;
         }
 
         private void BTN_Actualizar_Click(object sender, RoutedEventArgs e)
         {
+            if (!ValidarEntradas())
+                return;
 
+            bool actualiza = Confirmacion("¿Confirma actualización de Datos de Socio?");
+
+            if (!actualiza)
+                return;
+
+            if (!ActualizarSocio())
+                return;
+
+            ms.MostrarInformacion("Registro de Socio Actualizado en BD");
+            Limpiar();
         }
 
         private void BTN_Eliminar_Click(object sender, RoutedEventArgs e)
@@ -1434,19 +1560,14 @@ namespace RCSTecMed_View
         private void BTN_Home_Click(object sender, RoutedEventArgs e)
         {
             // Buscar el TabControl en la ventana contenedora
-            var parentWindow = Window.GetWindow(this);
-            if (parentWindow != null)
+            if (Window.GetWindow(this) is View_ModuloSecretaria mdSec)
             {
-                var mdSec = parentWindow as View_ModuloSecretaria;
-                if (mdSec != null)
-                {
-                    // Activar la pestaña "Home"
-                    mdSec.MainTabControl.SelectedItem = mdSec.TAB_Home;
-                }
+                // Activar la pestaña "Home"
+                mdSec.MainTabControl.SelectedItem = mdSec.TAB_Home;
             }
 
         }
 
-        
+
     }
 }

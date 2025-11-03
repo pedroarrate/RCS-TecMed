@@ -122,5 +122,9 @@ namespace RCSTecMed_Controll
             return decimal.Parse(texto, CultureInfo.InvariantCulture);
         }
 
+        public int ConvertirEnteroSeguro(string texto)
+        {
+            return int.Parse(texto);
+        }
     }
 }
