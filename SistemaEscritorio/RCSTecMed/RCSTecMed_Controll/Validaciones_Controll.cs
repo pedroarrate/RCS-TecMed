@@ -6,6 +6,10 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Globalization;
 using RCSTecMed_Model;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Forms;
+
 
 namespace RCSTecMed_Controll
 {
@@ -110,6 +114,12 @@ namespace RCSTecMed_Controll
             bool tieneSimbolo = password.Any(c => !char.IsLetterOrDigit(c));
 
             return tieneMinuscula && tieneMayuscula && tieneSimbolo;
+        }
+
+        public decimal ConvertirDecimalSeguro(string texto)
+        {
+            // Asume que el texto ya fue validado
+            return decimal.Parse(texto, CultureInfo.InvariantCulture);
         }
 
     }

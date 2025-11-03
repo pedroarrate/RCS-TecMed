@@ -195,6 +195,7 @@
           <Property Name="IdEstadoSocio" Type="int" Nullable="false" />
           <Property Name="IdUsuario" Type="int" Nullable="false" />
           <Property Name="IdEstimadoPago" Type="int" Nullable="false" />
+          <Property Name="FechaRegistro" Type="date" Nullable="false" />
         </EntityType>
         <EntityType Name="USUARIO">
           <Key>
@@ -713,6 +714,7 @@
           <NavigationProperty Name="FORMAPAGO" Relationship="RCSTecMed_Model.FK_SOCIO_FORMAPAGO" FromRole="SOCIO" ToRole="FORMAPAGO" />
           <NavigationProperty Name="ESTIMADOPAGO" Relationship="RCSTecMed_Model.FK_SOCIO_ESTIMADOPAGO" FromRole="SOCIO" ToRole="ESTIMADOPAGO" />
           <NavigationProperty Name="ACADEMICO" Relationship="RCSTecMed_Model.FK_ACADEMICO_SOCIO" FromRole="SOCIO" ToRole="ACADEMICO" />
+          <Property Name="FechaRegistro" Type="DateTime" Nullable="false" Precision="0" />
         </EntityType>
         <EntityType Name="USUARIO">
           <Key>
@@ -1305,6 +1307,7 @@
           <EntitySetMapping Name="SOCIO">
             <EntityTypeMapping TypeName="RCSTecMed_Model.SOCIO">
               <MappingFragment StoreEntitySet="SOCIO">
+                <ScalarProperty Name="FechaRegistro" ColumnName="FechaRegistro" />
                 <ScalarProperty Name="IdEstimadoPago" ColumnName="IdEstimadoPago" />
                 <ScalarProperty Name="FolioSuperintendencia" ColumnName="FolioSuperintendencia" />
                 <ScalarProperty Name="IdEstadoSocio" ColumnName="IdEstadoSocio" />

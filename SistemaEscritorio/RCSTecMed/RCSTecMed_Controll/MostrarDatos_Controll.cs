@@ -22,6 +22,13 @@ namespace RCSTecMed_Controll
                 : "Usuario No encontrado";
         }
 
+        public int IdRegionxComuna(string comuna)
+        {
+            var reg = new Controll_COMUNA { IdComuna = comuna };
+            return reg.ReadId() ? reg.IdRegion : 0;
+
+        }
+
         public int TotalSociosRegistrados()
         {           
             return db.SOCIO.Count();

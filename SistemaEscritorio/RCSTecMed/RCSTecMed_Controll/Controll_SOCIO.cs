@@ -29,9 +29,11 @@ namespace RCSTecMed_Controll
         public int IdEstadoSocio { get; set; }
         public Nullable<int> FolioSuperintendencia { get; set; }
         public int IdEstimadoPago { get; set; }
+        public DateTime FechaRegistro { get; set; }
 
         /*VARIABLES COMPLEMENTARIAS*/
         public string FechaNacimientoMostrar { get; set; }
+        public string FechaRegistroMostrar { get; set; }
         string NombreComunaRegion;
         public string _nombreComunaRegion { get { return NombreComunaRegion; } }
         string DescripcionNacionalidad;
@@ -68,9 +70,11 @@ namespace RCSTecMed_Controll
             IdEstadoSocio = 0;
             FolioSuperintendencia = null;
             IdEstimadoPago = 0;
+            FechaRegistro = DateTime.Today;
 
             /*VARIABLES COMPLEMENTARIAS*/
             FechaNacimientoMostrar = string.Empty;
+            FechaRegistroMostrar = string.Empty;
             NombreComunaRegion = string.Empty;
             DescripcionNacionalidad = string.Empty;
             DescripcionFormaPago = string.Empty;
@@ -325,6 +329,7 @@ namespace RCSTecMed_Controll
                 Controll_SOCIO soc = new Controll_SOCIO();
                 CommonDB.Synchronize(data, soc);
                 soc.FechaNacimientoMostrar = data.FechaNacimiento.ToString("dd-MM-yyyy");
+                soc.FechaRegistroMostrar = data.FechaRegistro.ToString("dd-MM-yyyy");
                 soc.ObtenerComunaRegion();
                 soc.ObtenerNacionalidad();
                 soc.ObtenerFormaPago();
@@ -338,4 +343,17 @@ namespace RCSTecMed_Controll
         }
 
     }
-}
+
+    public int AsignarFolioRegistro() //GENERA AUTOMATICAMENTE ID O CODIGO DE REGISTRO
+        {
+            using (RCSTecMed_Entities db = new RCSTecMed_Entities())
+            {
+                int ultimoFolio = db.SOCIO
+                    .OrderByDescending(x => x.FolioRegistro)
+                    .Select(x => x.FolioRegistro)
+                    .FirstOrDefault();
+
+                return ultimoFolio + 1;
+            }
+        }
+    }
