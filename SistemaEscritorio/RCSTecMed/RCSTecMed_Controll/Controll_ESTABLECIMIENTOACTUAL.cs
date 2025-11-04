@@ -109,6 +109,29 @@ namespace RCSTecMed_Controll
             }
         }
 
+        public bool ReadRut(int rut) //BUSCA UN REGISTRO GRABADO EN LA BASE DE DATOS A TRAVEZ DEL ID
+        {
+            using (RCSTecMed_Entities db = new RCSTecMed_Entities())
+            {
+                try
+                {
+                    ESTABLECIMIENTO_ACTUAL ea = db.ESTABLECIMIENTO_ACTUAL.FirstOrDefault(x => x.Rut == rut);
+                    if (ea == null)
+                        return false;
+
+                    CommonDB.Synchronize(ea, this);
+                    ObtenerNombreEstablecimiento();
+                    ObtenerNombreSocio();
+                    ObtenerUsuario();
+                    return true;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            }
+        }
+
         public bool ReadRutFechaRegistro(int rut, DateTime fecha) //BUSCA UN REGISTRO GRABADO EN LA BASE DE DATOS A TRAVEZ DEL ID
         {
             using (RCSTecMed_Entities db = new RCSTecMed_Entities())
@@ -212,7 +235,39 @@ namespace RCSTecMed_Controll
                 return new List<Controll_ESTABLECIMIENTOACTUAL>();
             }
         }
-        
+
+        public List<Controll_ESTABLECIMIENTOACTUAL> ListaLimpiarGrilla() //MUESTRA LISTA DE REGISTROS DE LA BASE DE DATOS
+        {
+            RCSTecMed_Entities db = new RCSTecMed_Entities();
+            try
+            {
+                List<ESTABLECIMIENTO_ACTUAL> listaDatos = db.ESTABLECIMIENTO_ACTUAL.Where(x => x.IdEstablecimientoActual == 0).ToList<ESTABLECIMIENTO_ACTUAL>();
+                List<Controll_ESTABLECIMIENTOACTUAL> listaEstablecimientoActual = GenerarLista(listaDatos);
+                return listaEstablecimientoActual;
+            }
+            catch (Exception)
+            {
+                return new List<Controll_ESTABLECIMIENTOACTUAL>();
+            }
+        }
+
+        public List<Controll_ESTABLECIMIENTOACTUAL> ListaEstablecimientoActualPorRut(int rut) //MUESTRA LISTA DE REGISTROS DE LA BASE DE DATOS
+        {
+            RCSTecMed_Entities db = new RCSTecMed_Entities();
+            try
+            {
+                List<ESTABLECIMIENTO_ACTUAL> listaDatos = db.ESTABLECIMIENTO_ACTUAL.Where(x => x.Rut == rut).ToList<ESTABLECIMIENTO_ACTUAL>();
+                List<Controll_ESTABLECIMIENTOACTUAL> listaEstablecimientoActual = GenerarLista(listaDatos);
+
+                listaEstablecimientoActual = listaEstablecimientoActual.OrderBy(x => x.IdEstablecimientoActual).ToList();
+                return listaEstablecimientoActual;
+            }
+            catch (Exception)
+            {
+                return new List<Controll_ESTABLECIMIENTOACTUAL>();
+            }
+        }
+
         private List<Controll_ESTABLECIMIENTOACTUAL> GenerarLista(List<ESTABLECIMIENTO_ACTUAL> dataList) //GENERA LISTA DE REGISTROS DE LA BASE DE DATOS A MOSTRAR
         {
             List<Controll_ESTABLECIMIENTOACTUAL> listaEstablecimientoActual = new List<Controll_ESTABLECIMIENTOACTUAL>();

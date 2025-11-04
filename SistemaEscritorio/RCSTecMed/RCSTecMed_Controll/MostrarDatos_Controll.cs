@@ -11,6 +11,7 @@ namespace RCSTecMed_Controll
     {
         
         private readonly RCSTecMed_Entities db = new RCSTecMed_Entities();
+
         public MostrarDatos_Controll() { }
         
         public string MostrarUsuario(int id)
@@ -27,6 +28,65 @@ namespace RCSTecMed_Controll
             var reg = new Controll_COMUNA { IdComuna = comuna };
             return reg.ReadId() ? reg.IdRegion : 0;
 
+        }
+
+        public string MostrarNombreSocio(int rut)
+        {
+            Controll_SOCIO soc = new Controll_SOCIO() { Rut = rut };
+
+            return soc.ReadId()
+                ? $"{soc.ApellidoPaterno} {soc.ApellidoMaterno} {soc.Nombres}"
+                : "Socio No encontrado";
+        }
+
+        public string MostrarEstablecimiento(int id)
+        {
+            Controll_ESTABLECIMIENTO es = new Controll_ESTABLECIMIENTO() { IdEstablecimiento = id };
+
+            return es.ReadId()
+                ? $"{es.NombreEstablecimiento}"
+                : "Establecimiento No encontrado";
+        }
+
+        public string MostrarComuna(string id)
+        {
+            Controll_COMUNA com = new Controll_COMUNA() { IdComuna = id };
+
+            return com.ReadId()
+                ? $"{com.NombreComuna}"
+                : "Comuna No encontrado";
+        }
+
+        public string MostrarComunaPorIdEstablecimiento(int id)
+        {
+            var est = new Controll_ESTABLECIMIENTO { IdEstablecimiento = id };
+
+            if (!est.ReadId())
+                return "Establecimiento no encontrado";
+
+            var comuna = new Controll_COMUNA { IdComuna = est.IdComuna };
+
+            return comuna.ReadId()
+                ? comuna.NombreComuna
+                : "Comuna no encontrada";
+        }
+
+        public string MostrarRegionPorIdEstablecimiento(int id)
+        {
+            var est = new Controll_ESTABLECIMIENTO { IdEstablecimiento = id };
+
+            if (!est.ReadId())
+                return "Establecimiento no encontrado";
+
+            var comuna = new Controll_COMUNA { IdComuna = est.IdComuna };
+
+            if (!comuna.ReadId())
+                return "Comuna no encontrada";
+
+            var region = new Controll_REGION { IdRegion = comuna.IdRegion };
+            return region.ReadId()
+                ? region.NombreRegion
+                : "Región no encontrada";
         }
 
         public int TotalSociosRegistrados()
@@ -72,6 +132,16 @@ namespace RCSTecMed_Controll
         public int TotalNombreCertificaciones()
         {
             return db.CERTIFICACIONES.Count();
+        }
+
+        public int TotalEstablecimientoActualRegistrados()
+        {
+            return db.ESTABLECIMIENTO_ACTUAL.Count();
+        }
+
+        public int TotalEstablecimientoActualPorRutRegistrados(int rut)
+        {
+            return db.ESTABLECIMIENTO_ACTUAL.Count(x => x.Rut == rut);
         }
     }
 }

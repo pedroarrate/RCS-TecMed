@@ -126,5 +126,19 @@ namespace RCSTecMed_Controll
         {
             return int.Parse(texto);
         }
+
+        public DateTime ConvertirFechaSeguro(string fecha)
+        {
+            if (DateTime.TryParse(fecha, out DateTime resultado))
+                return resultado;
+
+            return DateTime.MinValue;
+        }
+
+        public int ExtraerIdEstablecimientoNombre(string nombre)
+        {
+            var est = new Controll_ESTABLECIMIENTO { NombreEstablecimiento = nombre };
+            return est.ReadEstablecimiento() ? est.IdEstablecimiento : 0;
+        }
     }
 }

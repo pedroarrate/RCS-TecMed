@@ -66,7 +66,7 @@
                 </Grid>
                 <Grid Grid.Row="1">
                     <DataGrid x:Name="DG_Laborales" FontFamily="Arial" FontSize="20" FontWeight="Bold" Background="White" ColumnHeaderHeight="30" AutoGenerateColumns="False" 
-                      IsReadOnly="True" SelectionChanged="DG_Laborales_SelectionChanged" Width="1600" Height="230" HorizontalAlignment="Center" VerticalAlignment="Bottom"
+                      IsReadOnly="True" SelectionChanged="DG_Laborales_SelectionChanged" Width="1600" Height="200" HorizontalAlignment="Center" VerticalAlignment="Bottom"
                       Margin="10">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="N° Registro" Binding="{Binding IdEstablecimientoActual}" FontWeight="Light" Width="130"/>
@@ -126,7 +126,7 @@
                               HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Margin="5,110,0,0" SelectionChanged="CB_Establecimiento_SelectionChanged"/>
                     <Label Content="A Contar de" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="10" FontWeight="Bold" Margin="5,150,0,0"/>
                     <DatePicker x:Name="DP_FechaInicial" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Width="120" FontFamily="Arial" FontSize="13" 
-                                Margin="5,170,0,0" Style="{StaticResource DatePickerBordeInferiorDerechoBlanco}" />
+                                Margin="5,170,0,0" Style="{StaticResource DatePickerBordeInferiorDerechoBlanco}" SelectedDateChanged="DP_FechaInicial_SelectedDateChanged" />
 
                     <Button x:Name="BTN_Grabar" Width="200" Height="75" Background="#FFDDDDDD" Style="{StaticResource BotonEstilo1}" Click="BTN_Grabar_Click" 
                             HorizontalAlignment="Left" VerticalAlignment="Top" Margin="300,160,0,0">
