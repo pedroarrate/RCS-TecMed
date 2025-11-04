@@ -292,13 +292,15 @@
                 </StackPanel>
             </Button>
 
+            <!--
             <Button x:Name="BTN_Eliminar" Width="200" Height="45" Background="#FFDDDDDD" Style="{StaticResource BotonEstilo1}" Click="BTN_Eliminar_Click" Grid.Column="7">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                     <fa:IconImage Icon="TrashAlt" Width="25" Height="25" Margin="0,0,8,0"/>
                     <TextBlock Text="Eliminar&#x0a;Socio" VerticalAlignment="Center" FontWeight="Bold" FontSize="12"/>
                 </StackPanel>
             </Button>
-
+            -->
+            
             <Button x:Name="BTN_Limpiar" Width="200" Height="45" Background="#FFDDDDDD" Style="{StaticResource BotonEstilo1}" Click="BTN_Limpiar_Click" Grid.Column="9">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                     <fa:IconImage Icon="DesktopAlt" Width="25" Height="25" Margin="0,0,8,0"/>

@@ -22,14 +22,14 @@ namespace RCSTecMed_View
     /// </summary>
     public partial class View_ModuloSecretaria : Window
     {
-        private int idUsuario {  get; set; }
-        public View_ModuloSecretaria(int id)
+        private int IdUsuario {  get; set; }
+        public View_ModuloSecretaria(int Id)
         {
             InitializeComponent();
-            idUsuario = id;
+            IdUsuario = Id;
             LB_Fecha.Content = DateTime.Today.ToString("D");
             LB_HoraConexion.Content = DateTime.Now.ToString("T");
-            LB_Usuario.Content = new MostrarDatos_Controll().MostrarUsuario(id);
+            LB_Usuario.Content = new MostrarDatos_Controll().MostrarUsuario(Id);
         }
 
         private void MainTabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -45,7 +45,11 @@ namespace RCSTecMed_View
                         switch (selectedTab.Name)
                         {
                             case "TAB_RegistroSocio":
-                                selectedTab.Content = new RegistroSocio_UserControl(idUsuario);
+                                selectedTab.Content = new RegistroSocio_UserControl(IdUsuario);
+                                break;
+
+                            case "TAB_Laboral":
+                                selectedTab.Content = new ActualizaEstabelcimientoActual_UserControl(IdUsuario);
                                 break;
 
                             case "TAB_Certificaciones":

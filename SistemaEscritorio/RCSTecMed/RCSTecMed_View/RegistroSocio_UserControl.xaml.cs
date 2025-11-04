@@ -1546,10 +1546,13 @@ namespace RCSTecMed_View
             Limpiar();
         }
 
+        /*
         private void BTN_Eliminar_Click(object sender, RoutedEventArgs e)
         {
 
         }
+
+        */
 
         private void BTN_Limpiar_Click(object sender, RoutedEventArgs e)
         {
