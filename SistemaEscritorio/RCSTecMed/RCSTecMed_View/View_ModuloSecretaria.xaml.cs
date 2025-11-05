@@ -53,7 +53,7 @@ namespace RCSTecMed_View
                                 break;
 
                             case "TAB_Certificaciones":
-                                selectedTab.Content = new Certificaciones_UserControl();
+                                selectedTab.Content = new Certificaciones_UserControl(IdUsuario);
                                 break;
 
                             case "TAB_ListadoSociosRegistrados":

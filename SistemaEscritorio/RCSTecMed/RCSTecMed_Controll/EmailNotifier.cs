@@ -90,5 +90,39 @@ namespace RCSTecMed_Controll
                 return false;
             }
         }
+
+        public bool SendEmailToOne(string recipient, string subject, string body, Attachment attachment = null, bool isHtml = true)
+        {
+            try
+            {
+                var message = new MailMessage
+                {
+                    From = new MailAddress(senderEmail),
+                    Subject = subject,
+                    Body = body,
+                    IsBodyHtml = isHtml
+                };
+
+                message.To.Add(recipient);
+
+                if (attachment != null)
+                    message.Attachments.Add(attachment);
+
+                using (var client = new SmtpClient(smtpHost, smtpPort))
+                {
+                    client.EnableSsl = true;
+                    client.Credentials = new NetworkCredential(senderEmail, senderPassword);
+                    client.Send(message);
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al enviar correo: {ex.Message}");
+                return false;
+            }
+        }
+
     }
 }

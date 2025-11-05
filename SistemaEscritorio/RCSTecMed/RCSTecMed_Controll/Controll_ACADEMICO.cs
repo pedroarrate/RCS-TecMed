@@ -258,6 +258,22 @@ namespace RCSTecMed_Controll
             }
         }
 
+        public List<Controll_ACADEMICO> ListaCertificacionesTelMedPorRut(int rut) //MUESTRA LISTA DE REGISTROS DE LA BASE DE DATOS ORDENADA 
+        {
+            RCSTecMed_Entities db = new RCSTecMed_Entities();
+            try
+            {
+                List<ACADEMICO> listaDatos = db.ACADEMICO.Where(x => x.Rut == rut && IdCentroAcademico == 1).ToList<ACADEMICO>();
+                List<Controll_ACADEMICO> listaAcademico = GenerarLista(listaDatos);
+
+                return listaAcademico;
+            }
+            catch (Exception)
+            {
+                return new List<Controll_ACADEMICO>();
+            }
+        }
+
         private List<Controll_ACADEMICO> GenerarLista(List<ACADEMICO> dataList) //GENERA LISTA DE REGISTROS DE LA BASE DE DATOS A MOSTRAR
         {
             List<Controll_ACADEMICO> listaAcademico = new List<Controll_ACADEMICO>();
@@ -290,5 +306,6 @@ namespace RCSTecMed_Controll
             }
         }
 
+        
     }
 }
