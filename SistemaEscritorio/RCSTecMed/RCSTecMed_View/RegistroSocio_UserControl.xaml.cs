@@ -1333,6 +1333,7 @@ namespace RCSTecMed_View
                 return false;
             }
 
+            soc.Dv = TXT_Dv.Text.ToUpper();
             soc.FolioRegistro = soc.AsignarFolioRegistro();
             soc.ApellidoPaterno = TXT_ApellidoPaterno.Text.ToUpper();
             soc.ApellidoMaterno = TXT_ApellidoMaterno.Text.ToUpper();
@@ -1393,7 +1394,7 @@ namespace RCSTecMed_View
             }
             else
             {
-                aca.Nota = val.ConvertirDecimalSeguro(TXT_NotaCertificacion.Text);
+                aca.Nota = TXT_NotaCertificacion.Text;
             }
 
             if (val.CampoVacio(TXT_HorasCertificacion.Text))
@@ -1485,6 +1486,7 @@ namespace RCSTecMed_View
         {
 
             soc.Rut = val.ConvertirEnteroSeguro(TXT_Rut.Text);
+            soc.Dv = TXT_Dv.Text.ToUpper();
             soc.FolioRegistro = soc.AsignarFolioRegistro();
             soc.ApellidoPaterno = TXT_ApellidoPaterno.Text.ToUpper();
             soc.ApellidoMaterno = TXT_ApellidoMaterno.Text.ToUpper();

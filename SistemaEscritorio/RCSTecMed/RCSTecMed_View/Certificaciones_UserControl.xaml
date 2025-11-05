@@ -7,7 +7,17 @@
              xmlns:local="clr-namespace:RCSTecMed_View"
              mc:Ignorable="d" 
              d:DesignHeight="840" d:DesignWidth="1700">
-    <Grid Background="#cdb0b5">
+    <Grid >
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                <GradientStop Color="#7B1E3A" Offset="0.0"/>
+                <!-- Burdeo oscuro #7B1E3A -->
+                <GradientStop Color="#A52A4D" Offset="0.5"/>
+                <!-- Burdeo medio #A52A4D -->
+                <GradientStop Color="#D8A0A8" Offset="1.0"/>
+                <!-- Burdeo claro #D8A0A8 -->
+            </LinearGradientBrush>
+        </Grid.Background>
         <Grid.RowDefinitions>
             <RowDefinition Height="100"/>
             <RowDefinition Height="10"/>
@@ -18,8 +28,8 @@
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                <Label Content="Registro de Certificaciones" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Arial" FontSize="30" FontWeight="Black" Foreground="Black"/>
-                <Label Content="Colegio de Tecnólogos Médicos de Chile" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Arial" FontSize="20" FontWeight="Black" Foreground="Black"/>
+                <Label Content="Registro de Certificaciones" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Arial" FontSize="30" FontWeight="Black" Foreground="White"/>
+                <Label Content="Colegio de Tecnólogos Médicos de Chile" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Arial" FontSize="20" FontWeight="Black" Foreground="White"/>
             </StackPanel>            
         </Grid>
         <Grid Grid.Row="2">
@@ -34,12 +44,12 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Grid Grid.Column="0">
-                    <Label Content="Rut Socio" HorizontalAlignment="Left" VerticalAlignment="Center" FontFamily="Arial" FontSize="15" FontWeight="DemiBold" Margin="20,0,0,0"/>
-                    <TextBox x:Name="TXT_Rut" Height="20" Width="80" FontFamily="Arial" FontSize="15" Style="{StaticResource  BurdeoTextBoxStyle}" Background="Transparent"
-                             Foreground="Black" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Center" 
-                             Margin="110,0,0,0" KeyDown="TXT_Rut_KeyDown"/>
-                    <TextBox x:Name="TXT_Dv" Height="20" Width="20" FontFamily="Arial" FontSize="15" Style="{StaticResource  BurdeoTextBoxStyle}" Background="Transparent"
-                             Foreground="Black" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Center" 
+                    <Label Content="Rut Socio" HorizontalAlignment="Left" VerticalAlignment="Center" FontFamily="Arial" FontSize="15" FontWeight="DemiBold" Foreground="White" Margin="20,0,0,0"/>
+                    <TextBox x:Name="TXT_Rut" Height="20" Width="80" FontFamily="Arial" FontSize="15" Style="{StaticResource  WhiteTextBoxStyle}" Background="Transparent"
+                             HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Center" 
+                             Margin="110,0,0,0" Foreground="Azure" KeyDown="TXT_Rut_KeyDown"/>
+                    <TextBox x:Name="TXT_Dv" Height="20" Width="20" FontFamily="Arial" FontSize="15" Style="{StaticResource  WhiteTextBoxStyle}" Background="Transparent"
+                             Foreground="Azure" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Center" 
                              Margin="195,0,0,0" KeyDown="TXT_Dv_KeyDown"/>
                 </Grid>
                 <Grid Grid.Column="1">
@@ -59,7 +69,7 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="0">
-                    <Label Content="Certificaciones Efectuadas en ColTecMed" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Arial" FontSize="20" FontWeight="Black" Foreground="Brown"/>
+                    <Label Content="Certificaciones Efectuadas en ColTecMed" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Arial" FontSize="20" FontWeight="Black" Foreground="Wheat"/>
                 </Grid>
                 <Grid Grid.Row="1">
                     <DataGrid x:Name="DG_Certificaciones" FontFamily="Arial" FontSize="20" FontWeight="Bold" Background="White" ColumnHeaderHeight="30" AutoGenerateColumns="False" 
@@ -79,26 +89,26 @@
                
             </Grid>
             <Grid Grid.Row="2">
-                <Label Content="Nombre Socio" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="10" FontWeight="Bold" Margin="20,10,0,0"/>
+                <Label Content="Nombre Socio" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="10" FontWeight="Bold" Foreground="White" Margin="20,10,0,0"/>
                 <Label x:Name="LB_NombreSocio" Height="35" Width="500" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="20" 
-                           HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Margin="20,30,0,0"/>
-                <Label Content="Fecha Curso" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="10" FontWeight="Bold" Margin="600,10,0,0"/>
+                           HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Foreground="Azure" Margin="20,30,0,0"/>
+                <Label Content="Fecha Curso" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="10" FontWeight="Bold" Foreground="White" Margin="600,10,0,0"/>
                 <DatePicker x:Name="DP_FechaCurso" HorizontalAlignment="Left" VerticalAlignment="Top" Height="30" Width="120" FontFamily="Arial" FontSize="13" 
-                            Margin="600,30,0,0" Style="{StaticResource DatePickerBordeInferiorDerechoBlanco}" />
-                <Label Content="Nota" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="10" FontWeight="Bold" Margin="20,80,0,0"/>
-                <Label Content="Nombre Curso" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="10" FontWeight="Bold" Margin="800,10,0,0"/>
+                            Margin="600,30,0,0" Style="{StaticResource DatePickerBordeInferiorDerechoBlanco}" />                
+                <Label Content="Nombre Curso" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="10" FontWeight="Bold" Foreground="White" Margin="800,10,0,0"/>
                 <ComboBox x:Name="CB_Curso" Height="30" Width="820" FontFamily="Arial" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Top" 
                               HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Margin="800,30,0,0" />
-                <TextBox x:Name="TXT_Nota" Height="30" Width="100" FontFamily="Arial" FontSize="20" Style="{StaticResource  BurdeoTextBoxStyle}" Background="Transparent"
-                         Foreground="Black" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" 
+                <Label Content="Nota" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="10" FontWeight="Bold" Foreground="White" Margin="20,80,0,0"/>
+                <TextBox x:Name="TXT_Nota" Height="30" Width="100" FontFamily="Arial" FontSize="20" Style="{StaticResource  WhiteTextBoxStyle}" Background="Transparent"
+                         Foreground="Azure" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" 
                          Margin="20,100,0,0" KeyDown="TXT_Nota_KeyDown"/>
-                <Label Content="Horas" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="10" FontWeight="Bold" Margin="200,80,0,0"/>
-                <TextBox x:Name="TXT_Horas" Height="30" Width="100" FontFamily="Arial" FontSize="20" Style="{StaticResource  BurdeoTextBoxStyle}" Background="Transparent"
-                         Foreground="Black" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" 
+                <Label Content="Horas" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="10" FontWeight="Bold" Foreground="White" Margin="200,80,0,0"/>
+                <TextBox x:Name="TXT_Horas" Height="30" Width="100" FontFamily="Arial" FontSize="20" Style="{StaticResource  WhiteTextBoxStyle}" Background="Transparent"
+                         Foreground="Azure" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" 
                          Margin="200,100,0,0" KeyDown="TXT_Horas_KeyDown"/>
-                <Label Content="Folio Registro" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="10" FontWeight="Bold" Margin="380,80,0,0"/>
+                <Label Content="Folio Registro" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="10" FontWeight="Bold" Foreground="White" Margin="380,80,0,0"/>
                 <Label x:Name="LB_FolioRegistro" Height="35" Width="700" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="20" 
-                       HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Margin="380,100,0,0"/>
+                       HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Foreground="Azure" Margin="380,100,0,0"/>
             </Grid>            
         </Grid>
         <Grid Grid.Row="4">

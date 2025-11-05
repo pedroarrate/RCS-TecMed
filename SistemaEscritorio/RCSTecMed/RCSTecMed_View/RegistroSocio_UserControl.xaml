@@ -35,7 +35,7 @@
             </StackPanel>
             <Label Content="N° de Socios Registrados:" HorizontalAlignment="Left" VerticalAlignment="Center" FontFamily="Arial" FontSize="15" Foreground="White" Margin="1350,0,0,0"/>
             <Label x:Name="LB_TotalRegistrados" HorizontalAlignment="Left" VerticalAlignment="Center" FontFamily="Arial" FontSize="15" Foreground="Yellow" 
-                   Height="30" Width="100" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Margin="1550,0,0,0"/>
+                   Height="30" Width="80" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Margin="1550,0,0,0"/>
         </Grid>
         <Grid Grid.Row="1">
             <Grid.RowDefinitions>
@@ -82,7 +82,7 @@
                              Margin="1260,25,0,0" IsEnabled="False" KeyDown="TXT_RegistroSuperintendencia_KeyDown"/>
                     <Label Content="NACIONALIDAD" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="10" FontWeight="Bold" Foreground="White" 
                              Margin="1440,5,0,0"/>
-                    <ComboBox x:Name="CB_Nacionalidad" Height="20" Width="200" FontFamily="Arial" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Left"
+                    <ComboBox x:Name="CB_Nacionalidad" Height="20" Width="160" FontFamily="Arial" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Left"
                               VerticalContentAlignment="Center" Margin="1440,25,0,0" SelectionChanged="CB_Nacionalidad_SelectionChanged"/>
                     <Label Content="DOMICILIO" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="10" FontWeight="Bold" Foreground="White" Margin="5,60,0,0"/>
                     <TextBox x:Name="TXT_Domicilio" Height="20" Width="445" FontFamily="Arial" FontSize="15" Style="{StaticResource WhiteTextBoxStyle}" Background="Transparent"
@@ -154,7 +154,7 @@
                              Foreground="Azure" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" 
                              Margin="880,25,0,0" KeyDown="TXT_FolioCertificacion_KeyDown"/>
                     <Label Content="Centro Académico" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="10" FontWeight="Bold" Foreground="White" Margin="1190,5,0,0"/>
-                    <ComboBox x:Name="CB_CentroAcademico" Height="20" Width="450" FontFamily="Arial" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Left"
+                    <ComboBox x:Name="CB_CentroAcademico" Height="20" Width="410" FontFamily="Arial" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Left"
                               VerticalContentAlignment="Center" Margin="1190,25,0,0" IsEnabled="False" SelectionChanged="CB_CentroAcademico_SelectionChanged"/>
                 </Grid>
             </Grid>
@@ -183,7 +183,7 @@
                     <ComboBox x:Name="CB_ComunaLaboral" Height="20" Width="300" FontFamily="Arial" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Left"
                               VerticalContentAlignment="Center" Margin="330,25,0,0" SelectionChanged="CB_ComunaLaboral_SelectionChanged" />
                     <Label Content="Nombre Establecimiento Laboral" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="10" FontWeight="Bold" Foreground="White" Margin="650,5,0,0"/>
-                    <ComboBox x:Name="CB_EstablecimientoLaboral" Height="20" Width="990" FontFamily="Arial" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Left"
+                    <ComboBox x:Name="CB_EstablecimientoLaboral" Height="20" Width="950" FontFamily="Arial" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Left"
                               VerticalContentAlignment="Center" Margin="650,25,0,0" SelectionChanged="CB_EstablecimientoLaboral_SelectionChanged" />
                     <Label Content="Dirección Establecimiento Laboral" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="10" FontWeight="Bold" Foreground="White" Margin="5,60,0,0"/>
                     <TextBox x:Name="TXT_DireccionLaboral" Height="20" Width="630" FontFamily="Arial" FontSize="15" Style="{StaticResource WhiteTextBoxStyle}" Background="Transparent"
@@ -225,7 +225,7 @@
                     <ComboBox x:Name="CB_FormaPago" Height="20" Width="400" FontFamily="Arial" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Left"
                               VerticalContentAlignment="Center" Margin="5,25,0,0" SelectionChanged="CB_FormaPago_SelectionChanged" />
                     <Label Content="Fecha Aproximada de Pago" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="10" FontWeight="Bold" Foreground="White" Margin="5,60,0,0"/>
-                    <ComboBox x:Name="CB_FechaAproxPago" Height="20" Width="800" FontFamily="Arial" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Left"
+                    <ComboBox x:Name="CB_FechaAproxPago" Height="20" Width="780" FontFamily="Arial" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Top" HorizontalContentAlignment="Left"
                               VerticalContentAlignment="Center" Margin="5,80,0,0" SelectionChanged="CB_FechaAproxPago_SelectionChanged" />
                 </Grid>
                 <Border CornerRadius="10" BorderBrush="White" BorderThickness="2" Background="Transparent" Grid.Column="3"/>

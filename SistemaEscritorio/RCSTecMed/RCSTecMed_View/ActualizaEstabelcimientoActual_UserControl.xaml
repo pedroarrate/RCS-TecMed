@@ -7,7 +7,17 @@
              xmlns:local="clr-namespace:RCSTecMed_View"
              mc:Ignorable="d" 
              d:DesignHeight="840" d:DesignWidth="1700">
-    <Grid Background="#cdb0b5">
+    <Grid >
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                <GradientStop Color="#7B1E3A" Offset="0.0"/>
+                <!-- Burdeo oscuro #7B1E3A -->
+                <GradientStop Color="#A52A4D" Offset="0.5"/>
+                <!-- Burdeo medio #A52A4D -->
+                <GradientStop Color="#D8A0A8" Offset="1.0"/>
+                <!-- Burdeo claro #D8A0A8 -->
+            </LinearGradientBrush>
+        </Grid.Background>
         <Grid.RowDefinitions>
             <RowDefinition Height="100"/>
             <RowDefinition Height="10"/>
@@ -18,8 +28,8 @@
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                <Label Content="Ingreso de Recinto Laboral Actual" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Arial" FontSize="30" FontWeight="Black" Foreground="Black"/>
-                <Label Content="Colegio de Tecnólogos Médicos de Chile" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Arial" FontSize="20" FontWeight="Black" Foreground="Black"/>
+                <Label Content="Ingreso de Recinto Laboral Actual" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Arial" FontSize="30" FontWeight="Black" Foreground="White"/>
+                <Label Content="Colegio de Tecnólogos Médicos de Chile" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Arial" FontSize="20" FontWeight="Black" Foreground="White"/>
             </StackPanel>
             <Label Content="N° de E.L. Registrados:" HorizontalAlignment="Left" VerticalAlignment="Center" FontFamily="Arial" FontSize="15" Foreground="WhiteSmoke" Margin="1340,0,0,0"/>
             <Label x:Name="LB_TotalRegistrados" HorizontalAlignment="Left" VerticalAlignment="Center" FontFamily="Arial" FontSize="15" Foreground="WhiteSmoke" 
@@ -37,12 +47,12 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Grid Grid.Column="0">
-                    <Label Content="Rut Socio" HorizontalAlignment="Left" VerticalAlignment="Center" FontFamily="Arial" FontSize="15" FontWeight="DemiBold" Margin="20,0,0,0"/>
-                    <TextBox x:Name="TXT_Rut" Height="20" Width="80" FontFamily="Arial" FontSize="15" Style="{StaticResource  BurdeoTextBoxStyle}" Background="Transparent"
-                             Foreground="Black" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Center" 
+                    <Label Content="Rut Socio" HorizontalAlignment="Left" VerticalAlignment="Center" FontFamily="Arial" FontSize="15" FontWeight="DemiBold" Foreground="White" Margin="20,0,0,0"/>
+                    <TextBox x:Name="TXT_Rut" Height="20" Width="80" FontFamily="Arial" FontSize="15" Style="{StaticResource  WhiteTextBoxStyle}" Background="Transparent"
+                             Foreground="Azure" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Center" 
                              Margin="110,0,0,0" KeyDown="TXT_Rut_KeyDown"/>
-                    <TextBox x:Name="TXT_Dv" Height="20" Width="20" FontFamily="Arial" FontSize="15" Style="{StaticResource  BurdeoTextBoxStyle}" Background="Transparent"
-                             Foreground="Black" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Center" 
+                    <TextBox x:Name="TXT_Dv" Height="20" Width="20" FontFamily="Arial" FontSize="15" Style="{StaticResource  WhiteTextBoxStyle}" Background="Transparent"
+                             Foreground="Azure" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Center" 
                              Margin="195,0,0,0" KeyDown="TXT_Dv_KeyDown"/>
                 </Grid>
                 <Grid Grid.Column="1">
@@ -62,7 +72,7 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="0">
-                    <Label Content="Establecimientos Registrados por Socio" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Arial" FontSize="20" FontWeight="Black" Foreground="Brown"/>
+                    <Label Content="Establecimientos Registrados por Socio" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Arial" FontSize="20" FontWeight="Black" Foreground="LightGoldenrodYellow"/>
                 </Grid>
                 <Grid Grid.Row="1">
                     <DataGrid x:Name="DG_Laborales" FontFamily="Arial" FontSize="20" FontWeight="Bold" Background="White" ColumnHeaderHeight="30" AutoGenerateColumns="False" 
@@ -87,44 +97,44 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="50"/>
                 </Grid.ColumnDefinitions>
-                <Border CornerRadius="10" BorderBrush="Gray" BorderThickness="2" Background="Transparent" Grid.Column="1"/>
-                <Border CornerRadius="10" BorderBrush="Gray" BorderThickness="2" Background="Transparent" Grid.Column="3"/>
+                <Border CornerRadius="10" BorderBrush="White" BorderThickness="2" Background="Transparent" Grid.Column="1"/>
+                <Border CornerRadius="10" BorderBrush="White" BorderThickness="2" Background="Transparent" Grid.Column="3"/>
                 <Grid Grid.Column="1">
-                    <Label Content="Datos de Socio Seleccionado" HorizontalAlignment="Center" VerticalAlignment="Top" FontFamily="Arial" FontSize="20" FontWeight="Black" Foreground="Chocolate"/>
-                    <Label Content="N° Registro" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="10" FontWeight="Bold" Margin="5,30,0,0"/>
+                    <Label Content="Datos de Socio Seleccionado" HorizontalAlignment="Center" VerticalAlignment="Top" FontFamily="Arial" FontSize="20" FontWeight="Black" Foreground="Wheat"/>
+                    <Label Content="N° Registro" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="10" FontWeight="Bold" Foreground="White" Margin="5,30,0,0"/>
                     <Label x:Name="LB_Registro" Height="35" Width="150" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="20" 
-                           HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Margin="5,50,0,0"/>
-                    <Label Content="Nombre Socio" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="10" FontWeight="Bold" Margin="160,30,0,0"/>
+                           HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Foreground="Azure" Margin="5,50,0,0"/>
+                    <Label Content="Nombre Socio" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="10" FontWeight="Bold" Foreground="White" Margin="160,30,0,0"/>
                     <Label x:Name="LB_Socio" Height="35" Width="450" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="20" 
-                           HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Margin="160,50,0,0"/>
-                    <Label Content="Nombre Establecimiento" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="10" FontWeight="Bold" Margin="5,90,0,0"/>
+                           HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Foreground="Azure" Margin="160,50,0,0"/>
+                    <Label Content="Nombre Establecimiento" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="10" FontWeight="Bold" Foreground="White" Margin="5,90,0,0"/>
                     <Label x:Name="LB_Establecimiento" Height="35" Width="750" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="20" 
-                           HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Margin="5,110,0,0"/>
-                    <Label Content="Comuna" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="10" FontWeight="Bold" Margin="5,150,0,0"/>
+                           HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Foreground="Azure" Margin="5,110,0,0"/>
+                    <Label Content="Comuna" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="10" FontWeight="Bold" Foreground="White" Margin="5,150,0,0"/>
                     <Label x:Name="LB_Comuna" Height="35" Width="350" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="20" 
-                           HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Margin="5,170,0,0"/>
-                    <Label Content="Región" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="10" FontWeight="Bold" Margin="370,150,0,0"/>
+                           HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Foreground="Azure" Margin="5,170,0,0"/>
+                    <Label Content="Región" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="10" FontWeight="Bold" Foreground="White" Margin="370,150,0,0"/>
                     <Label x:Name="LB_Region" Height="35" Width="400" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="20" 
-                           HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Margin="370,170,0,0"/>
-                    <Label Content="A Contar de" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="10" FontWeight="Bold" Margin="5,210,0,0"/>
+                           HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Foreground="Azure" Margin="370,170,0,0"/>
+                    <Label Content="A Contar de" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="10" FontWeight="Bold" Foreground="White" Margin="5,210,0,0"/>
                     <Label x:Name="LB_FechaDesde" Height="35" Width="350" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="20" 
-                           HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Margin="5,220,0,0"/>
-                    <Label Content="Hasta" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="10" FontWeight="Bold" Margin="370,210,0,0"/>
+                           HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Foreground="Azure" Margin="5,220,0,0"/>
+                    <Label Content="Hasta" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="10" FontWeight="Bold" Foreground="White" Margin="370,210,0,0"/>
                     <Label x:Name="LB_FechaHasta" Height="35" Width="400" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="20" 
-                           HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Margin="370,220,0,0"/>
+                           HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Foreground="Azure" Margin="370,220,0,0"/>
                 </Grid>
                 <Grid Grid.Column="3">
-                    <Label Content="Nuevo Registro de Establecimiento Laboral" HorizontalAlignment="Center" VerticalAlignment="Top" FontFamily="Arial" FontSize="20" FontWeight="Black" Foreground="Blue"/>
-                    <Label Content="Region Laboral" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="10" FontWeight="Bold" Margin="5,30,0,0"/>
+                    <Label Content="Nuevo Registro de Establecimiento Laboral" HorizontalAlignment="Center" VerticalAlignment="Top" FontFamily="Arial" FontSize="20" FontWeight="Black" Foreground="Wheat"/>
+                    <Label Content="Region Laboral" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="10" FontWeight="Bold" Foreground="White" Margin="5,30,0,0"/>
                     <ComboBox x:Name="CB_Region" Height="20" Width="300" FontFamily="Arial" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Top" 
                               HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Margin="5,50,0,0" SelectionChanged="CB_Region_SelectionChanged"/>
-                    <Label Content="Comuna Laboral" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="10" FontWeight="Bold" Margin="370,30,0,0"/>
+                    <Label Content="Comuna Laboral" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="10" FontWeight="Bold" Foreground="White" Margin="370,30,0,0"/>
                     <ComboBox x:Name="CB_Comuna" Height="20" Width="300" FontFamily="Arial" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Top" 
                               HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Margin="370,50,0,0" SelectionChanged="CB_Comuna_SelectionChanged"/>
-                    <Label Content="Establecimiento Laboral" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="10" FontWeight="Bold" Margin="5,90,0,0"/>
+                    <Label Content="Establecimiento Laboral" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="10" FontWeight="Bold" Foreground="White" Margin="5,90,0,0"/>
                     <ComboBox x:Name="CB_Establecimiento" Height="20" Width="750" FontFamily="Arial" FontSize="12" HorizontalAlignment="Left" VerticalAlignment="Top" 
                               HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Margin="5,110,0,0" SelectionChanged="CB_Establecimiento_SelectionChanged"/>
-                    <Label Content="A Contar de" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="10" FontWeight="Bold" Margin="5,150,0,0"/>
+                    <Label Content="A Contar de" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" FontSize="10" FontWeight="Bold" Foreground="White" Margin="5,150,0,0"/>
                     <DatePicker x:Name="DP_FechaInicial" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Width="120" FontFamily="Arial" FontSize="13" 
                                 Margin="5,170,0,0" Style="{StaticResource DatePickerBordeInferiorDerechoBlanco}" SelectedDateChanged="DP_FechaInicial_SelectedDateChanged" />
 

@@ -89,6 +89,15 @@ namespace RCSTecMed_Controll
                 : "Región no encontrada";
         }
 
+        public string MostrarRegion(int id)
+        {
+            
+            var region = new Controll_REGION { IdRegion = id };
+            return region.ReadId()
+                ? region.NombreRegion
+                : "Región no encontrada";
+        }
+
         public int TotalSociosRegistrados()
         {           
             return db.SOCIO.Count();

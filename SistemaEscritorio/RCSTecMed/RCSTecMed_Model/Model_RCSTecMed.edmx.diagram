@@ -40,8 +40,8 @@
         <AssociationConnector Association="RCSTecMed_Model.FK_SOCIO_ESTIMADOPAGO" />
         <AssociationConnector Association="RCSTecMed_Model.FK_ESTABLECIMIENTO_REGION" />
         <EntityTypeShape EntityType="RCSTecMed_Model.REGISTRO_TECMED" Width="1.5" PointX="11.375" PointY="9.75" />
-        <EntityTypeShape EntityType="RCSTecMed_Model.ACADEMICO" Width="1.5" PointX="11.25" PointY="4.5" />
         <EntityTypeShape EntityType="RCSTecMed_Model.CERTIFICACIONES" Width="1.5" PointX="9" PointY="3.5" />
+        <EntityTypeShape EntityType="RCSTecMed_Model.ACADEMICO" Width="1.5" PointX="11.25" PointY="4.5" />
         <AssociationConnector Association="RCSTecMed_Model.FK_ACADEMICO_CENTRO_ACADEMICO" />
         <AssociationConnector Association="RCSTecMed_Model.FK_ACADEMICO_CERTIDICACION" />
         <AssociationConnector Association="RCSTecMed_Model.FK_ACADEMICO_CERTIFICACIONES" />

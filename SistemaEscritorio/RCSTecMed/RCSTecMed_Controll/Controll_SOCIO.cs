@@ -33,9 +33,11 @@ namespace RCSTecMed_Controll
 
         /*VARIABLES COMPLEMENTARIAS*/
         public string FechaNacimientoMostrar { get; set; }
-        public string FechaRegistroMostrar { get; set; }
+        public string FechaRegistroMostrar { get; set; }         
         string NombreComunaRegion;
         public string _nombreComunaRegion { get { return NombreComunaRegion; } }
+        string NombreComunaRegionLaboral;
+        public string _nombreComunaRegionLaboral { get { return NombreComunaRegionLaboral; } }
         string DescripcionNacionalidad;
         public string _descripcionNacionalidad { get { return DescripcionNacionalidad; } }
         string DescripcionFormaPago;
@@ -46,7 +48,8 @@ namespace RCSTecMed_Controll
         public string _descripcionEstadoSocio { get { return DescripcionEstadoSocio; } }
         string NombreEstimadoPago;
         public string _nombreEstimadoPago { get { return NombreEstimadoPago; } }
-
+        string NombreEstablecimiento;
+        public string _nombreEstablecimiento { get { return NombreEstablecimiento; } }
 
         private void Init() //INICIALIZADOR DE LA CLASE
         {
@@ -81,6 +84,7 @@ namespace RCSTecMed_Controll
             NombreUsuario = string.Empty;
             DescripcionEstadoSocio = string.Empty;
             NombreEstimadoPago = string.Empty;
+            NombreEstablecimiento = string.Empty;
         }
 
         public Controll_SOCIO() { Init(); } //CONSTRUTOR DE LA CLASE
@@ -139,6 +143,55 @@ namespace RCSTecMed_Controll
         {
             var ep = new Controll_ESTIMADOPAGO { IdEstimadoPago = IdEstimadoPago };
             NombreEstimadoPago = ep.ReadId() ? ep.DescripcionEstimadoPago ?? string.Empty : string.Empty;
+        }
+
+        private void ObtenerEstablecimientoActual()
+        {
+            var estac = new Controll_ESTABLECIMIENTOACTUAL();
+            var est = new Controll_ESTABLECIMIENTO();
+            int rut = Rut;
+
+            if (!estac.ReadRutFechaHastaNull(rut))
+                return;
+            
+
+            est.IdEstablecimiento = estac.IdEstablecimiento;
+            NombreEstablecimiento = est.ReadId() ? est.NombreEstablecimiento : string.Empty;
+        }
+
+        private void ObtenerComunaRegionLaboral()
+        {
+            var estac = new Controll_ESTABLECIMIENTOACTUAL();
+            var est = new Controll_ESTABLECIMIENTO();
+            var com = new Controll_COMUNA();
+            int rut = Rut;
+
+            if (!estac.ReadRutFechaHastaNull(rut))            
+                return;
+            
+
+            est.IdEstablecimiento = estac.IdEstablecimiento;
+            if (!est.ReadId())
+                return;
+
+            com.IdComuna = est.IdComuna;
+            if (com.ReadId())
+            {
+                var reg = new Controll_REGION { IdRegion = com.IdRegion };
+
+                if (reg.ReadId())
+                {
+                    NombreComunaRegionLaboral = $"{com.NombreComuna} - {reg.NombreRegion}";
+                }
+                else
+                {
+                    NombreComunaRegionLaboral = com.NombreComuna ?? string.Empty;
+                }
+            }
+            else
+            {
+                NombreComunaRegionLaboral = string.Empty;
+            }
         }
 
         /*METODOS DE CRUD*/
@@ -321,6 +374,25 @@ namespace RCSTecMed_Controll
             }
         }
 
+        public List<Controll_SOCIO> ListaSocioPorRegion(int region) //MUESTRA LISTA DE REGISTROS DE LA BASE DE DATOS ORDENADA 
+        {
+            RCSTecMed_Entities db = new RCSTecMed_Entities();
+            try
+            {
+                List<COMUNA> com = db.COMUNA.Where(x => x.IdRegion == region).ToList();
+                List<SOCIO> soc = db.SOCIO.ToList();
+
+                List<SOCIO> listaDatos = (from c in com join s in soc on c.IdComuna equals s.IdComuna select s).Distinct().OrderBy(x => x.ApellidoPaterno).ToList();
+                List<Controll_SOCIO> listaSocio = GenerarLista(listaDatos);
+
+                return listaSocio;
+            }
+            catch (Exception)
+            {
+                return new List<Controll_SOCIO>();
+            }
+        }
+
         private List<Controll_SOCIO> GenerarLista(List<SOCIO> dataList) //GENERA LISTA DE REGISTROS DE LA BASE DE DATOS A MOSTRAR
         {
             List<Controll_SOCIO> listaSocio = new List<Controll_SOCIO>();
@@ -336,6 +408,8 @@ namespace RCSTecMed_Controll
                 soc.ObtenerUsuario();
                 soc.ObtenerEstadoSocio();
                 soc.ObtenerEstimadoPago();
+                soc.ObtenerEstablecimientoActual();
+                soc.ObtenerComunaRegionLaboral();
 
                 listaSocio.Add(soc);
             }

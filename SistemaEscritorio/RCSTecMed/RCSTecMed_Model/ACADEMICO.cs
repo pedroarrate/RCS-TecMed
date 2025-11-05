@@ -22,7 +22,7 @@ namespace RCSTecMed_Model
         public int IdCertificaciones { get; set; }
         public string FolioRegistroAcademico { get; set; }
         public int IdUsuario { get; set; }
-        public Nullable<decimal> Nota { get; set; }
+        public string Nota { get; set; }
         public Nullable<int> Horas { get; set; }
     
         public virtual CENTRO_ACADEMICO CENTRO_ACADEMICO { get; set; }

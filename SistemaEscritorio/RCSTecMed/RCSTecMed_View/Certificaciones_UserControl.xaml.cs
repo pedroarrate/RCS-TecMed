@@ -406,9 +406,48 @@ namespace RCSTecMed_View
 
         }
 
+        private bool Grabar()
+        {
+            try
+            {
+                aca.IdAcademcico = aca.AsignarId();
+                aca.Rut = val.ConvertirEnteroSeguro(TXT_Rut.Text);
+                aca.IdCertificacion = 2;
+                aca.Fecha = (DateTime)DP_FechaCurso.SelectedDate;
+                aca.IdCentroAcademico = 1;
+                aca.IdCertificaciones = (int)CB_Curso.SelectedValue;
+                aca.FolioRegistroAcademico = LB_FolioRegistro.Content.ToString();
+                aca.IdUsuario = IdUsuario;
+                aca.Nota = TXT_Nota.Text;
+                aca.Horas = val.ConvertirEnteroSeguro(TXT_Horas.Text);
+
+                return aca.Create();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ocurrió un error al intentar grabar los datos: " + ex.Message,
+                        "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return false;
+            }
+        }
+
         private void BTN_Grabar_Click(object sender, RoutedEventArgs e)
         {
+            bool exito = Grabar();
 
+            if (!exito)
+            {
+                ms.MostrarError(
+                    "No se logró registrar la certificación en la base de datos.\n" +
+                    "Revise los datos ingresados o comuníquese con el administrador."
+                );
+
+                TXT_Rut.Focus();
+                return;
+            }
+
+            ms.MostrarInformacion("Certificación registrada correctamente en la base de datos.");
+            Limpiar();
         }
 
         private void BTN_Generar_Click(object sender, RoutedEventArgs e)
@@ -433,6 +472,12 @@ namespace RCSTecMed_View
 
         private void BTN_Home_Click(object sender, RoutedEventArgs e)
         {
+            // Buscar el TabControl en la ventana contenedora
+            if (Window.GetWindow(this) is View_ModuloSecretaria mdSec)
+            {
+                // Activar la pestaña "Home"
+                mdSec.MainTabControl.SelectedItem = mdSec.TAB_Home;
+            }
 
         }
     }

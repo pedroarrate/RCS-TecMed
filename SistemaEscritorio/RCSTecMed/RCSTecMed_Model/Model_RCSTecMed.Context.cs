@@ -43,7 +43,7 @@ namespace RCSTecMed_Model
         public virtual DbSet<FORMAPAGO> FORMAPAGO { get; set; }
         public virtual DbSet<ESTIMADOPAGO> ESTIMADOPAGO { get; set; }
         public virtual DbSet<REGISTRO_TECMED> REGISTRO_TECMED { get; set; }
-        public virtual DbSet<ACADEMICO> ACADEMICO { get; set; }
         public virtual DbSet<CERTIFICACIONES> CERTIFICACIONES { get; set; }
+        public virtual DbSet<ACADEMICO> ACADEMICO { get; set; }
     }
 }
