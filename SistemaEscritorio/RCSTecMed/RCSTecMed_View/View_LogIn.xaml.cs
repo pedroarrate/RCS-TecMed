@@ -159,7 +159,6 @@ namespace RCSTecMed_View
         {
             View_ModuloSecretaria vms = new View_ModuloSecretaria(id) { Owner = this };
             vms.ShowDialog();
-            //MessageBox.Show("Esta Opción abrira el Módulo de SECRETARIA", "Mensaje", MessageBoxButton.OK, MessageBoxImage.Information);
             Limpiar();
         }
 
@@ -173,9 +172,9 @@ namespace RCSTecMed_View
 
         private void AbrirModuloDirectorio(int id)
         {
-            //View_ModuloDirectorio vmd = new View_ModuloDirectorio(id) { Owner = this };
-            //vmd.ShowDialog();
-            MessageBox.Show("Esta Opción abrira el Módulo de DIRECTORIO", "Mensaje", MessageBoxButton.OK, MessageBoxImage.Information);
+            View_ModuloDirectorio vmd = new View_ModuloDirectorio(id) { Owner = this };
+            vmd.ShowDialog();
+            //MessageBox.Show("Esta Opción abrira el Módulo de DIRECTORIO", "Mensaje", MessageBoxButton.OK, MessageBoxImage.Information);
             Limpiar();
         }
 

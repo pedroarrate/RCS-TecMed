@@ -114,6 +114,9 @@
     <Compile Include="View_LogIn.xaml.cs">
       <DependentUpon>View_LogIn.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View_ModuloDirectorio.xaml.cs">
+      <DependentUpon>View_ModuloDirectorio.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View_ModuloSecretaria.xaml.cs">
       <DependentUpon>View_ModuloSecretaria.xaml</DependentUpon>
     </Compile>
@@ -193,6 +196,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View_LogIn.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View_ModuloDirectorio.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
